@@ -29,6 +29,3 @@ yarn-error.log*
 # firebase.json
 # .firebase.hosting.cache
 
-# Firebase Functions
-functions/lib/
-functions/node_modules/
