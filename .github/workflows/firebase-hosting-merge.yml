@@ -16,14 +16,25 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
-      # Install dependencies and build both packages
-      - name: Install and Build
+      # Install root dependencies first
+      - name: Install Root Dependencies
+        run: npm install
+
+      # Install and build web package
+      - name: Install and Build Web
+        working-directory: packages/web
         run: |
           npm install
-          cd packages/web && npm run build
-          cd ../functions && npm run build
+          npm run build
+
+      # Install and build functions package
+      - name: Install and Build Functions
+        working-directory: packages/functions
+        run: |
+          npm install
+          npm run build
 
       # Deploy both hosting and functions
       - uses: FirebaseExtended/action-hosting-deploy@v0
@@ -32,4 +43,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MUNI_B3209 }}'
           channelId: live
           projectId: muni-b3209
-          entryPoint: ./packages/functions
