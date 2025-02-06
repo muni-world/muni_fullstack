@@ -27,6 +27,7 @@ jobs:
         working-directory: packages/web
         run: |
           npm install
+          npm run type-check
           npm run build
 
       # Install and build functions package
