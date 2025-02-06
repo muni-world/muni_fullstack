@@ -31,4 +31,4 @@ yarn-error.log*
 # firebase-debug.log
 # firebase.json
 # .firebase.hosting.cache
-
+/packages/functions/dist
