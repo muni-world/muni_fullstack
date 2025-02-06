@@ -5,7 +5,7 @@
  */
 
 import {onRequest} from "firebase-functions/v2/https";
-import {onDocumentCreated, DocumentSnapshot} from "firebase-functions/v2/firestore";
+import {onDocumentCreated} from "firebase-functions/v2/firestore";
 
 // Example HTTP function
 export const helloWorld = onRequest((request, response) => {
@@ -24,8 +24,13 @@ interface UserData {
 // Example Firestore trigger function
 export const onUserCreated = onDocumentCreated("users/{userId}", 
   (event) => {
-    const snapshot = event.data as DocumentSnapshot<UserData>;
-    const userData = snapshot.data();
+    const snapshot = event.data;
+    if (!snapshot) {
+      console.log("No data associated with the event");
+      return null;
+    }
+    
+    const userData = snapshot.data() as UserData;
     console.info("New user created:", userData);
     return null;
   }
