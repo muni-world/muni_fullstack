@@ -107,7 +107,9 @@ const ParValueGraph: React.FC = () => {
             <tr>
               <th style={{ border: "1px solid #ddd", padding: "8px" }}>Rank</th>
               <th style={{ border: "1px solid #ddd", padding: "8px" }}>Lead Left Manager</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Total Par</th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Total Par Amount</th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Underwriter's Fee Amount</th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Underwriter's Fee %</th>
             </tr>
           </thead>
           <tbody>
@@ -121,6 +123,12 @@ const ParValueGraph: React.FC = () => {
                 </td>
                 <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                   {"$" + totalPar.toLocaleString()}
+                </td>
+                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  {"-"}
+                </td>
+                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  {"-"}
                 </td>
               </tr>
             ))}
