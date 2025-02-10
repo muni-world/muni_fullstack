@@ -6,4 +6,4 @@
 
 // Re-export the table components for simpler imports.
 export { default as LeagueTable } from "./LeagueTable";
-//export { default as AnotherTable } from "./AnotherTable";
+export { default as UniqueParticipants } from "./UniqueParticipants";

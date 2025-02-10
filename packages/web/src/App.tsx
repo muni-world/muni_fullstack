@@ -1,6 +1,5 @@
 import React from "react";
-import { LeagueTable } from "./components/Tables";
-import UniqueParticipants from "./components/UniqueParticipants";
+import { LeagueTable, UniqueParticipants } from "./components/Tables";
 import "./App.css";
 
 
