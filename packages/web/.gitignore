@@ -8,6 +8,12 @@ typings/
 # Node.js dependency directory
 node_modules/
 *.local
+**/node_modules/.cache
+**/node_modules/.cache/*
 
 build/
 firebase-config.ts
+
+# Cache files
+**/node_modules/.cache
+**/node_modules/.cache/*
