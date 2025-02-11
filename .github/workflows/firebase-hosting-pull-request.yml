@@ -13,7 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Install root dependencies first
+      - name: Install Root Dependencies
+        run: npm install
+
+      # Install and build web package
+      - name: Install and Build Web
+        working-directory: packages/web
+        run: |
+          npm install
+          npm run type-check
+          npm run build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
