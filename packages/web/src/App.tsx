@@ -1,7 +1,7 @@
 import React from "react";
-import ParValueGraph from "./components/ParValueGraph";
-import UniqueParticipants from "./components/UniqueParticipants";
+import { LeagueTable, UniqueParticipants } from "./components/Tables";
 import "./App.css";
+
 
 const App: React.FC = () => {
   return (
@@ -10,10 +10,11 @@ const App: React.FC = () => {
         <h1>Healthcare Municipal Bond Issuance 2025</h1>
       </header>
       <main>
-        <ParValueGraph />
+        <LeagueTable />
         <UniqueParticipants />
       </main>
     </div>
+
   );
 };
 

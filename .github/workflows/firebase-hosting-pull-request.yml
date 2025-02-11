@@ -13,7 +13,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Add Firebase Config
+      - name: Create Firebase Config
+        run: |
+          cat > packages/web/src/firebase-config.ts << EOL
+          import { initializeApp } from "firebase/app";
+          import { getFirestore } from "firebase/firestore";
+          
+          const firebaseConfig = {
+            apiKey: "${{ secrets.FIREBASE_API_KEY }}",
+            authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
+            projectId: "muni-b3209",
+            storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}",
+            messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}",
+            appId: "${{ secrets.FIREBASE_APP_ID }}"
+          };
+          
+          const app = initializeApp(firebaseConfig);
+          export const db = getFirestore(app);
+          EOL
+
+      # Install root dependencies first
+      - name: Install Root Dependencies
+        run: npm install
+
+      # Install and build web package
+      - name: Install and Build Web
+        working-directory: packages/web
+        run: |
+          npm install
+          npm run type-check
+          npm run build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

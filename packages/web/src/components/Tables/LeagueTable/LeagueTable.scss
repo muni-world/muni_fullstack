@@ -1,0 +1,61 @@
+// Variables for design consistency
+$padding: 12px;
+$border-color: #ddd;
+$header-bg: #f5f5f5;
+$row-bg: #fafafa;
+
+// Block: League Table
+.league-table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+  
+  // Element: Header
+  &__header {
+    background-color: $header-bg;
+    
+    th {
+      padding: $padding;
+      text-align: left;
+      border-bottom: 2px solid $border-color;
+      font-weight: 600;
+    }
+
+    // Modifier: Centered header text
+    &--center {
+      text-align: center !important;
+    }
+
+    // Modifier: Right aligned header text
+    &--right {
+      text-align: right !important;
+    }
+  }
+  
+  // Element: Row
+  &__row {
+    // Alternate row background for readability (striping)
+    &:nth-child(even) {
+      background-color: $row-bg;
+    }
+    
+    td {
+      padding: $padding;
+      border-bottom: 1px solid $border-color;
+    }
+  }
+  
+  // Element: Cell
+  &__cell {
+    
+    // Modifier: Numeric cell with right aligned text
+    &--right {
+      text-align: right;
+    }
+    
+    // Modifier: Team cell with an emphasized font weight
+    &--manager {
+      font-weight: 500;
+    }
+  }
+} 

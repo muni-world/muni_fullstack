@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../../firebase-config";
+import "./LeagueTable.scss";
 
 /**
- * Interface representing manager data.
+ * Interface representing manager data with added fee information
  */
 interface ManagerData {
   manager: string;
   totalPar: number;
+  underwriterFee: number;  // New field for the total underwriter fee
 }
 
 /**
- * React component that fetches and displays manager par values.
- *
- * This component retrieves deal data from Firestore, aggregates total par
- * values for each manager, filters and sorts the results (excluding "Unknown Manager"
- * when its total is zero), and finally displays both the detailed table of managers
- * and the overall total par value.
+ * LeagueTable Component
+ * Displays league standings in a tabular format
  */
-const ParValueGraph: React.FC = () => {
+const LeagueTable: React.FC = () => {
   // State to store the array of manager data.
   const [managerData, setManagerData] = useState<ManagerData[]>([]);
   // State to store the overall total par value across all managers.
@@ -53,29 +51,39 @@ const ParValueGraph: React.FC = () => {
         // Debug: Log the number of documents found.
         console.log("Documents found:", querySnapshot.size);
 
-        // Object to accumulate the total par for each manager.
-        const managerTotals: { [key: string]: number } = {};
+        // Object to accumulate the total par and underwriter fees for each manager
+        const managerTotals: { [key: string]: { par: number; fee: number } } = {};
 
-        // Iterate through each document in the snapshot.
+        // Iterate through each document in the snapshot
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          // Retrieve the first lead manager if available, otherwise default to "Unknown Manager".
           const manager = data.lead_managers?.[0] || "Unknown Manager";
-          // Accumulate the par value for the manager.
-          managerTotals[manager] = (managerTotals[manager] || 0) + (data.total_par || 0);
+          
+          // Initialize the manager entry if it doesn't exist
+          if (!managerTotals[manager]) {
+            managerTotals[manager] = { par: 0, fee: 0 };
+          }
+          
+          // Accumulate the par value
+          managerTotals[manager].par += data.total_par || 0;
+          
+          // Accumulate the underwriter fee if it exists
+          const underwriterFee = data.underwriter_fee?.total || 0;
+          managerTotals[manager].fee += underwriterFee;
         });
 
-        // Convert the accumulated totals into an array of ManagerData objects.
+        // Convert the accumulated totals into an array of ManagerData objects
         let managerArray: ManagerData[] = Object.entries(managerTotals).map(
-          ([manager, totalPar]) => ({
+          ([manager, totals]) => ({
             manager,
-            totalPar,
+            totalPar: totals.par,
+            underwriterFee: totals.fee,
           })
         );
 
-        // Calculate the overall total par value across all managers.
+        // Calculate the overall total par value across all managers
         const overallTotalPar = Object.values(managerTotals).reduce(
-          (sum, val) => sum + val,
+          (sum, val) => sum + val.par,
           0
         );
 
@@ -102,33 +110,44 @@ const ParValueGraph: React.FC = () => {
     <div style={{ width: "80%", margin: "0 auto" }}>
       <div>
         <h3>{"Total Par Issued: $" + totalPar.toLocaleString()}</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
+        <table className="league-table">
+          <thead className="league-table__header">
             <tr>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Rank</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Lead Left Manager</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Total Par Amount</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Underwriter's Fee Amount</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Underwriter's Fee %</th>
+              <th className="league-table__header--center">Rank</th>
+              <th className="league-table__header--center">Lead Left<br />Manager</th>
+              <th className="league-table__header--right">Total<br />Par Amount</th>
+              <th className="league-table__header--right">Underwriter's<br />Fee Amount</th>
+              <th className="league-table__header--center">Underwriter's<br />Fee %</th>
+
             </tr>
+
           </thead>
+
+
           <tbody>
-            {managerData.map(({ manager, totalPar }, index) => (
-              <tr key={manager}>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+            {managerData.map(({ manager, totalPar, underwriterFee }, index) => (
+              <tr key={manager} className="league-table__row">
+                <td className="league-table__cell league-table__cell">
                   {index + 1}
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                <td className="league-table__cell league-table__cell-manager">
                   {manager}
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                <td className="league-table__cell league-table__cell--right">
                   {"$" + totalPar.toLocaleString()}
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                  {"-"}
+                <td className="league-table__cell league-table__cell--right">
+                  {
+                    "$" +
+                    // Use Math.round() to round underwriterFee to the nearest whole number,
+                    // then format it with commas using toLocaleString().
+                    Math.round(underwriterFee).toLocaleString("en-US")
+                  }
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                  {"-"}
+                <td className="league-table__cell league-table__cell">
+                  {totalPar > 0 
+                    ? ((underwriterFee / totalPar) * 100).toFixed(2) + "%" 
+                    : "-"}
                 </td>
               </tr>
             ))}
@@ -139,4 +158,4 @@ const ParValueGraph: React.FC = () => {
   );
 };
 
-export default ParValueGraph; 
+export default LeagueTable; 
