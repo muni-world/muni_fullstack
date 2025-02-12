@@ -6,6 +6,10 @@
     "node": "22.x"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.4",
+    "@mui/material": "^6.4.4",
     "chart.js": "^4.4.7",
     "firebase": "^11.2.0",
     "react": "^19.0.0",

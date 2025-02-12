@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase-config";
-import "./LeagueTable.scss";
+
+// Add these MUI imports
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  styled,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 
 /**
  * Interface representing manager data with added fee information
@@ -12,6 +26,46 @@ interface ManagerData {
   underwriterFee: number;  // New field for the total underwriter fee
 }
 
+// Custom styled components using MUI's styled utility
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  "&.MuiTableCell-head": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    fontWeight: "bold",
+    lineHeight: 1.2,
+  },
+  "&.left-align": {
+    textAlign: "left",
+  },
+  "&.right-align": {
+    textAlign: "right",
+  },
+  "&.center-align": {
+    textAlign: "center",
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:hover": {
+    backgroundColor: theme.palette.action.selected,
+  },
+}));
+
+/**
+ * Formats a number with commas for readability
+ * @param value - The number to format
+ * @returns Formatted string
+ */
+const formatNumber = (value: number): string => {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+};
+
 /**
  * LeagueTable Component
  * Displays league standings in a tabular format
@@ -21,6 +75,10 @@ const LeagueTable: React.FC = () => {
   const [managerData, setManagerData] = useState<ManagerData[]>([]);
   // State to store the overall total par value across all managers.
   const [totalPar, setTotalPar] = useState<number>(0);
+
+  // Add this near the top of the component
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /**
    * Sorts the manager data in descending order according to totalPar
@@ -107,54 +165,69 @@ const LeagueTable: React.FC = () => {
 
   // Render the component UI.
   return (
-    <div style={{ width: "80%", margin: "0 auto" }}>
-      <div>
-        <h3>{"Total Par Issued: $" + totalPar.toLocaleString()}</h3>
-        <table className="league-table">
-          <thead className="league-table__header">
-            <tr>
-              <th className="league-table__header--center">Rank</th>
-              <th className="league-table__header--center">Lead Left<br />Manager</th>
-              <th className="league-table__header--right">Total<br />Par Amount</th>
-              <th className="league-table__header--right">Underwriter's<br />Fee Amount</th>
-              <th className="league-table__header--center">Underwriter's<br />Fee %</th>
+    <Paper 
+      sx={{ 
+        width: "100%", 
+        margin: "0 auto", 
+        padding: isMobile ? 0 : 1, 
+        elevation: 0,
+        boxShadow: "none",
+      }}
+    >
+      <Typography variant="h5" gutterBottom>
+        Total Par Issued: ${formatNumber(totalPar)}
+      </Typography>
+      
+      <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+        <Table 
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            "& .MuiTableCell-root": isMobile ? {
+              padding: "6px 4px",  // Reduce padding for mobile
+              fontSize: "0.75rem", // Make text smaller on mobile
+            } : {},
+          }}
+        >
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center" sx={{ minWidth: isMobile ? "30px" : "auto" }}>Rank</StyledTableCell>
+              <StyledTableCell align="left">
+                {isMobile ? "Manager" : "Lead Left\nManager"}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {isMobile ? "Par $" : "Total\nPar Amount"}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {isMobile ? "Fee $" : "Underwriter's\nFee Amount"}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ minWidth: isMobile ? "55px" : "auto" }}>
+                {isMobile ? "Fee %" : "Underwriter's\nFee %"}
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
 
-            </tr>
-
-          </thead>
-
-
-          <tbody>
+          <TableBody>
             {managerData.map(({ manager, totalPar, underwriterFee }, index) => (
-              <tr key={manager} className="league-table__row">
-                <td className="league-table__cell league-table__cell">
-                  {index + 1}
-                </td>
-                <td className="league-table__cell league-table__cell-manager">
-                  {manager}
-                </td>
-                <td className="league-table__cell league-table__cell--right">
-                  {"$" + totalPar.toLocaleString()}
-                </td>
-                <td className="league-table__cell league-table__cell--right">
-                  {
-                    "$" +
-                    // Use Math.round() to round underwriterFee to the nearest whole number,
-                    // then format it with commas using toLocaleString().
-                    Math.round(underwriterFee).toLocaleString("en-US")
-                  }
-                </td>
-                <td className="league-table__cell league-table__cell">
+              <StyledTableRow key={manager}>
+                <TableCell align="center">{index + 1}</TableCell>
+                <TableCell align="left">{manager}</TableCell>
+                <TableCell align="right">
+                  ${formatNumber(totalPar)}
+                </TableCell>
+                <TableCell align="right">
+                  ${formatNumber(Math.round(underwriterFee))}
+                </TableCell>
+                <TableCell align="center">
                   {totalPar > 0 
                     ? ((underwriterFee / totalPar) * 100).toFixed(2) + "%" 
                     : "-"}
-                </td>
-              </tr>
+                </TableCell>
+              </StyledTableRow>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 
