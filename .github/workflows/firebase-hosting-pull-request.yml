@@ -25,6 +25,7 @@ jobs:
           cat > packages/web/src/firebase-config.ts << EOL
           import { initializeApp } from "firebase/app";
           import { getFirestore } from "firebase/firestore";
+          import { getAuth } from "firebase/auth";
           
           const firebaseConfig = {
             apiKey: "${{ secrets.FIREBASE_API_KEY }}",
