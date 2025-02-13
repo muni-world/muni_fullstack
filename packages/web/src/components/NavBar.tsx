@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
     <AppBar position="fixed">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Healthcare Municipal Bond Issuance 2025
+          MFTS: MTransparency Services
         </Typography>
         {isAuthenticated ? (
           <Button color="inherit" onClick={logout}>
