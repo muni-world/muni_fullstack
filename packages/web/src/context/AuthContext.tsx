@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase-config";
 import { User, onAuthStateChanged, signOut } from "firebase/auth";
 
-
 /**
  * AuthContext Shape (TypeScript interface)
  * @property {boolean} isAuthenticated - True if user has valid library card
@@ -60,4 +59,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
  * Custom hook - Library Card Checkout Counter
  * @returns {AuthContextType} Access to library card system
  */
-export const useAuth = () => useContext(AuthContext); 
+export const useAuth = () => useContext(AuthContext);
