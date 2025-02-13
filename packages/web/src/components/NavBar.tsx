@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Toolbar, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -11,6 +11,11 @@ import { useAuth } from "../context/AuthContext";
  */
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuthClick = () => {
+    navigate("/auth");
+  };
 
   return (
     <AppBar position="fixed">
@@ -23,7 +28,10 @@ const NavBar: React.FC = () => {
             Log Out
           </Button>
         ) : (
-          <Button color="inherit" component={Link} to="/auth">
+          <Button 
+            color="inherit" 
+            onClick={handleAuthClick}
+          >
             Log In / Sign Up
           </Button>
         )}
