@@ -1,5 +1,5 @@
 import React from "react";
-import { LeagueTable, UniqueParticipants } from "./components/Tables";
+import { LeagueTable, OsTypeTable, UniqueParticipants } from "./components/Tables";
 import { 
   Container, 
   Paper,
@@ -77,7 +77,16 @@ const MainContent: React.FC = () => {
       >
         <LeagueTable />
       </Paper>
-      
+      <Paper 
+        elevation={1} 
+        sx={{ 
+          p: { xs: 1, sm: 3 },
+          mb: { xs: 0, sm: 3 },
+          elevation: { xs: 0, sm: 3 },
+        }}
+      >
+        <OsTypeTable />
+      </Paper>      
       <Paper 
         elevation={0}
         sx={{ 

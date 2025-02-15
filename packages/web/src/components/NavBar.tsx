@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
     <AppBar position="fixed">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          MFTS: MTransparency Services
+          MUDAN.AI: Municipal Data Network
         </Typography>
         {isAuthenticated ? (
           <Button color="inherit" onClick={logout}>
