@@ -31,7 +31,7 @@ interface DealData {
   underwriter_fee: {
     total: number;
   };
-  os_file_path?: string; // Add PDF URL field
+  emma_os_url?: string; // Add PDF URL field
 }
 
 /**
@@ -145,7 +145,7 @@ const ManagerRow: React.FC<{
                     .map((deal) => (
                       <StyledTableRow key={deal.series_name_obligor}>
                         <TableCell>
-                          {deal.os_file_path ? (
+                          {deal.emma_os_url ? (
                             <Typography
                               component="span"
                               sx={{
@@ -155,7 +155,7 @@ const ManagerRow: React.FC<{
                                   textDecoration: "underline",
                                 },
                               }}
-                              onClick={() => window.open(deal.os_file_path, "_blank")}
+                              onClick={() => window.open(deal.emma_os_url, "_blank")}
                             >
                               {deal.series_name_obligor}
                             </Typography>
@@ -260,7 +260,7 @@ const LeagueTable: React.FC = () => {
             underwriter_fee: {
               total: data.underwriter_fee?.total || 0,
             },
-            os_file_path: data.os_file_path || null, // Add PDF URL from Firestore
+            emma_os_url: data.emma_os_url || null, // Add PDF URL from Firestore
           });
         });
 
