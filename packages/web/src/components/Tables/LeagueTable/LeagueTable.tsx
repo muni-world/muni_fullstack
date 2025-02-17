@@ -15,15 +15,33 @@ import {
   styled,
   useTheme,
   useMediaQuery,
+  Collapse,
+  Box,
+  IconButton,
 } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 /**
- * Interface representing manager data with added fee information
+ * Interface for deal data
+ */
+interface DealData {
+  series_name_obligor: string;
+  total_par: number;
+  underwriter_fee: {
+    total: number;
+  };
+  os_file_path?: string; // Add PDF URL field
+}
+
+/**
+ * Interface for manager data with deals
  */
 interface ManagerData {
   manager: string;
   totalPar: number;
-  underwriterFee: number;  // New field for the total underwriter fee
+  underwriterFee: number;
+  deals: DealData[];  // Add deals array
 }
 
 // Custom styled components using MUI's styled utility
@@ -64,6 +82,106 @@ const formatNumber = (value: number): string => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+};
+
+/**
+ * Row component to handle expansion
+ */
+const ManagerRow: React.FC<{
+  manager: ManagerData;
+  index: number;
+  isMobile: boolean;
+}> = ({ manager, index, isMobile }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <StyledTableRow>
+        <TableCell padding="checkbox">
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">{index + 1}</TableCell>
+        <TableCell align="left">{manager.manager}</TableCell>
+        <TableCell align="right">
+          ${formatNumber(manager.totalPar)}
+        </TableCell>
+        <TableCell align="right">
+          ${formatNumber(Math.round(manager.underwriterFee))}
+        </TableCell>
+        <TableCell align="center">
+          {manager.totalPar > 0 
+            ? ((manager.underwriterFee / manager.totalPar) * 100).toFixed(2) + "%" 
+            : "-"}
+        </TableCell>
+      </StyledTableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Deals
+              </Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Series Name/Obligor</StyledTableCell>
+                    <StyledTableCell align="right">Par Amount</StyledTableCell>
+                    <StyledTableCell align="right">Fee Amount</StyledTableCell>
+                    <StyledTableCell align="right">Fee %</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {manager.deals
+                    .sort((a, b) => 
+                      (b.underwriter_fee.total / b.total_par) - 
+                      (a.underwriter_fee.total / a.total_par)
+                    )
+                    .map((deal) => (
+                      <StyledTableRow key={deal.series_name_obligor}>
+                        <TableCell>
+                          {deal.os_file_path ? (
+                            <Typography
+                              component="span"
+                              sx={{
+                                cursor: "pointer",
+                                color: "primary.main",
+                                "&:hover": {
+                                  textDecoration: "underline",
+                                },
+                              }}
+                              onClick={() => window.open(deal.os_file_path, "_blank")}
+                            >
+                              {deal.series_name_obligor}
+                            </Typography>
+                          ) : (
+                            deal.series_name_obligor
+                          )}
+                        </TableCell>
+                        <TableCell align="right">
+                          ${formatNumber(deal.total_par)}
+                        </TableCell>
+                        <TableCell align="right">
+                          ${formatNumber(deal.underwriter_fee.total)}
+                        </TableCell>
+                        <TableCell align="right">
+                          {((deal.underwriter_fee.total / deal.total_par) * 100).toFixed(2)}%
+                        </TableCell>
+                      </StyledTableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
 };
 
 /**
@@ -110,7 +228,13 @@ const LeagueTable: React.FC = () => {
         console.log("Documents found:", querySnapshot.size);
 
         // Object to accumulate the total par and underwriter fees for each manager
-        const managerTotals: { [key: string]: { par: number; fee: number } } = {};
+        const managerTotals: { 
+          [key: string]: { 
+            par: number; 
+            fee: number;
+            deals: DealData[];
+          } 
+        } = {};
 
         // Iterate through each document in the snapshot
         querySnapshot.forEach((doc) => {
@@ -119,7 +243,7 @@ const LeagueTable: React.FC = () => {
           
           // Initialize the manager entry if it doesn't exist
           if (!managerTotals[manager]) {
-            managerTotals[manager] = { par: 0, fee: 0 };
+            managerTotals[manager] = { par: 0, fee: 0, deals: [] };
           }
           
           // Accumulate the par value
@@ -128,6 +252,16 @@ const LeagueTable: React.FC = () => {
           // Accumulate the underwriter fee if it exists
           const underwriterFee = data.underwriter_fee?.total || 0;
           managerTotals[manager].fee += underwriterFee;
+
+          // Store deal information
+          managerTotals[manager].deals.push({
+            series_name_obligor: data.series_name_obligor || "Unknown Series",
+            total_par: data.total_par || 0,
+            underwriter_fee: {
+              total: data.underwriter_fee?.total || 0,
+            },
+            os_file_path: data.os_file_path || null, // Add PDF URL from Firestore
+          });
         });
 
         // Convert the accumulated totals into an array of ManagerData objects
@@ -136,6 +270,7 @@ const LeagueTable: React.FC = () => {
             manager,
             totalPar: totals.par,
             underwriterFee: totals.fee,
+            deals: totals.deals,
           })
         );
 
@@ -190,7 +325,8 @@ const LeagueTable: React.FC = () => {
         >
           <TableHead>
             <TableRow>
-              <StyledTableCell align="center" sx={{ minWidth: isMobile ? "30px" : "auto" }}>Rank</StyledTableCell>
+              <StyledTableCell padding="checkbox" />
+              <StyledTableCell align="center">Rank</StyledTableCell>
               <StyledTableCell align="left">
                 {isMobile ? "Manager" : "Lead Left\nManager"}
               </StyledTableCell>
@@ -207,22 +343,13 @@ const LeagueTable: React.FC = () => {
           </TableHead>
 
           <TableBody>
-            {managerData.map(({ manager, totalPar, underwriterFee }, index) => (
-              <StyledTableRow key={manager}>
-                <TableCell align="center">{index + 1}</TableCell>
-                <TableCell align="left">{manager}</TableCell>
-                <TableCell align="right">
-                  ${formatNumber(totalPar)}
-                </TableCell>
-                <TableCell align="right">
-                  ${formatNumber(Math.round(underwriterFee))}
-                </TableCell>
-                <TableCell align="center">
-                  {totalPar > 0 
-                    ? ((underwriterFee / totalPar) * 100).toFixed(2) + "%" 
-                    : "-"}
-                </TableCell>
-              </StyledTableRow>
+            {managerData.map((manager, index) => (
+              <ManagerRow
+                key={manager.manager}
+                manager={manager}
+                index={index}
+                isMobile={isMobile}
+              />
             ))}
           </TableBody>
         </Table>

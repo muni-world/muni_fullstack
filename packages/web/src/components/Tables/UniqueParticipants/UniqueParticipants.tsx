@@ -28,7 +28,7 @@ const UniqueParticipants: React.FC = () => {
   useEffect(() => {
     const fetchUniqueParticipants = async () => {
       try {
-        const dealsRef = collection(db, "deals");
+        const dealsRef = collection(db, "deals2");
         const querySnapshot = await getDocs(dealsRef);
 
         // Sets to store unique values
