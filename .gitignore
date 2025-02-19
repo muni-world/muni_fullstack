@@ -10,6 +10,8 @@
 **/node_modules/.cache
 **/node_modules/.cache/*
 
+#firestore data stuff
+field_access.json
 
 
 # testing
