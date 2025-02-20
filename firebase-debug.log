@@ -1,0 +1,149 @@
+[debug] [2025-02-20T20:58:46.823Z] ----------------------------------------------------------------------
+[debug] [2025-02-20T20:58:46.826Z] Command:       C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node.exe C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2025-02-20T20:58:46.826Z] CLI Version:   13.30.0
+[debug] [2025-02-20T20:58:46.826Z] Platform:      win32
+[debug] [2025-02-20T20:58:46.826Z] Node Version:  v22.13.1
+[debug] [2025-02-20T20:58:46.826Z] Time:          Thu Feb 20 2025 15:58:46 GMT-0500 (Eastern Standard Time)
+[debug] [2025-02-20T20:58:46.827Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-20T20:58:46.997Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-20T20:58:46.997Z] > authorizing via signed-in user (devon@beepboop.us)
+[debug] [2025-02-20T20:58:47.217Z] java version "22.0.2" 2024-07-16
+
+[debug] [2025-02-20T20:58:47.218Z] Java(TM) SE Runtime Environment (build 22.0.2+9-70)
+Java HotSpot(TM) 64-Bit Server VM (build 22.0.2+9-70, mixed mode, sharing)
+
+[debug] [2025-02-20T20:58:47.267Z] Parsed Java major version: 22
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, extensions"}}
+[debug] [2025-02-20T20:58:47.269Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:47.269Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:47.270Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 [none]
+[debug] [2025-02-20T20:58:47.567Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 200
+[debug] [2025-02-20T20:58:47.567Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 {"projectNumber":"677615931506","projectId":"muni-b3209","lifecycleState":"ACTIVE","name":"muni","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-02-04T23:35:46.729820Z","parent":{"type":"organization","id":"592404950710"}}
+[debug] [2025-02-20T20:58:47.587Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.587Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.587Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.587Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.587Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.587Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-02-20T20:58:47.590Z] [hub] writing locator at C:\Users\quokka\AppData\Local\Temp\hub-muni-b3209.json
+[debug] [2025-02-20T20:58:47.595Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2025-02-20T20:58:47.599Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.599Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.599Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-20T20:58:47.599Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, database, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, database, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-02-20T20:58:47.601Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-20T20:58:47.601Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[debug] [2025-02-20T20:58:47.602Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:47.602Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:47.602Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig [none]
+[debug] [2025-02-20T20:58:48.110Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig 200
+[debug] [2025-02-20T20:58:48.111Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig {"projectId":"muni-b3209","storageBucket":"muni-b3209.firebasestorage.app"}
+[warn] !  firestore: Cloud Firestore Emulator does not support multiple databases yet. {"metadata":{"emulator":{"name":"firestore"},"message":"Cloud Firestore Emulator does not support multiple databases yet."}}
+[warn] !  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file. {"metadata":{"emulator":{"name":"firestore"},"message":"Did not find a Cloud Firestore rules file specified in a firebase.json config file."}}
+[warn] !  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"firestore"},"message":"The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2025-02-20T20:58:48.126Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-02-20T20:58:48.126Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2025-02-20T20:58:48.126Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\quokka\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","muni-b3209","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\quokka\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"muni-b3209\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2025-02-20T20:58:56.188Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:56.188Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:56.188Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites 
+[debug] [2025-02-20T20:58:56.958Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites 200
+[debug] [2025-02-20T20:58:56.958Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites {"sites":[{"name":"projects/muni-b3209/sites/muni-b3209","defaultUrl":"https://muni-b3209.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-02-20T20:58:56.959Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:56.959Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:56.959Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config [none]
+[debug] [2025-02-20T20:58:57.650Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config 200
+[debug] [2025-02-20T20:58:57.650Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config {"projectId":"muni-b3209","appId":"1:677615931506:web:15d11b6b5a4cc1925ef2eb","storageBucket":"muni-b3209.firebasestorage.app","apiKey":"AIzaSyBIrT2vge5A4UGTHwFLF9pU0H9Yx1hN3yE","authDomain":"muni-b3209.firebaseapp.com","messagingSenderId":"677615931506","measurementId":"G-HWYNDE4STV"}
+[debug] [2025-02-20T20:58:57.662Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:57.662Z] Checked if tokens are valid: true, expires at: 1740086464802
+[debug] [2025-02-20T20:58:57.662Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 [none]
+[debug] [2025-02-20T20:58:57.903Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 200
+[debug] [2025-02-20T20:58:57.903Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 {"projectId":"muni-b3209","projectNumber":"677615931506","displayName":"muni","name":"projects/muni-b3209","resources":{"hostingSite":"muni-b3209"},"state":"ACTIVE","etag":"1_d5d72b93-6cd6-4cdd-baac-82a248c48e43"}
+[info] i  hosting[muni-b3209]: Serving hosting files from: packages/web/build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpackages/web/build\u001b[22m"}}
+[info] +  hosting[muni-b3209]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
+[debug] [2025-02-20T20:58:57.922Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\" for Cloud Functions..."}}
+[debug] [2025-02-20T20:58:57.926Z] Validating nodejs source
+[debug] [2025-02-20T20:58:58.733Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-20T20:58:58.733Z] Building nodejs source
+[debug] [2025-02-20T20:58:58.733Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-20T20:58:58.735Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-20T20:58:58.739Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8252
+
+[error] (node:36640) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-20T20:58:59.239Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{user_id}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-20T20:59:03.282Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-20T20:59:03.282Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-20T20:59:03.285Z] Found a v2 firestore trigger.
+[debug] [2025-02-20T20:59:03.285Z] addFirestoreTrigger "{\"eventType\":\"google.cloud.firestore.document.v1.created\",\"database\":\"(default)\",\"namespace\":\"(default)\",\"document\":{\"value\":\"users/{user_id}\",\"matchType\":\"PATH_PATTERN\"}}"
+[debug] [2025-02-20T20:59:03.285Z] >>> [apiv2][query] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 [none]
+[debug] [2025-02-20T20:59:03.285Z] >>> [apiv2][body] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 "{\"eventType\":\"google.cloud.firestore.document.v1.created\",\"database\":\"(default)\",\"namespace\":\"(default)\",\"document\":{\"value\":\"users/{user_id}\",\"matchType\":\"PATH_PATTERN\"}}"
+[debug] [2025-02-20T20:59:04.119Z] <<< [apiv2][status] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 200
+[debug] [2025-02-20T20:59:04.119Z] <<< [apiv2][body] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 {"eventType":"google.cloud.firestore.document.v1.created","database":"(default)","namespace":"(default)","document":{"value":"users/{user_id}","matchType":"PATH_PATTERN"}}
+[info] +  functions[us-central1-handleNewUser]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
+[debug] [2025-02-20T20:59:04.122Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI              │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth       │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore  │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Hosting        │ 127.0.0.1:5000 │ n/a                              │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions     │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
