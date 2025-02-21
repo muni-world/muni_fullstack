@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { httpsCallable, getFunctions } from "firebase/functions";
-import { auth } from "../../../firebaseConfig";
-import { checkUserSubscription } from "../../../services/userService";
-import { firebaseConfig } from "../../../firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebase-config";
 
 // Add these MUI imports
 import {
@@ -213,68 +211,91 @@ const LeagueTable: React.FC = () => {
       .filter((item) => !(item.manager === "Unknown Manager" && item.totalPar === 0));
   };
 
-  // Replace useEffect with this version
+  // useEffect hook to fetch deal data from Firestore once when the component mounts.
   useEffect(() => {
-    const fetchData = async () => {
+    /**
+     * Asynchronously fetches par values for each manager from the "deals" collection,
+     * aggregates par values, filters and sorts the manager data, and updates component state.
+     */
+    const fetchParValues = async () => {
       try {
-        const functions = getFunctions();
+        // Get a reference to the "deals" collection.
+        const dealsRef = collection(db, "deals");
+        // Retrieve all documents within the collection.
+        const querySnapshot = await getDocs(dealsRef);
         
-        // Get public data by default
-        let data;
-        
-        const user = auth.currentUser;
-        if (user) {
-          const isSubscriber = await checkUserSubscription(user.uid);
+        // Debug: Log the number of documents found.
+        console.log("Documents found:", querySnapshot.size);
+
+        // Object to accumulate the total par and underwriter fees for each manager
+        const managerTotals: { 
+          [key: string]: { 
+            par: number; 
+            fee: number;
+            deals: DealData[];
+          } 
+        } = {};
+
+        // Iterate through each document in the snapshot
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const manager = data.lead_managers?.[0] || "Unknown Manager";
           
-          if (isSubscriber) {
-            const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
-            data = (await subscriberData()).data;
-          } else {
-            const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
-            data = (await authData()).data;
+          // Initialize the manager entry if it doesn't exist
+          if (!managerTotals[manager]) {
+            managerTotals[manager] = { par: 0, fee: 0, deals: [] };
           }
-        } else {
-          // Public data fetch - Fixed version
-          const functionUrl = process.env.NODE_ENV === "development" 
-            ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
-            : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
+          
+          // Accumulate the par value
+          managerTotals[manager].par += data.total_par || 0;
+          
+          // Accumulate the underwriter fee if it exists
+          const underwriterFee = data.underwriter_fee?.total || 0;
+          managerTotals[manager].fee += underwriterFee;
 
-          // Add error handling for fetch
-          const publicResponse = await fetch(functionUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
+          // Store deal information
+          managerTotals[manager].deals.push({
+            series_name_obligor: data.series_name_obligor || "Unknown Series",
+            total_par: data.total_par || 0,
+            underwriter_fee: {
+              total: data.underwriter_fee?.total || 0,
             },
+            emma_os_url: data.emma_os_url || null, // Add PDF URL from Firestore
           });
+        });
 
-          // Check if response is OK before parsing
-          if (!publicResponse.ok) {
-            throw new Error(`HTTP error! status: ${publicResponse.status}`);
-          }
+        // Convert the accumulated totals into an array of ManagerData objects
+        let managerArray: ManagerData[] = Object.entries(managerTotals).map(
+          ([manager, totals]) => ({
+            manager,
+            totalPar: totals.par,
+            underwriterFee: totals.fee,
+            deals: totals.deals,
+          })
+        );
 
-          const publicData = await publicResponse.json();
-          data = publicData.data;
-        }
+        // Calculate the overall total par value across all managers
+        const overallTotalPar = Object.values(managerTotals).reduce(
+          (sum, val) => sum + val.par,
+          0
+        );
 
-        // Process and set state
-        const processedData = data.map((manager: any) => ({
-          ...manager,
-          totalPar: Number(manager.totalPar.replace(/,/g, '')),
-          underwriterFee: Number(manager.underwriterFee.replace(/,/g, ''))
-        }));
+        // Sort the array in descending order and filter out "Unknown Manager" with a zero total.
+        managerArray = sortDataDescending(managerArray);
 
-        setManagerData(processedData);
-        setTotalPar(processedData.reduce((sum: number, val: any) => sum + val.totalPar, 0));
-        
-      } catch (error) {
-        console.error("Data fetch failed:", error);
-        // Add user-friendly error handling
-        setManagerData([]);
-        setTotalPar(0);
+        // Update the state with the processed manager data and overall total par.
+        setManagerData(managerArray);
+        setTotalPar(overallTotalPar);
+
+        // Debug: Log the overall total par value.
+        console.log("Total par value across all managers:", overallTotalPar);
+      }
+      catch (error) {
+        console.error("Error fetching par values:", error);
       }
     };
 
-    fetchData();
+    fetchParValues();
   }, []);
 
   // Render the component UI.

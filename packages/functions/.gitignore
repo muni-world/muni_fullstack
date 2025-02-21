@@ -10,6 +10,3 @@ node_modules/
 *.local
 
 src/firebase-config.ts
-
-serviceAccountKey.json
-firestore-debug.log

@@ -1,15 +1,15 @@
-import {onDocumentCreated} from "firebase-functions/v2/firestore";
-import {FieldValue} from "firebase-admin/firestore";
+import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import { FieldValue } from "firebase-admin/firestore";
 
-export const handleNewUser = onDocumentCreated("users/{user_id}",
+export const handleNewUser = onDocumentCreated("users/{userId}", 
   async (event) => {
     const snapshot = event.data;
     if (!snapshot) return;
 
     try {
       await snapshot.ref.update({
-        join_date: FieldValue.serverTimestamp(),
-        user_type: "free",
+        joinDate: FieldValue.serverTimestamp(),
+        userType: "free"
       });
     } catch (error) {
       console.error("Error initializing user document:", error);

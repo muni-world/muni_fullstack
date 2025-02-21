@@ -1,5 +1,5 @@
 import React from "react";
-import { TestTable } from "./components/Tables/";
+import { LeagueTable, OsTypeTable, UniqueParticipants } from "./components/Tables";
 import { 
   Container, 
   Paper,
@@ -31,6 +31,21 @@ const theme = createTheme({
 });
 
 /**
+ * Protected Route Component - Ensures routes are only accessible when authenticated
+ * @param {object} props - Component props
+ * @returns {JSX.Element} Protected route or redirect
+ */
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+/**
  * Auth Route Component - Redirects authenticated users away from auth pages
  * @param {object} props - Component props
  * @returns {JSX.Element} Auth route or redirect
@@ -52,10 +67,7 @@ const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const MainContent: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-      <Paper>
-        <TestTable />
-      </Paper>
-      {/* <Paper 
+      <Paper 
         elevation={1} 
         sx={{ 
           p: { xs: 1, sm: 3 },
@@ -83,7 +95,7 @@ const MainContent: React.FC = () => {
         }}
       >
         <UniqueParticipants />
-      </Paper> */}
+      </Paper>
     </Container>
   );
 };
@@ -111,7 +123,11 @@ const App: React.FC = () => {
               />
               <Route 
                 path="/" 
-                element={<MainContent />} 
+                element={
+                  <ProtectedRoute>
+                    <MainContent />
+                  </ProtectedRoute>
+                } 
               />
             </Routes>
           </Box>
