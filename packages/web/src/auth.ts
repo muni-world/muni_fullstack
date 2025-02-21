@@ -33,8 +33,8 @@ export const signUp = async (
     await setDoc(userDocRef, {
       firstName,
       lastName,
-      userType: "free", // Will be validated by security rules
-      joinDate: new Date() // Will be overwritten by Cloud Function
+      userType: "free",
+      joinDate: new Date()
     });
 
     console.log("User created successfully:", userCredential.user.uid);
