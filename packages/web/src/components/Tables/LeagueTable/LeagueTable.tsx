@@ -218,10 +218,10 @@ const LeagueTable: React.FC = () => {
       try {
         const functions = getFunctions();
         
-        // Determine user status
-        const user = auth.currentUser;
+        // Get public data by default
         let data;
         
+        const user = auth.currentUser;
         if (user) {
           const isSubscriber = await checkUserSubscription(user.uid);
           

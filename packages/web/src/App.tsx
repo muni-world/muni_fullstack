@@ -31,21 +31,6 @@ const theme = createTheme({
 });
 
 /**
- * Protected Route Component - Ensures routes are only accessible when authenticated
- * @param {object} props - Component props
- * @returns {JSX.Element} Protected route or redirect
- */
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-/**
  * Auth Route Component - Redirects authenticated users away from auth pages
  * @param {object} props - Component props
  * @returns {JSX.Element} Auth route or redirect
@@ -123,11 +108,7 @@ const App: React.FC = () => {
               />
               <Route 
                 path="/" 
-                element={
-                  <ProtectedRoute>
-                    <MainContent />
-                  </ProtectedRoute>
-                } 
+                element={<MainContent />} 
               />
             </Routes>
           </Box>
