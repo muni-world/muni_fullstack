@@ -1,4 +1,4 @@
-import { auth, db } from "./firebase-config";
+import { auth, db } from "./firebaseConfig";
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -20,9 +20,12 @@ export const signUp = async (
   lastName: string
 ) => {
   try {
+    // Convert email to lowercase like making all text small letters
+    const normalizedEmail = email.toLowerCase();
+
     const userCredential = await createUserWithEmailAndPassword(
-      auth, 
-      email, 
+      auth,
+      normalizedEmail, // Use lowercase version for auth
       password
     );
     
@@ -33,8 +36,7 @@ export const signUp = async (
     await setDoc(userDocRef, {
       firstName,
       lastName,
-      userType: "free",
-      joinDate: new Date()
+      email: normalizedEmail
     });
 
     console.log("User created successfully:", userCredential.user.uid);
