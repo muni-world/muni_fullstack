@@ -12,6 +12,8 @@ import { logIn, signUp } from "../../auth";
 const AuthForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
 
   /**
    * Handles user login by calling the Firebase logIn function.
@@ -36,17 +38,13 @@ const AuthForm: React.FC = () => {
    * Handles user signup by calling the Firebase signUp function.
    */
   const handleSignUp = async () => {
-    if (!email || !password) 
-    {
-      alert("Please enter both email and password.");
+    if (!email || !password || !firstName || !lastName) {
+      alert("Please fill all fields");
       return;
     }
-    try 
-    {
-      await signUp(email, password);
-    }
-    catch (error) 
-    {
+    try {
+      await signUp(email, password, firstName, lastName);
+    } catch (error) {
       console.error("Error signing up:", error);
     }
   };
@@ -71,6 +69,22 @@ const AuthForm: React.FC = () => {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
           <TextField
             label="Password"
