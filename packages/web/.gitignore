@@ -17,3 +17,5 @@ firebase-config.ts
 # Cache files
 **/node_modules/.cache
 **/node_modules/.cache/*
+
+firestore-debug.log
