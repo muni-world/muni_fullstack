@@ -36,9 +36,7 @@ export const signUp = async (
     await setDoc(userDocRef, {
       firstName,
       lastName,
-      email: normalizedEmail, // Store lowercase version in database
-      userType: "free",
-      authenticatedDate: new Date()
+      email: normalizedEmail
     });
 
     console.log("User created successfully:", userCredential.user.uid);

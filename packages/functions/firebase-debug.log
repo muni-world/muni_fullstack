@@ -1,0 +1,1229 @@
+[debug] [2025-02-21T12:49:08.110Z] ----------------------------------------------------------------------
+[debug] [2025-02-21T12:49:08.112Z] Command:       C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node.exe C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2025-02-21T12:49:08.113Z] CLI Version:   13.30.0
+[debug] [2025-02-21T12:49:08.113Z] Platform:      win32
+[debug] [2025-02-21T12:49:08.113Z] Node Version:  v22.13.1
+[debug] [2025-02-21T12:49:08.113Z] Time:          Fri Feb 21 2025 07:49:08 GMT-0500 (Eastern Standard Time)
+[debug] [2025-02-21T12:49:08.113Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-21T12:49:08.327Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-21T12:49:08.327Z] > authorizing via signed-in user (devon@beepboop.us)
+[debug] [2025-02-21T12:49:08.474Z] java version "22.0.2" 2024-07-16
+Java(TM) SE Runtime Environment (build 22.0.2+9-70)
+
+[debug] [2025-02-21T12:49:08.475Z] Java HotSpot(TM) 64-Bit Server VM (build 22.0.2+9-70, mixed mode, sharing)
+
+[debug] [2025-02-21T12:49:08.498Z] Parsed Java major version: 22
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, extensions"}}
+[debug] [2025-02-21T12:49:08.500Z] Checked if tokens are valid: false, expires at: 1740100652016
+[debug] [2025-02-21T12:49:08.500Z] Checked if tokens are valid: false, expires at: 1740100652016
+[debug] [2025-02-21T12:49:08.500Z] > refreshing access token with scopes: []
+[debug] [2025-02-21T12:49:08.502Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-02-21T12:49:08.502Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-21T12:49:09.207Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-02-21T12:49:09.207Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-21T12:49:09.228Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 [none]
+[debug] [2025-02-21T12:49:10.042Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 200
+[debug] [2025-02-21T12:49:10.042Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/muni-b3209 {"projectNumber":"677615931506","projectId":"muni-b3209","lifecycleState":"ACTIVE","name":"muni","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-02-04T23:35:46.729820Z","parent":{"type":"organization","id":"592404950710"}}
+[debug] [2025-02-21T12:49:10.062Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.062Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.062Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.062Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.062Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.063Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-02-21T12:49:10.066Z] [hub] writing locator at C:\Users\quokka\AppData\Local\Temp\hub-muni-b3209.json
+[debug] [2025-02-21T12:49:10.072Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2025-02-21T12:49:10.078Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.078Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.079Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-21T12:49:10.079Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, database, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, database, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-02-21T12:49:10.081Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T12:49:10.083Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[debug] [2025-02-21T12:49:10.083Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:10.083Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:10.083Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig [none]
+[debug] [2025-02-21T12:49:10.586Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig 200
+[debug] [2025-02-21T12:49:10.586Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/adminSdkConfig {"projectId":"muni-b3209","storageBucket":"muni-b3209.firebasestorage.app"}
+[warn] !  firestore: Cloud Firestore Emulator does not support multiple databases yet. {"metadata":{"emulator":{"name":"firestore"},"message":"Cloud Firestore Emulator does not support multiple databases yet."}}
+[warn] !  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file. {"metadata":{"emulator":{"name":"firestore"},"message":"Did not find a Cloud Firestore rules file specified in a firebase.json config file."}}
+[warn] !  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"firestore"},"message":"The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2025-02-21T12:49:10.605Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-02-21T12:49:10.605Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2025-02-21T12:49:10.605Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\quokka\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","muni-b3209","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\quokka\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"muni-b3209\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2025-02-21T12:49:17.707Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:17.707Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:17.707Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites 
+[debug] [2025-02-21T12:49:18.546Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites 200
+[debug] [2025-02-21T12:49:18.546Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/muni-b3209/sites {"sites":[{"name":"projects/muni-b3209/sites/muni-b3209","defaultUrl":"https://muni-b3209.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-02-21T12:49:18.547Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:18.547Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:18.547Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config [none]
+[debug] [2025-02-21T12:49:19.399Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config 200
+[debug] [2025-02-21T12:49:19.399Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209/webApps/-/config {"projectId":"muni-b3209","appId":"1:677615931506:web:15d11b6b5a4cc1925ef2eb","storageBucket":"muni-b3209.firebasestorage.app","apiKey":"AIzaSyBIrT2vge5A4UGTHwFLF9pU0H9Yx1hN3yE","authDomain":"muni-b3209.firebaseapp.com","messagingSenderId":"677615931506","measurementId":"G-HWYNDE4STV"}
+[debug] [2025-02-21T12:49:19.403Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:19.403Z] Checked if tokens are valid: true, expires at: 1740145748208
+[debug] [2025-02-21T12:49:19.403Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 [none]
+[debug] [2025-02-21T12:49:20.104Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 200
+[debug] [2025-02-21T12:49:20.104Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/muni-b3209 {"projectId":"muni-b3209","projectNumber":"677615931506","displayName":"muni","name":"projects/muni-b3209","resources":{"hostingSite":"muni-b3209"},"state":"ACTIVE","etag":"1_d5d72b93-6cd6-4cdd-baac-82a248c48e43"}
+[info] i  hosting[muni-b3209]: Serving hosting files from: packages/web/build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpackages/web/build\u001b[22m"}}
+[info] +  hosting[muni-b3209]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
+[debug] [2025-02-21T12:49:20.293Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\" for Cloud Functions..."}}
+[debug] [2025-02-21T12:49:20.308Z] Validating nodejs source
+[debug] [2025-02-21T12:49:24.923Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T12:49:24.923Z] Building nodejs source
+[debug] [2025-02-21T12:49:24.924Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T12:49:24.926Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T12:49:24.931Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8069
+
+[error] (node:36784) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T12:49:29.498Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T12:49:33.544Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T12:49:33.545Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-21T12:49:33.547Z] Found a v2 firestore trigger.
+[debug] [2025-02-21T12:49:33.547Z] addFirestoreTrigger "{\"eventType\":\"google.cloud.firestore.document.v1.created\",\"database\":\"(default)\",\"namespace\":\"(default)\",\"document\":{\"value\":\"users/{userId}\",\"matchType\":\"PATH_PATTERN\"}}"
+[debug] [2025-02-21T12:49:33.547Z] >>> [apiv2][query] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 [none]
+[debug] [2025-02-21T12:49:33.547Z] >>> [apiv2][body] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 "{\"eventType\":\"google.cloud.firestore.document.v1.created\",\"database\":\"(default)\",\"namespace\":\"(default)\",\"document\":{\"value\":\"users/{userId}\",\"matchType\":\"PATH_PATTERN\"}}"
+[debug] [2025-02-21T12:49:34.415Z] <<< [apiv2][status] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 200
+[debug] [2025-02-21T12:49:34.415Z] <<< [apiv2][body] POST http://127.0.0.1:8080/emulator/v1/projects/muni-b3209/eventarcTrigger?eventarcTriggerId=us-central1-handleNewUser-0 {"eventType":"google.cloud.firestore.document.v1.created","database":"(default)","namespace":"(default)","document":{"value":"users/{userId}","matchType":"PATH_PATTERN"}}
+[info] +  functions[us-central1-handleNewUser]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
+[debug] [2025-02-21T12:49:34.419Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI              │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth       │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore  │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Hosting        │ 127.0.0.1:5000 │ n/a                              │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions     │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2025-02-21T13:56:32.839Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/muni-b3209/trigger_multicast [none]
+[debug] [2025-02-21T13:56:32.840Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/muni-b3209/trigger_multicast {"eventId":"c656a093-bebe-44e9-a38f-0752c945af05","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/muni-b3209","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2025-02-21T13:56:32.837Z","data":{"uid":"UIzas3E4XQn32qyYll7xlegwt77S","email":"beep@beepboop.us","emailVerified":false,"metadata":{"creationTime":"2025-02-21T13:56:32.832Z","lastSignInTime":"2025-02-21T13:56:32.832Z"},"customClaims":{},"providerData":[{"providerId":"password","email":"beep@beepboop.us","federatedId":"beep@beepboop.us","rawId":"beep@beepboop.us"}]}}
+[debug] [2025-02-21T13:56:32.860Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/muni-b3209/trigger_multicast 200
+[debug] [2025-02-21T13:56:32.860Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/muni-b3209/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2025-02-21T13:56:34.072Z] [work-queue] {"queuedWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2025-02-21T13:56:34.072Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"workRunningCount":1}
+[debug] [2025-02-21T13:56:34.073Z] Accepted request POST /functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0 --> us-central1-handleNewUser-0
+[debug] [2025-02-21T13:56:34.091Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-02-21T13:56:34.092Z] [functions] Got req.url=/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0, mapping to path=/functions/projects/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0, mapping to path=/functions/projects/"}}
+[debug] [2025-02-21T13:56:34.117Z] [worker-pool] addWorker(us-central1-handleNewUser) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-handleNewUser)"}}
+[debug] [2025-02-21T13:56:34.117Z] [worker-pool] Adding worker with key us-central1-handleNewUser, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-handleNewUser, total=1"}}
+[debug] [2025-02-21T13:56:35.178Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T13:56:35.178Z"],"queueLength":1,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"workRunningCount":1}
+[debug] [2025-02-21T13:56:35.179Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z","/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T13:56:35.178Z"],"workRunningCount":2}
+[debug] [2025-02-21T13:56:35.179Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"workRunningCount":1}
+[debug] [2025-02-21T13:56:35.180Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T13:56:35.180Z"],"queueLength":1,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"workRunningCount":1}
+[debug] [2025-02-21T13:56:35.180Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z","/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T13:56:35.180Z"],"workRunningCount":2}
+[debug] [2025-02-21T13:56:35.180Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/functions/projects/muni-b3209/triggers/us-central1-handleNewUser-0-2025-02-21T13:56:34.072Z"],"workRunningCount":1}
+[info] >  (node:28404) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead. {"user":"(node:28404) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"\u001b[90m> \u001b[39m (node:28404) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."}}
+[info] >  (Use `node --trace-deprecation ...` to show where the warning was created) {"user":"(Use `node --trace-deprecation ...` to show where the warning was created)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"\u001b[90m> \u001b[39m (Use `node --trace-deprecation ...` to show where the warning was created)"}}
+[debug] [2025-02-21T13:57:01.725Z] [runtime-status] [28404] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T13:57:01.738Z] [runtime-status] [28404] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T13:57:01.739Z] [runtime-status] [28404] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2025-02-21T13:57:01.740Z] [runtime-status] [28404] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[error] !!  functions: Failed to handle request for function us-central1-handleNewUser {"metadata":{"emulator":{"name":"functions"},"message":"Failed to handle request for function us-central1-handleNewUser"}}
+[error] !!  functions: Failed to start functions in C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions: FirebaseError: Failed to load function. {"metadata":{"emulator":{"name":"functions"},"message":"Failed to start functions in C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions: FirebaseError: Failed to load function."}}
+[debug] [2025-02-21T13:57:04.189Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2025-02-21T13:57:08.321Z] [runtime-status] [28404] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Checked functions.config() {\"config\":{}}"}}
+[debug] [2025-02-21T13:57:08.322Z] [runtime-status] [28404] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}}"}}
+[debug] [2025-02-21T13:57:08.323Z] [runtime-status] [28404] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T13:57:08.380Z] [runtime-status] [28404] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T13:57:08.428Z] [runtime-status] [28404] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T13:57:08.428Z] [runtime-status] [28404] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2025-02-21T13:57:08.458Z] [runtime-status] [28404] Functions runtime initialized. {"cwd":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions","node_version":"22.13.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Functions runtime initialized. {\"cwd\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\packages\\\\functions\",\"node_version\":\"22.13.1\"}"}}
+[debug] [2025-02-21T13:57:08.459Z] [runtime-status] [28404] Listening to port: \\?\pipe\fire_emu_acf06eec5b2348e6 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-handleNewUser"},"extension":{},"message":"[runtime-status] [28404] Listening to port: \\\\?\\pipe\\fire_emu_acf06eec5b2348e6"}}
+[debug] [2025-02-21T14:18:07.809Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\authTriggers.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\authTriggers.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:18:08.816Z] Validating nodejs source
+[debug] [2025-02-21T14:18:18.876Z] checkFunctionsSDKVersion was unable to fetch information from NPM Error: spawnSync C:\WINDOWS\system32\cmd.exe ETIMEDOUT
+    at Object.spawnSync (node:internal/child_process:1120:20)
+    at Object.spawnSync (node:child_process:868:24)
+    at Function.spawnSync [as sync] (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\node_modules\cross-spawn\index.js:26:23)
+    at Object.getLatestSDKVersion (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:54:25)
+    at Object.checkFunctionsSDKVersion (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:74:32)
+    at Delegate.validate (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\index.js:86:20)
+    at FunctionsEmulator.discoverTriggers (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\emulator\functionsEmulator.js:331:35)
+    at async FunctionsEmulator.loadTriggers (C:\Users\quokka\.nvm\versions\node\v22.13.1\bin\node_modules\firebase-tools\lib\emulator\functionsEmulator.js:371:34)
+[debug] [2025-02-21T14:18:18.880Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:18:18.880Z] Building nodejs source
+[debug] [2025-02-21T14:18:18.880Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:18:18.881Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:18:18.891Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[debug] [2025-02-21T14:18:18.918Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\authTriggers.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\authTriggers.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:18:19.919Z] Validating nodejs source
+[debug] [2025-02-21T14:18:20.834Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:18:20.834Z] Building nodejs source
+[debug] [2025-02-21T14:18:20.834Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:18:20.837Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:18:20.841Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8652
+
+[info] Serving at port 8033
+
+[error] (node:33380) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:18:21.344Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[error] (node:15272) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:18:21.363Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:18:25.386Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:18:25.386Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-21T14:18:25.389Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:18:25.396Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-21T14:18:49.204Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\authTriggers.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\authTriggers.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:18:50.208Z] Validating nodejs source
+[debug] [2025-02-21T14:18:51.012Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:18:51.012Z] Building nodejs source
+[debug] [2025-02-21T14:18:51.012Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:18:51.013Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:18:51.017Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8421
+
+[error] (node:40464) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:18:51.466Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:18:55.495Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:18:55.495Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-21T14:27:45.606Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\authTriggers.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\authTriggers.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:27:46.419Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\authTriggers.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\authTriggers.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:27:47.428Z] Validating nodejs source
+[debug] [2025-02-21T14:27:48.320Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:27:48.320Z] Building nodejs source
+[debug] [2025-02-21T14:27:48.320Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:27:48.322Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:27:48.326Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8577
+
+[error] (node:16560) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:27:48.820Z] Got response from /__/functions.yaml {"endpoints":{"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:27:52.860Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:27:52.861Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: handleNewUser."}}
+[debug] [2025-02-21T14:31:21.461Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:21.464Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:21.467Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:21.468Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:21.486Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:21.488Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:31:22.493Z] Validating nodejs source
+[debug] [2025-02-21T14:31:23.689Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:31:23.689Z] Building nodejs source
+[debug] [2025-02-21T14:31:23.689Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:31:23.692Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:31:23.698Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8716
+
+[error] (node:37652) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:31:24.387Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:31:28.416Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:31:28.417Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[info] +  functions[us-central1-getPublicLeagueData]: http function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getPublicLeagueData). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getPublicLeagueData)."}}
+[info] +  functions[us-central1-getAuthenticatedLeagueData]: http function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getAuthenticatedLeagueData). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getAuthenticatedLeagueData)."}}
+[info] +  functions[us-central1-getSubscriberLeagueData]: http function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getSubscriberLeagueData). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/muni-b3209/us-central1/getSubscriberLeagueData)."}}
+[debug] [2025-02-21T14:37:02.062Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.061Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2025-02-21T14:37:02.062Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.061Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:02.062Z] Accepted request OPTIONS /muni-b3209/us-central1/getAuthenticatedLeagueData --> us-central1-getAuthenticatedLeagueData
+[debug] [2025-02-21T14:37:02.063Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-02-21T14:37:02.063Z] [functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/"}}
+[debug] [2025-02-21T14:37:02.077Z] [worker-pool] addWorker(us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-getAuthenticatedLeagueData)"}}
+[debug] [2025-02-21T14:37:02.078Z] [worker-pool] Adding worker with key us-central1-getAuthenticatedLeagueData, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-getAuthenticatedLeagueData, total=1"}}
+[debug] [2025-02-21T14:37:02.079Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.079Z"],"queueLength":1,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.061Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:02.080Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.061Z","/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.079Z"],"workRunningCount":2}
+[debug] [2025-02-21T14:37:02.080Z] Accepted request OPTIONS /muni-b3209/us-central1/getAuthenticatedLeagueData --> us-central1-getAuthenticatedLeagueData
+[debug] [2025-02-21T14:37:02.080Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-02-21T14:37:02.080Z] [functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/"}}
+[debug] [2025-02-21T14:37:02.088Z] [worker-pool] addWorker(us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-getAuthenticatedLeagueData)"}}
+[debug] [2025-02-21T14:37:02.089Z] [worker-pool] Adding worker with key us-central1-getAuthenticatedLeagueData, total=2 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-getAuthenticatedLeagueData, total=2"}}
+[info] >  (node:34572) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead. {"user":"(node:34572) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m (node:34572) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."}}
+[info] >  (Use `node --trace-deprecation ...` to show where the warning was created) {"user":"(Use `node --trace-deprecation ...` to show where the warning was created)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m (Use `node --trace-deprecation ...` to show where the warning was created)"}}
+[info] >  (node:33268) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead. {"user":"(node:33268) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m (node:33268) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."}}
+[info] >  (Use `node --trace-deprecation ...` to show where the warning was created) {"user":"(Use `node --trace-deprecation ...` to show where the warning was created)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m (Use `node --trace-deprecation ...` to show where the warning was created)"}}
+[debug] [2025-02-21T14:37:03.819Z] [runtime-status] [34572] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:03.819Z] [runtime-status] [33268] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:03.820Z] [runtime-status] [34572] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:03.821Z] [runtime-status] [34572] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2025-02-21T14:37:03.822Z] [runtime-status] [34572] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:03.822Z] [runtime-status] [33268] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:03.823Z] [runtime-status] [33268] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2025-02-21T14:37:03.824Z] [runtime-status] [33268] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.256Z] [runtime-status] [34572] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Checked functions.config() {\"config\":{}}"}}
+[debug] [2025-02-21T14:37:04.257Z] [runtime-status] [33268] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Checked functions.config() {\"config\":{}}"}}
+[debug] [2025-02-21T14:37:04.257Z] [runtime-status] [34572] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}}"}}
+[debug] [2025-02-21T14:37:04.257Z] [runtime-status] [33268] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}}"}}
+[debug] [2025-02-21T14:37:04.258Z] [runtime-status] [34572] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.258Z] [runtime-status] [33268] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.275Z] [runtime-status] [34572] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.275Z] [runtime-status] [33268] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.279Z] [runtime-status] [33268] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.279Z] [runtime-status] [34572] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-functions\\lib\\v2\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-functions\\\\lib\\\\v2\\\\index.js\"}"}}
+[debug] [2025-02-21T14:37:04.279Z] [runtime-status] [33268] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2025-02-21T14:37:04.279Z] [runtime-status] [34572] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"13.1.0","resolution":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"13.1.0\",\"resolution\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2025-02-21T14:37:04.297Z] [runtime-status] [33268] Functions runtime initialized. {"cwd":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions","node_version":"22.13.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Functions runtime initialized. {\"cwd\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\packages\\\\functions\",\"node_version\":\"22.13.1\"}"}}
+[debug] [2025-02-21T14:37:04.297Z] [runtime-status] [33268] Listening to port: \\?\pipe\fire_emu_c57200a6c087e893 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [33268] Listening to port: \\\\?\\pipe\\fire_emu_c57200a6c087e893"}}
+[debug] [2025-02-21T14:37:04.298Z] [runtime-status] [34572] Functions runtime initialized. {"cwd":"C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions","node_version":"22.13.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Functions runtime initialized. {\"cwd\":\"C:\\\\Users\\\\quokka\\\\Documents\\\\Engineering Fun\\\\muni_fullstack\\\\packages\\\\functions\",\"node_version\":\"22.13.1\"}"}}
+[debug] [2025-02-21T14:37:04.298Z] [runtime-status] [34572] Listening to port: \\?\pipe\fire_emu_5720a1264a9d0f16 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[runtime-status] [34572] Listening to port: \\\\?\\pipe\\fire_emu_5720a1264a9d0f16"}}
+[debug] [2025-02-21T14:37:04.370Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE"}}
+[debug] [2025-02-21T14:37:04.371Z] [worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData)"}}
+[info] i  functions: Beginning execution of "us-central1-getAuthenticatedLeagueData" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Beginning execution of \"us-central1-getAuthenticatedLeagueData\""}}
+[debug] [2025-02-21T14:37:04.372Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: BUSY"}}
+[debug] [2025-02-21T14:37:04.375Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-getAuthenticatedLeagueData" in 3.157ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finished \"us-central1-getAuthenticatedLeagueData\" in 3.157ms"}}
+[debug] [2025-02-21T14:37:04.376Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE"}}
+[debug] [2025-02-21T14:37:04.376Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2025-02-21T14:37:04.376Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2025-02-21T14:37:04.376Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.079Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:04.377Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z"],"queueLength":1,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.079Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:04.377Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:02.079Z","/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z"],"workRunningCount":2}
+[debug] [2025-02-21T14:37:04.377Z] Accepted request POST /muni-b3209/us-central1/getAuthenticatedLeagueData --> us-central1-getAuthenticatedLeagueData
+[debug] [2025-02-21T14:37:04.377Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-02-21T14:37:04.377Z] [functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/"}}
+[debug] [2025-02-21T14:37:04.377Z] [worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData)"}}
+[info] i  functions: Beginning execution of "us-central1-getAuthenticatedLeagueData" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Beginning execution of \"us-central1-getAuthenticatedLeagueData\""}}
+[debug] [2025-02-21T14:37:04.378Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: BUSY"}}
+[debug] [2025-02-21T14:37:04.378Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE"}}
+[debug] [2025-02-21T14:37:04.378Z] [worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData)"}}
+[info] i  functions: Beginning execution of "us-central1-getAuthenticatedLeagueData" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Beginning execution of \"us-central1-getAuthenticatedLeagueData\""}}
+[debug] [2025-02-21T14:37:04.379Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: BUSY"}}
+[debug] [2025-02-21T14:37:04.381Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-getAuthenticatedLeagueData" in 2.8006ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finished \"us-central1-getAuthenticatedLeagueData\" in 2.8006ms"}}
+[debug] [2025-02-21T14:37:04.382Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE"}}
+[debug] [2025-02-21T14:37:04.382Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2025-02-21T14:37:04.382Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2025-02-21T14:37:04.382Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:04.382Z] [work-queue] {"queuedWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.382Z"],"queueLength":1,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:04.383Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z","/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.382Z"],"workRunningCount":2}
+[debug] [2025-02-21T14:37:04.383Z] Accepted request POST /muni-b3209/us-central1/getAuthenticatedLeagueData --> us-central1-getAuthenticatedLeagueData
+[debug] [2025-02-21T14:37:04.383Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-02-21T14:37:04.383Z] [functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/muni-b3209/us-central1/getAuthenticatedLeagueData, mapping to path=/"}}
+[debug] [2025-02-21T14:37:04.383Z] [worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-getAuthenticatedLeagueData)"}}
+[info] i  functions: Beginning execution of "us-central1-getAuthenticatedLeagueData" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Beginning execution of \"us-central1-getAuthenticatedLeagueData\""}}
+[debug] [2025-02-21T14:37:04.383Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2025-02-21T14:37:04.555Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-getAuthenticatedLeagueData" in 171.6169ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finished \"us-central1-getAuthenticatedLeagueData\" in 171.6169ms"}}
+[debug] [2025-02-21T14:37:04.555Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: IDLE"}}
+[debug] [2025-02-21T14:37:04.555Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2025-02-21T14:37:04.555Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2025-02-21T14:37:04.555Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/muni-b3209/us-central1/getAuthenticatedLeagueData-2025-02-21T14:37:04.377Z"],"workRunningCount":1}
+[debug] [2025-02-21T14:37:04.556Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-getAuthenticatedLeagueData" in 179.0174ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finished \"us-central1-getAuthenticatedLeagueData\" in 179.0174ms"}}
+[debug] [2025-02-21T14:37:04.557Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: IDLE"}}
+[debug] [2025-02-21T14:37:04.557Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2025-02-21T14:37:04.557Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2025-02-21T14:37:04.557Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2025-02-21T14:40:03.990Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:40:04.998Z] Validating nodejs source
+[debug] [2025-02-21T14:40:06.301Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:40:06.302Z] Building nodejs source
+[debug] [2025-02-21T14:40:06.302Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:40:06.306Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:40:06.313Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8752
+
+[error] (node:3128) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:40:07.076Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:40:11.106Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:40:11.107Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:40:11.110Z] [worker-pool] Shutting down IDLE worker (us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-getAuthenticatedLeagueData)"}}
+[debug] [2025-02-21T14:40:11.110Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: FINISHING"}}
+[debug] [2025-02-21T14:40:11.110Z] [worker-pool] Shutting down IDLE worker (us-central1-getAuthenticatedLeagueData) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-getAuthenticatedLeagueData)"}}
+[debug] [2025-02-21T14:40:11.110Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: FINISHING"}}
+[debug] [2025-02-21T14:40:11.128Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: exited"}}
+[debug] [2025-02-21T14:40:11.128Z] [worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-103b71cb-928e-45e6-8167-cc3cb99edc46]: FINISHED"}}
+[debug] [2025-02-21T14:40:11.128Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: exited"}}
+[debug] [2025-02-21T14:40:11.128Z] [worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-getAuthenticatedLeagueData"},"extension":{},"message":"[worker-us-central1-getAuthenticatedLeagueData-12d845f2-ca2d-4f61-a12b-0f68c8398b5b]: FINISHED"}}
+[debug] [2025-02-21T14:40:19.153Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:40:20.159Z] Validating nodejs source
+[debug] [2025-02-21T14:40:21.123Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:40:21.124Z] Building nodejs source
+[debug] [2025-02-21T14:40:21.124Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:40:21.125Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:40:21.129Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8736
+
+[error] (node:20304) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:40:21.793Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:40:22.035Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:40:23.038Z] Validating nodejs source
+[debug] [2025-02-21T14:40:23.998Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:40:23.998Z] Building nodejs source
+[debug] [2025-02-21T14:40:23.999Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:40:24.000Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:40:24.004Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8937
+
+[error] (node:37484) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:40:24.743Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:40:25.830Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:40:25.830Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:40:28.771Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:40:28.772Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:41:13.370Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:41:14.384Z] Validating nodejs source
+[debug] [2025-02-21T14:41:15.352Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:41:15.352Z] Building nodejs source
+[debug] [2025-02-21T14:41:15.353Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:41:15.354Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:41:15.360Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8336
+
+[error] (node:38140) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:41:16.004Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:41:20.025Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:41:20.025Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:41:25.300Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:41:26.303Z] Validating nodejs source
+[debug] [2025-02-21T14:41:27.547Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:41:27.548Z] Building nodejs source
+[debug] [2025-02-21T14:41:27.548Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:41:27.548Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:41:27.552Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8635
+
+[error] (node:19168) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:41:28.207Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:41:32.233Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:41:32.234Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:44:40.715Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:44:41.719Z] Validating nodejs source
+[debug] [2025-02-21T14:44:43.811Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:44:43.811Z] Building nodejs source
+[debug] [2025-02-21T14:44:43.811Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:44:43.813Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:44:43.817Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8826
+
+[error] (node:37016) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:44:44.474Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:44:48.501Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:44:48.502Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:44:54.409Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:44:55.420Z] Validating nodejs source
+[debug] [2025-02-21T14:44:56.622Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:44:56.622Z] Building nodejs source
+[debug] [2025-02-21T14:44:56.622Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:44:56.623Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:44:56.630Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8887
+
+[error] (node:25424) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:44:57.400Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:45:01.433Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:45:01.433Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:47:51.618Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:47:52.628Z] Validating nodejs source
+[debug] [2025-02-21T14:47:53.701Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:47:53.701Z] Building nodejs source
+[debug] [2025-02-21T14:47:53.701Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:47:53.702Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:47:53.706Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8438
+
+[error] (node:30904) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:47:54.453Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:47:55.909Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:47:56.914Z] Validating nodejs source
+[debug] [2025-02-21T14:47:58.002Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:47:58.003Z] Building nodejs source
+[debug] [2025-02-21T14:47:58.003Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:47:58.004Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:47:58.010Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8510
+
+[debug] [2025-02-21T14:47:58.483Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:47:58.484Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[error] (node:39808) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:47:58.826Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:48:02.845Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:48:02.845Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:49:20.409Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:49:21.417Z] Validating nodejs source
+[debug] [2025-02-21T14:49:22.635Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:49:22.635Z] Building nodejs source
+[debug] [2025-02-21T14:49:22.635Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:49:22.636Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:49:22.641Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8886
+
+[error] (node:28868) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:49:23.411Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:49:27.448Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:49:27.449Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:49:33.560Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:49:34.561Z] Validating nodejs source
+[debug] [2025-02-21T14:49:35.813Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:49:35.813Z] Building nodejs source
+[debug] [2025-02-21T14:49:35.813Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:49:35.813Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:49:35.818Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8296
+
+[error] (node:38192) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:49:36.485Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:49:40.509Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:49:40.510Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}
+[debug] [2025-02-21T14:50:10.625Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:10.629Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:10.631Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:10.631Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:10.645Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:10.645Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:50:11.656Z] Validating nodejs source
+[debug] [2025-02-21T14:50:12.676Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:50:12.676Z] Building nodejs source
+[debug] [2025-02-21T14:50:12.676Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:50:12.678Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:50:12.684Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8624
+
+[error] (node:29856) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[error] TypeError: Cannot read properties of undefined (reading 'onRequest')
+    at Object.<anonymous> (C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js:40:45)
+    at Module._compile (node:internal/modules/cjs/loader:1562:14)
+    at Object..js (node:internal/modules/cjs/loader:1699:10)
+    at Module.load (node:internal/modules/cjs/loader:1313:32)
+    at Function._load (node:internal/modules/cjs/loader:1123:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:217:24)
+    at Module.require (node:internal/modules/cjs/loader:1335:12)
+    at require (node:internal/modules/helpers:136:16)
+    at loadModule (C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\firebase-functions\lib\runtime\loader.js:40:16)
+
+[debug] [2025-02-21T14:50:13.414Z] Got response code 400; body Failed to generate manifest from function source: TypeError: Cannot read properties of undefined (reading 'onRequest')
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error"}}
+[debug] [2025-02-21T14:51:37.072Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\src\index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\src\\index.ts changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:38.079Z] Validating nodejs source
+[debug] [2025-02-21T14:51:39.156Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:51:39.157Z] Building nodejs source
+[debug] [2025-02-21T14:51:39.157Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:51:39.157Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:51:39.161Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8565
+
+[error] (node:41676) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[error] TypeError: Cannot read properties of undefined (reading 'onRequest')
+    at Object.<anonymous> (C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js:40:45)
+    at Module._compile (node:internal/modules/cjs/loader:1562:14)
+    at Object..js (node:internal/modules/cjs/loader:1699:10)
+    at Module.load (node:internal/modules/cjs/loader:1313:32)
+    at Function._load (node:internal/modules/cjs/loader:1123:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:217:24)
+    at Module.require (node:internal/modules/cjs/loader:1335:12)
+    at require (node:internal/modules/helpers:136:16)
+    at loadModule (C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\firebase-functions\lib\runtime\loader.js:40:16)
+
+[debug] [2025-02-21T14:51:39.761Z] Got response code 400; body Failed to generate manifest from function source: TypeError: Cannot read properties of undefined (reading 'onRequest')
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error"}}
+[debug] [2025-02-21T14:51:48.581Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:48.581Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\authTriggers.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\authTriggers.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:48.584Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:48.584Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\firebase-config.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\firebase-config.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:48.599Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js.map changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:48.599Z] File C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\lib\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\quokka\\Documents\\Engineering Fun\\muni_fullstack\\packages\\functions\\lib\\index.js changed, reloading triggers"}}
+[debug] [2025-02-21T14:51:49.604Z] Validating nodejs source
+[debug] [2025-02-21T14:51:50.779Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-21T14:51:50.779Z] Building nodejs source
+[debug] [2025-02-21T14:51:50.779Z] Failed to find version of module node: reached end of search path C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\packages\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-02-21T14:51:50.781Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-21T14:51:50.785Z] Found firebase-functions binary at 'C:\Users\quokka\Documents\Engineering Fun\muni_fullstack\node_modules\.bin\firebase-functions'
+[info] Serving at port 8443
+
+[error] (node:39392) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-02-21T14:51:51.573Z] Got response from /__/functions.yaml {"endpoints":{"getPublicLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"getPublicLeagueData"},"getAuthenticatedLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAuthenticatedLeagueData"},"getSubscriberLeagueData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getSubscriberLeagueData"},"handleNewUser":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"eventTrigger":{"eventType":"google.cloud.firestore.document.v1.created","eventFilters":{"database":"(default)","namespace":"(default)"},"eventFilterPathPatterns":{"document":"users/{userId}"},"retry":false},"entryPoint":"handleNewUser"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-02-21T14:51:55.604Z] defaultcredentials: writing to file C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json
+[debug] [2025-02-21T14:51:55.605Z] Setting GAC to C:\Users\quokka\AppData\Roaming\firebase\devon_beepboop_us_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\quokka\\AppData\\Roaming\\firebase\\devon_beepboop_us_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: getPublicLeagueData, getAuthenticatedLeagueData, getSubscriberLeagueData, handleNewUser."}}

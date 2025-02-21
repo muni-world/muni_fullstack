@@ -8,7 +8,8 @@ export const handleNewUser = onDocumentCreated("users/{userId}",
 
     try {
       await snapshot.ref.update({
-        joinDate: FieldValue.serverTimestamp(),
+        userId: event.params.userId,
+        authenticatedDate: FieldValue.serverTimestamp(),
         userType: "free"
       });
     } catch (error) {

@@ -5,12 +5,11 @@ service cloud.firestore {
       allow create: if 
         userId == request.auth.uid &&
         request.resource.data.keys().hasOnly([
+          "email",
           "firstName", 
-          "lastName",
-          "userType",
-          "joinDate"
+          "lastName"
         ]) &&
-        request.resource.data.userType == "free";
+        request.resource.data.userId == userId;
       
       allow update: if 
         userId == request.auth.uid &&
