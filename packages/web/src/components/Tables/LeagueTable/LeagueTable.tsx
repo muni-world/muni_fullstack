@@ -207,11 +207,6 @@ const LeagueTable: React.FC = () => {
    * @param data - Array of ManagerData objects to process.
    * @returns A filtered and sorted array of ManagerData.
    */
-  const sortDataDescending = (data: ManagerData[]): ManagerData[] => {
-    return [...data]
-      .sort((a, b) => b.totalPar - a.totalPar)
-      .filter((item) => !(item.manager === "Unknown Manager" && item.totalPar === 0));
-  };
 
   // Replace useEffect with this version
   useEffect(() => {
