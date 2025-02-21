@@ -1,6 +1,17 @@
 {
   "functions": {
-    "source": "packages/functions"
+    "source": "packages/functions",
+    "ignore": [
+      "node_modules",
+      "**/node_modules/**",
+      "**/.*",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "*.local",
+      ".env",
+      "**/*.test.ts",
+      ".runtimeconfig.json"
+    ]
   },
   "emulators": {
     "auth": {
@@ -20,9 +31,12 @@
   "hosting": {
     "public": "packages/web/build",
     "ignore": [
-      "firebase.json",
+      "node_modules",
+      "**/node_modules/**",
       "**/.*",
-      "**/node_modules/**"
+      "firebase.json",
+      "*.local",
+      ".env"
     ],
     "rewrites": [
       {
