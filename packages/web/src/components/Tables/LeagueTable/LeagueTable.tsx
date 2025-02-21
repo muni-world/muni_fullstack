@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase-config";
+import { httpsCallable, getFunctions } from "firebase/functions";
+import { auth } from "../../../firebase-config";
+import { checkUserSubscription } from "../../../services/userService";
 
 // Add these MUI imports
 import {
@@ -211,91 +212,50 @@ const LeagueTable: React.FC = () => {
       .filter((item) => !(item.manager === "Unknown Manager" && item.totalPar === 0));
   };
 
-  // useEffect hook to fetch deal data from Firestore once when the component mounts.
+  // Replace useEffect with this version
   useEffect(() => {
-    /**
-     * Asynchronously fetches par values for each manager from the "deals" collection,
-     * aggregates par values, filters and sorts the manager data, and updates component state.
-     */
-    const fetchParValues = async () => {
+    const fetchData = async () => {
       try {
-        // Get a reference to the "deals" collection.
-        const dealsRef = collection(db, "deals");
-        // Retrieve all documents within the collection.
-        const querySnapshot = await getDocs(dealsRef);
+        const functions = getFunctions();
         
-        // Debug: Log the number of documents found.
-        console.log("Documents found:", querySnapshot.size);
-
-        // Object to accumulate the total par and underwriter fees for each manager
-        const managerTotals: { 
-          [key: string]: { 
-            par: number; 
-            fee: number;
-            deals: DealData[];
-          } 
-        } = {};
-
-        // Iterate through each document in the snapshot
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const manager = data.lead_managers?.[0] || "Unknown Manager";
+        // Determine user status
+        const user = auth.currentUser;
+        let data;
+        
+        if (user) {
+          const isSubscriber = await checkUserSubscription(user.uid);
           
-          // Initialize the manager entry if it doesn't exist
-          if (!managerTotals[manager]) {
-            managerTotals[manager] = { par: 0, fee: 0, deals: [] };
+          if (isSubscriber) {
+            const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
+            data = (await subscriberData()).data;
+          } else {
+            const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
+            data = (await authData()).data;
           }
-          
-          // Accumulate the par value
-          managerTotals[manager].par += data.total_par || 0;
-          
-          // Accumulate the underwriter fee if it exists
-          const underwriterFee = data.underwriter_fee?.total || 0;
-          managerTotals[manager].fee += underwriterFee;
+        } else {
+          // Public data fetch
+          const publicResponse = await fetch("YOUR_PUBLIC_FUNCTION_URL");
+          const publicData = await publicResponse.json();
+          data = publicData.data;
+        }
 
-          // Store deal information
-          managerTotals[manager].deals.push({
-            series_name_obligor: data.series_name_obligor || "Unknown Series",
-            total_par: data.total_par || 0,
-            underwriter_fee: {
-              total: data.underwriter_fee?.total || 0,
-            },
-            emma_os_url: data.emma_os_url || null, // Add PDF URL from Firestore
-          });
-        });
+        // Process and set state
+        const processedData = data.map((manager: any) => ({
+          ...manager,
+          totalPar: Number(manager.totalPar.replace(/,/g, '')),
+          underwriterFee: Number(manager.underwriterFee.replace(/,/g, ''))
+        }));
 
-        // Convert the accumulated totals into an array of ManagerData objects
-        let managerArray: ManagerData[] = Object.entries(managerTotals).map(
-          ([manager, totals]) => ({
-            manager,
-            totalPar: totals.par,
-            underwriterFee: totals.fee,
-            deals: totals.deals,
-          })
-        );
-
-        // Calculate the overall total par value across all managers
-        const overallTotalPar = Object.values(managerTotals).reduce(
-          (sum, val) => sum + val.par,
-          0
-        );
-
-        // Sort the array in descending order and filter out "Unknown Manager" with a zero total.
-        managerArray = sortDataDescending(managerArray);
-
-        // Update the state with the processed manager data and overall total par.
-        setManagerData(managerArray);
-        setTotalPar(overallTotalPar);
-
-        // Debug: Log the overall total par value.
-        console.log("Total par value across all managers:", overallTotalPar);
-      }
-      catch (error) {
-        console.error("Error fetching par values:", error);
+        setManagerData(processedData);
+        setTotalPar(processedData.reduce((sum: number, val: any) => sum + val.totalPar, 0));
+        
+      } catch (error) {
+        console.error("Data fetch failed:", error);
+        // Handle errors appropriately
       }
     };
 
-    fetchParValues();
+    fetchData();
   }, []);
 
   // Render the component UI.

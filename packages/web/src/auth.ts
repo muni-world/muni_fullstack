@@ -20,9 +20,12 @@ export const signUp = async (
   lastName: string
 ) => {
   try {
+    // Convert email to lowercase like making all text small letters
+    const normalizedEmail = email.toLowerCase();
+
     const userCredential = await createUserWithEmailAndPassword(
-      auth, 
-      email, 
+      auth,
+      normalizedEmail, // Use lowercase version for auth
       password
     );
     
@@ -33,8 +36,9 @@ export const signUp = async (
     await setDoc(userDocRef, {
       firstName,
       lastName,
+      email: normalizedEmail, // Store lowercase version in database
       userType: "free",
-      joinDate: new Date()
+      authenticatedDate: new Date()
     });
 
     console.log("User created successfully:", userCredential.user.uid);
