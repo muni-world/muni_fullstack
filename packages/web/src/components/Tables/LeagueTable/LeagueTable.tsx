@@ -234,12 +234,24 @@ const LeagueTable: React.FC = () => {
             data = (await authData()).data;
           }
         } else {
-          // Public data fetch
+          // Public data fetch - Fixed version
           const functionUrl = process.env.NODE_ENV === "development" 
             ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
             : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
 
-          const publicResponse = await fetch(functionUrl);
+          // Add error handling for fetch
+          const publicResponse = await fetch(functionUrl, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          // Check if response is OK before parsing
+          if (!publicResponse.ok) {
+            throw new Error(`HTTP error! status: ${publicResponse.status}`);
+          }
+
           const publicData = await publicResponse.json();
           data = publicData.data;
         }
@@ -256,7 +268,9 @@ const LeagueTable: React.FC = () => {
         
       } catch (error) {
         console.error("Data fetch failed:", error);
-        // Handle errors appropriately
+        // Add user-friendly error handling
+        setManagerData([]);
+        setTotalPar(0);
       }
     };
 

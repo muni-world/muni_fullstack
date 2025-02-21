@@ -1,5 +1,5 @@
 import React from "react";
-import { LeagueTable, OsTypeTable, UniqueParticipants } from "./components/Tables";
+import { TestTable } from "./components/Tables/";
 import { 
   Container, 
   Paper,
@@ -52,7 +52,10 @@ const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const MainContent: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-      <Paper 
+      <Paper>
+        <TestTable />
+      </Paper>
+      {/* <Paper 
         elevation={1} 
         sx={{ 
           p: { xs: 1, sm: 3 },
@@ -80,7 +83,7 @@ const MainContent: React.FC = () => {
         }}
       >
         <UniqueParticipants />
-      </Paper>
+      </Paper> */}
     </Container>
   );
 };
