@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { httpsCallable, getFunctions } from "firebase/functions";
-import { auth } from "../../../firebase-config";
+import { auth } from "../../../firebaseConfig";
 import { checkUserSubscription } from "../../../services/userService";
+import { firebaseConfig } from "../../../firebaseConfig";
 
 // Add these MUI imports
 import {
@@ -234,7 +235,11 @@ const LeagueTable: React.FC = () => {
           }
         } else {
           // Public data fetch
-          const publicResponse = await fetch("YOUR_PUBLIC_FUNCTION_URL");
+          const functionUrl = process.env.NODE_ENV === "development" 
+            ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
+            : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
+
+          const publicResponse = await fetch(functionUrl);
           const publicData = await publicResponse.json();
           data = publicData.data;
         }

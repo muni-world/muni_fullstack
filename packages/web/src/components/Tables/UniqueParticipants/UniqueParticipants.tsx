@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase-config";
+import { db } from "../../../firebaseConfig";
 
 /**
  * Interface for storing unique participant lists

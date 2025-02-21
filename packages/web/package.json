@@ -23,6 +23,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:emulators": "REACT_APP_USE_EMULATORS=true npm start",
+    "start:prod": "REACT_APP_USE_EMULATORS=false npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
