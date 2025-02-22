@@ -1,6 +1,6 @@
 {
   "functions": {
-    "source": "packages/functions",
+    "source": "packages/functions/lib",
     "ignore": [
       "node_modules",
       "**/node_modules/**",
