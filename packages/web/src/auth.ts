@@ -25,15 +25,16 @@ export const signUp = async (
 
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      normalizedEmail, // Use lowercase version for auth
+      normalizedEmail,
       password
     );
     
     // Reference to the user's document
     const userDocRef = doc(db, "users", userCredential.user.uid);
     
-    // Set initial user document
+    // Set initial user document including userId so that the Firestore rules are met.
     await setDoc(userDocRef, {
+      userId: userCredential.user.uid,
       firstName,
       lastName,
       email: normalizedEmail
@@ -57,7 +58,7 @@ export const logIn = async (email: string, password: string) => {
     console.log("User logged in:", userCredential.user);
   } catch (error) {
     console.error("Error logging in:", error);
-    throw error; // Added error throwing
+    throw error;
   }
 };
 
@@ -70,6 +71,6 @@ export const logOut = async () => {
     console.log("User logged out");
   } catch (error) {
     console.error("Error logging out:", error);
-    throw error; // Added error throwing
+    throw error;
   }
 }; 
