@@ -12,13 +12,13 @@ import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
  * Contains the necessary credentials and settings for Firebase initialization
  */
 export const firebaseConfig = {
-  apiKey: "AIzaSyBIrT2vge5A4UGTHwFLF9pU0H9Yx1hN3yE",
+  apiKey: "AIzaSyBfVNmAgdUOaczJs0QSbJggaW3IykSKs6w",
   authDomain: "muni-b3209.firebaseapp.com",
   projectId: "muni-b3209",
   storageBucket: "muni-b3209.firebasestorage.app",
   messagingSenderId: "677615931506",
-  appId: "1:677615931506:web:15d11b6b5a4cc1925ef2eb",
-  measurementId: "G-HWYNDE4STV"
+  appId: "1:677615931506:web:e7dd82988bd697c65ef2eb",
+  measurementId: "G-B1W901R5H7"
 };
 
 // Initialize Firebase
