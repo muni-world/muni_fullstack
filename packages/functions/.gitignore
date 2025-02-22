@@ -1,7 +1,3 @@
-# Compiled JavaScript files
-lib/**/*.js
-lib/**/*.js.map
-
 # TypeScript v1 declaration files
 typings/
 
@@ -17,5 +13,4 @@ firestore-debug.log
 # Ignore all log files
 *.log
 
-# Ignore all files in the lib directory
-packages/functions/lib/*
+lib/serviceAccountKey.json

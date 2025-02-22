@@ -22,6 +22,3 @@ firestore-debug.log
 
 # Ignore all log files
 *.log
-
-# Ignore all files in the lib directory
-packages/web/src/lib/*
