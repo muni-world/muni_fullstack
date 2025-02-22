@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   createTheme,
   CssBaseline,
+  Toolbar,
 } from "@mui/material";
 import { 
   BrowserRouter, 
@@ -100,6 +101,7 @@ const App: React.FC = () => {
           <CssBaseline />
           <Box sx={{ flexGrow: 1 }}>
             <NavBar />
+            <Toolbar />
             <Routes>
               <Route 
                 path="/auth" 
