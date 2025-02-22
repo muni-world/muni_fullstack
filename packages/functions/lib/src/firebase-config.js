@@ -1,18 +1,12 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.db = void 0;
-const app_1 = require("firebase-admin/app");
-const firestore_1 = require("firebase-admin/firestore");
-const serviceAccountKey_json_1 = __importDefault(require("../serviceAccountKey.json"));
-(0, app_1.initializeApp)({
-    credential: (0, app_1.cert)({
-        projectId: serviceAccountKey_json_1.default.project_id,
-        clientEmail: serviceAccountKey_json_1.default.client_email,
-        privateKey: serviceAccountKey_json_1.default.private_key,
+import { initializeApp, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
+import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
+initializeApp({
+    credential: cert({
+        projectId: serviceAccount.project_id,
+        clientEmail: serviceAccount.client_email,
+        privateKey: serviceAccount.private_key,
     }),
 });
-exports.db = (0, firestore_1.getFirestore)();
+export const db = getFirestore();
 //# sourceMappingURL=firebase-config.js.map

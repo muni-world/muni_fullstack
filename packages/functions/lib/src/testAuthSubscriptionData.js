@@ -1,4 +1,3 @@
-"use strict";
 /**
  * This Cloud Function retrieves test data from the "deals" collection based on the user's
  * authentication status and subscription status.
@@ -10,33 +9,8 @@
  * In production, this connection points to your live Firestore database.
  * Use environment variables (e.g. REACT_APP_USE_EMULATORS) to control emulator usage.
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.testAuthSubscriptionData = void 0;
-const https_1 = require("firebase-functions/v2/https");
-const admin = __importStar(require("firebase-admin"));
+import { onCall, HttpsError } from "firebase-functions/v2/https";
+import * as admin from "firebase-admin";
 // Initialize Firebase Admin if it hasn't been already.
 if (!admin.apps.length) {
     admin.initializeApp();
@@ -48,7 +22,7 @@ if (!admin.apps.length) {
  * @returns {Promise<{success: boolean, userType: string, data: TestDataRow[]}>} The response object with status, user type, and the data array.
  * @throws {HttpsError} Throws an error if data fetching fails.
  */
-exports.testAuthSubscriptionData = (0, https_1.onCall)(async (request) => {
+export const testAuthSubscriptionData = onCall(async (request) => {
     // Determine user's subscription status.
     // If no auth info exists, user is considered unauthenticated.
     let userType = "unauthenticated";
@@ -112,7 +86,7 @@ exports.testAuthSubscriptionData = (0, https_1.onCall)(async (request) => {
     catch (error) {
         // Log the error to the console and throw an HttpsError.
         console.error("Error fetching data:", error);
-        throw new https_1.HttpsError("internal", "Error fetching data");
+        throw new HttpsError("internal", "Error fetching data");
     }
 });
 //# sourceMappingURL=testAuthSubscriptionData.js.map

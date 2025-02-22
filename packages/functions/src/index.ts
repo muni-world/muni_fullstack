@@ -4,7 +4,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import {handleNewUser} from "./authTriggers";
+import {handleNewUser} from "./authTriggers.js";
 import {onRequest, onCall, HttpsError} from "firebase-functions/v2/https";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
