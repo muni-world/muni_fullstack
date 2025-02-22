@@ -13,3 +13,9 @@ src/firebase-config.ts
 
 serviceAccountKey.json
 firestore-debug.log
+
+# Ignore all log files
+*.log
+
+# Ignore all files in the lib directory
+packages/functions/lib/*

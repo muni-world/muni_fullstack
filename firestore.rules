@@ -7,7 +7,8 @@ service cloud.firestore {
         request.resource.data.keys().hasOnly([
           "email",
           "firstName", 
-          "lastName"
+          "lastName",
+          "userId"
         ]) &&
         request.resource.data.userId == userId;
       
