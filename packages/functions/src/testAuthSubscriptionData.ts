@@ -30,37 +30,29 @@ interface TestDataRow {
 
 /**
  * Callable Cloud Function to test authentication and subscription data.
- *
- * @param {object} request - The request object containing the client's data and auth info.
- * @returns {Promise<{success: boolean, userType: string, data: TestDataRow[]}>} The response object with status, user type, and the data array.
- * @throws {HttpsError} Throws an error if data fetching fails.
+ * Firebase Functions v2 automatically apply CORS headers when using onCall.
+ * The addition of { ingressSettings: "ALLOW_ALL" } ensures that requests
+ * from any origin (e.g. from localhost:3000 during development) are allowed.
  */
-export const testAuthSubscriptionData = onCall(async (request) =>
-{
-  // Determine user's subscription status.
-  // If no auth info exists, user is considered unauthenticated.
-  let userType: string = "unauthenticated";
+export const testAuthSubscriptionData = onCall(
+  { ingressSettings: "ALLOW_ALL" },
+  async (request) => {
+    try {
+      let userType = "unauthenticated";
 
-  try
-  {
-    // Check if the request has valid authentication data.
-    if (request.auth)
-    {
-      // If authenticated, fetch the user's document from the "users" collection.
+    // Access auth via request.auth (Firebase v2 style)
+    if (request.auth) {
       const userDoc = await admin
         .firestore()
         .collection("users")
         .doc(request.auth.uid)
         .get();
-      if (userDoc.exists)
-      {
+
+      if (userDoc.exists) {
         const userData = userDoc.data();
-        // Only "free" or "subscriber" are valid types.
-        // Default to "free" unless the user's type is "subscriber".
+        // Determine user type: if 'subscriber', then use that; otherwise default to 'free'
         userType = userData && userData.userType === "subscriber" ? "subscriber" : "free";
-      }
-      else
-      {
+      } else {
         userType = "free";
       }
     }
@@ -69,55 +61,41 @@ export const testAuthSubscriptionData = onCall(async (request) =>
     const dealsSnapshot = await admin.firestore().collection("deals").get();
     const result: TestDataRow[] = [];
 
-    // Process each document in the snapshot.
-    dealsSnapshot.forEach((doc) =>
-    {
+    // Process each document.
+    dealsSnapshot.forEach((doc) => {
       const deal = doc.data();
 
-      // Basic validation: check if the "issuer" field exists.
-      if (!deal.issuer)
-      {
-        return;
-      }
+      // Skip documents without an issuer.
+      if (!deal.issuer) return;
 
-      // Create a row with the issuer field.
-      const row: TestDataRow = {
-        issuer: deal.issuer,
-      };
+      const row: TestDataRow = { issuer: deal.issuer };
 
-      // For authenticated users (free or subscriber), include total_par.
-      if (userType === "free" || userType === "subscriber")
-      {
+      // Include total_par for free or subscriber users.
+      if (userType === "free" || userType === "subscriber") {
         row.total_par =
-          typeof deal.total_par === "number"
-            ? deal.total_par
-            : Number(deal.total_par || 0);
+          typeof deal.total_par === "number" ? deal.total_par : Number(deal.total_par || 0);
       }
 
-      // For subscribers, include underwriters_fee_total.
-      if (userType === "subscriber")
-      {
+      // Include underwriters_fee_total for subscribers.
+      if (userType === "subscriber") {
         row.underwriters_fee_total =
-          typeof deal.underwriter_fee_total === "number"
-            ? deal.underwriter_fee_total
-            : Number(deal.underwriter_fee_total || 0);
+          typeof deal.underwriters_fee_total === "number"
+            ? deal.underwriters_fee_total
+            : Number(deal.underwriters_fee_total || 0);
       }
 
-      // Add the row to the result array.
       result.push(row);
     });
 
-    // Return a success response containing the userType and retrieved data.
-    return {
-      success: true,
-      userType: userType,
-      data: result,
-    };
+      // Return the success response.
+      return {
+        success: true,
+        userType,
+        data: result,
+      };
+    } catch (error) {
+      console.error("Error:", error);
+      throw new HttpsError("internal", "Something went wrong");
+    }
   }
-  catch (error)
-  {
-    // Log the error to the console and throw an HttpsError.
-    console.error("Error fetching data:", error);
-    throw new HttpsError("internal", "Error fetching data");
-  }
-}); 
+);

@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === "development")
  */
 const testAuthData = httpsCallable<{}, TestAuthResponse>(
   functions,
-  "testAuthData"
+  "testAuthSubscriptionData"
 );
 
 /**
@@ -89,30 +89,24 @@ const TestTable: React.FC = () =>
     {
       try
       {
-        // Call the cloud function.
         const result = await testAuthData();
-        // Check if the response contains the expected data and success flag.
-        if (result.data && result.data.success)
+        if (result.data?.success)
         {
-          // Update state based on the response.
           setUserType(result.data.userType);
           setRows(result.data.data);
         }
         else
         {
-          // If the response is not valid, set an error message.
-          setError("No data returned");
+          setError("Server responded but no data");
         }
       }
       catch (err: any)
       {
-        // Log the error and update the error state.
-        console.error("Error fetching test data:", err);
-        setError(err.message || "Error fetching data");
+        console.error("Full error object:", err);
+        setError(err.message || "Connection failed - check console");
       }
       finally
       {
-        // Stop the loading spinner.
         setLoading(false);
       }
     };
