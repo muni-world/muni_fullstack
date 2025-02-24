@@ -24,24 +24,18 @@ export const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize services
-const db = getFirestore(app);
+// Get service instances
 const auth = getAuth(app);
 const functions = getFunctions(app);
+const firestore = getFirestore(app);
 
-// Emulator connection control
-const USE_EMULATORS = process.env.REACT_APP_USE_EMULATORS === "true";
-
-if (USE_EMULATORS || process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8080);
+// Connect to emulators in development
+if (process.env.NODE_ENV === "development") {
   connectAuthEmulator(auth, "http://localhost:9099");
   connectFunctionsEmulator(functions, "localhost", 5001);
-  
-  console.log("🔥 Using Firebase emulators");
-} else {
-  console.log("🚀 Connected to production Firebase services");
+  connectFirestoreEmulator(firestore, "localhost", 8080);
 }
 
 // Export initialized services
-export { db, auth, functions };
+export { auth, functions, firestore };
 export default app;

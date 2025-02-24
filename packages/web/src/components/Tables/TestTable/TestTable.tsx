@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { httpsCallable, getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
 
 import {
   Paper,
@@ -18,6 +18,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
+import { functions } from "../../../firebaseConfig";
 
 /**
  * Interface describing the expected structure of the cloud function's response.
@@ -38,23 +40,13 @@ interface TestDataRow {
   underwriters_fee_total?: number;
 }
 
-// Get a reference to the Firebase Functions instance.
-const functions = getFunctions();
-
-// When running locally, connect to the functions emulator to avoid CORS issues.
-// This tells Firebase to target the local endpoint (http://localhost:5001) instead of production.
-if (process.env.NODE_ENV === "development")
-{
-  connectFunctionsEmulator(functions, "localhost", 5001);
-}
-
 /**
  * Create the callable cloud function with the expected response type.
  * With this, TypeScript now knows that the function will return data adhering to TestAuthResponse.
  */
 const testAuthData = httpsCallable<{}, TestAuthResponse>(
   functions,
-  "testAuthData"
+  "testAuthSubscriptionData"
 );
 
 /**
@@ -89,30 +81,21 @@ const TestTable: React.FC = () =>
     {
       try
       {
-        // Call the cloud function.
-        const result = await testAuthData();
-        // Check if the response contains the expected data and success flag.
-        if (result.data && result.data.success)
-        {
-          // Update state based on the response.
-          setUserType(result.data.userType);
-          setRows(result.data.data);
+        const response = await testAuthData();
+        
+        if (!response.data.success) {
+          throw new Error("Failed to fetch data");
         }
-        else
-        {
-          // If the response is not valid, set an error message.
-          setError("No data returned");
-        }
+        
+        setRows(response.data.data);
+        setUserType(response.data.userType);
       }
-      catch (err: any)
-      {
-        // Log the error and update the error state.
-        console.error("Error fetching test data:", err);
-        setError(err.message || "Error fetching data");
+      catch (error) {
+        console.error("Full error object:", error);
+        setError("Failed to fetch data. Please try again later.");
       }
       finally
       {
-        // Stop the loading spinner.
         setLoading(false);
       }
     };

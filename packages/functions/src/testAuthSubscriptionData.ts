@@ -11,13 +11,7 @@
  */
 
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import * as admin from "firebase-admin";
-
-// Initialize Firebase Admin if it hasn't been already.
-if (!admin.apps.length)
-{
-  admin.initializeApp();
-}
+import { db } from "./adminConfig.js";
 
 /**
  * Interface for each data row returned.
@@ -30,94 +24,63 @@ interface TestDataRow {
 
 /**
  * Callable Cloud Function to test authentication and subscription data.
- *
- * @param {object} request - The request object containing the client's data and auth info.
- * @returns {Promise<{success: boolean, userType: string, data: TestDataRow[]}>} The response object with status, user type, and the data array.
- * @throws {HttpsError} Throws an error if data fetching fails.
+ * Firebase Functions v2 automatically apply CORS headers when using onCall.
+ * The addition of { ingressSettings: "ALLOW_ALL" } ensures that requests
+ * from any origin (e.g. from localhost:3000 during development) are allowed.
  */
-export const testAuthSubscriptionData = onCall(async (request) =>
-{
-  // Determine user's subscription status.
-  // If no auth info exists, user is considered unauthenticated.
-  let userType: string = "unauthenticated";
+export const testAuthSubscriptionData = onCall(
+  { ingressSettings: "ALLOW_ALL" },
+  async (request) => {
+    try {
+      let userType = "unauthenticated";
 
-  try
-  {
-    // Check if the request has valid authentication data.
-    if (request.auth)
-    {
-      // If authenticated, fetch the user's document from the "users" collection.
-      const userDoc = await admin
-        .firestore()
-        .collection("users")
-        .doc(request.auth.uid)
-        .get();
-      if (userDoc.exists)
-      {
-        const userData = userDoc.data();
-        // Only "free" or "subscriber" are valid types.
-        // Default to "free" unless the user's type is "subscriber".
-        userType = userData && userData.userType === "subscriber" ? "subscriber" : "free";
-      }
-      else
-      {
-        userType = "free";
-      }
-    }
+      if (request.auth) {
+        const userDoc = await db
+          .collection("users")
+          .doc(request.auth.uid)
+          .get();
 
-    // Query the "deals" collection.
-    const dealsSnapshot = await admin.firestore().collection("deals").get();
-    const result: TestDataRow[] = [];
-
-    // Process each document in the snapshot.
-    dealsSnapshot.forEach((doc) =>
-    {
-      const deal = doc.data();
-
-      // Basic validation: check if the "issuer" field exists.
-      if (!deal.issuer)
-      {
-        return;
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          userType = userData && userData.userType === "subscriber" ? "subscriber" : "free";
+        } else {
+          userType = "free";
+        }
       }
 
-      // Create a row with the issuer field.
-      const row: TestDataRow = {
-        issuer: deal.issuer,
+      const dealsSnapshot = await db.collection("deals").get();
+      const result: TestDataRow[] = [];
+
+      dealsSnapshot.forEach((doc) => {
+        const deal = doc.data();
+
+        if (!deal.issuer) return;
+
+        const row: TestDataRow = { issuer: deal.issuer };
+
+        if (userType === "free" || userType === "subscriber") {
+          row.total_par =
+            typeof deal.total_par === "number" ? deal.total_par : Number(deal.total_par || 0);
+        }
+
+        if (userType === "subscriber") {
+          row.underwriters_fee_total =
+            typeof deal.underwriter_fee?.total === "number"
+              ? deal.underwriter_fee.total
+              : Number(deal.underwriter_fee?.total || 0);
+        }
+
+        result.push(row);
+      });
+
+      return {
+        success: true,
+        userType,
+        data: result,
       };
-
-      // For authenticated users (free or subscriber), include total_par.
-      if (userType === "free" || userType === "subscriber")
-      {
-        row.total_par =
-          typeof deal.total_par === "number"
-            ? deal.total_par
-            : Number(deal.total_par || 0);
-      }
-
-      // For subscribers, include underwriters_fee_total.
-      if (userType === "subscriber")
-      {
-        row.underwriters_fee_total =
-          typeof deal.underwriter_fee_total === "number"
-            ? deal.underwriter_fee_total
-            : Number(deal.underwriter_fee_total || 0);
-      }
-
-      // Add the row to the result array.
-      result.push(row);
-    });
-
-    // Return a success response containing the userType and retrieved data.
-    return {
-      success: true,
-      userType: userType,
-      data: result,
-    };
+    } catch (error) {
+      console.error("Error:", error);
+      throw new HttpsError("internal", "Something went wrong");
+    }
   }
-  catch (error)
-  {
-    // Log the error to the console and throw an HttpsError.
-    console.error("Error fetching data:", error);
-    throw new HttpsError("internal", "Error fetching data");
-  }
-}); 
+);

@@ -8,8 +8,8 @@ export const handleNewUser = onDocumentCreated("users/{user_id}",
 
     try {
       await snapshot.ref.update({
-        join_date: FieldValue.serverTimestamp(),
-        user_type: "free",
+        joinDate: FieldValue.serverTimestamp(),
+        userType: "free",
       });
     } catch (error) {
       console.error("Error initializing user document:", error);

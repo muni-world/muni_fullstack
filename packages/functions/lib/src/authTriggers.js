@@ -1,16 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleNewUser = void 0;
-const firestore_1 = require("firebase-functions/v2/firestore");
-const firestore_2 = require("firebase-admin/firestore");
-exports.handleNewUser = (0, firestore_1.onDocumentCreated)("users/{user_id}", async (event) => {
+import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import { FieldValue } from "firebase-admin/firestore";
+export const handleNewUser = onDocumentCreated("users/{user_id}", async (event) => {
     const snapshot = event.data;
     if (!snapshot)
         return;
     try {
         await snapshot.ref.update({
-            join_date: firestore_2.FieldValue.serverTimestamp(),
-            user_type: "free",
+            joinDate: FieldValue.serverTimestamp(),
+            userType: "free",
         });
     }
     catch (error) {

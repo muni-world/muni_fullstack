@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { firestore } from "../../../firebaseConfig";
 import {
   Paper,
   Table,
@@ -80,7 +80,7 @@ const OsTypeTable: React.FC = () => {
   useEffect(() => {
     const fetchParValues = async () => {
       try {
-        const dealsRef = collection(db, "deals");
+        const dealsRef = collection(firestore, "deals");
         const querySnapshot = await getDocs(dealsRef);
         
         const osTypeTotals: { [key: string]: { par: number; fee: number } } = {};

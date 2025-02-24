@@ -1,4 +1,4 @@
-import { auth, db } from "./firebaseConfig";
+import { auth, firestore } from "./firebaseConfig";
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -30,7 +30,7 @@ export const signUp = async (
     );
     
     // Reference to the user's document
-    const userDocRef = doc(db, "users", userCredential.user.uid);
+    const userDocRef = doc(firestore, "users", userCredential.user.uid);
     
     // Set initial user document including userId so that the Firestore rules are met.
     await setDoc(userDocRef, {
@@ -68,7 +68,10 @@ export const logIn = async (email: string, password: string) => {
 export const logOut = async () => {
   try {
     await signOut(auth);
-    console.log("User logged out");
+    // Clear any cached data
+    localStorage.clear();
+    sessionStorage.clear();
+    console.log("Successfully logged out");
   } catch (error) {
     console.error("Error logging out:", error);
     throw error;

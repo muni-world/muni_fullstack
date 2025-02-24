@@ -1,4 +1,4 @@
-import { db } from "../firebaseConfig";
+import { firestore } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 
 /**
@@ -14,7 +14,7 @@ export type UserType = "free" | "authenticated" | "subscriber";
 export const checkUserSubscription = async (userId: string): Promise<boolean> => {
   try {
     // Get user document from Firestore
-    const userDoc = await getDoc(doc(db, "users", userId));
+    const userDoc = await getDoc(doc(firestore, "users", userId));
     
     if (!userDoc.exists()) {
       console.error("User document not found");
@@ -37,7 +37,7 @@ export const checkUserSubscription = async (userId: string): Promise<boolean> =>
  */
 export const getUserAccessLevel = async (userId: string): Promise<UserType> => {
   try {
-    const userDoc = await getDoc(doc(db, "users", userId));
+    const userDoc = await getDoc(doc(firestore, "users", userId));
     
     if (!userDoc.exists()) {
       return "free";
