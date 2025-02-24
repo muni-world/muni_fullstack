@@ -1,4 +1,4 @@
-import { auth, db } from "./firebaseConfig";
+import { auth, firestore } from "./firebaseConfig";
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -30,7 +30,7 @@ export const signUp = async (
     );
     
     // Reference to the user's document
-    const userDocRef = doc(db, "users", userCredential.user.uid);
+    const userDocRef = doc(firestore, "users", userCredential.user.uid);
     
     // Set initial user document including userId so that the Firestore rules are met.
     await setDoc(userDocRef, {

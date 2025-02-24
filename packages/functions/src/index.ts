@@ -6,13 +6,9 @@
 
 import {handleNewUser} from "./authTriggers.js";
 import {onRequest, onCall, HttpsError} from "firebase-functions/v2/https";
-import {initializeApp} from "firebase-admin/app";
-import {getFirestore} from "firebase-admin/firestore";
 import {getAuth} from "firebase-admin/auth";
+import { db } from "./adminConfig.js";
 
-// Initialize Firebase Admin
-initializeApp();
-const db = getFirestore();
 const auth = getAuth();
 
 // Helper function to format numbers
@@ -164,3 +160,5 @@ export const getSubscriberLeagueData = onCall(async (request) => {
 });
 
 export {handleNewUser};
+
+export { testAuthSubscriptionData } from "./testAuthSubscriptionData.js";

@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { httpsCallable, getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
 
 import {
   Paper,
@@ -18,6 +18,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
+import { functions } from "../../../firebaseConfig";
 
 /**
  * Interface describing the expected structure of the cloud function's response.
@@ -36,16 +38,6 @@ interface TestDataRow {
   issuer: string;
   total_par?: number;
   underwriters_fee_total?: number;
-}
-
-// Get a reference to the Firebase Functions instance.
-const functions = getFunctions();
-
-// When running locally, connect to the functions emulator to avoid CORS issues.
-// This tells Firebase to target the local endpoint (http://localhost:5001) instead of production.
-if (process.env.NODE_ENV === "development")
-{
-  connectFunctionsEmulator(functions, "localhost", 5001);
 }
 
 /**
@@ -89,21 +81,18 @@ const TestTable: React.FC = () =>
     {
       try
       {
-        const result = await testAuthData();
-        if (result.data?.success)
-        {
-          setUserType(result.data.userType);
-          setRows(result.data.data);
+        const response = await testAuthData();
+        
+        if (!response.data.success) {
+          throw new Error("Failed to fetch data");
         }
-        else
-        {
-          setError("Server responded but no data");
-        }
+        
+        setRows(response.data.data);
+        setUserType(response.data.userType);
       }
-      catch (err: any)
-      {
-        console.error("Full error object:", err);
-        setError(err.message || "Connection failed - check console");
+      catch (error) {
+        console.error("Full error object:", error);
+        setError("Failed to fetch data. Please try again later.");
       }
       finally
       {

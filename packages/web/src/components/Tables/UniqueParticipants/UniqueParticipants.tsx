@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { firestore } from "../../../firebaseConfig";
 
 /**
  * Interface for storing unique participant lists
@@ -28,7 +28,7 @@ const UniqueParticipants: React.FC = () => {
   useEffect(() => {
     const fetchUniqueParticipants = async () => {
       try {
-        const dealsRef = collection(db, "deals2");
+        const dealsRef = collection(firestore, "deals2");
         const querySnapshot = await getDocs(dealsRef);
 
         // Sets to store unique values
