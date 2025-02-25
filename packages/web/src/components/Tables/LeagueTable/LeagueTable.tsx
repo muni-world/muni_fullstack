@@ -33,18 +33,17 @@ interface DealData {
   underwriter_fee: {
     total: number;
   };
-  emma_os_url?: string; // Add PDF URL field
+  emma_os_url?: string; 
 }
 
 /**
  * Interface for manager data with deals
  */
 interface ManagerData {
-  manager: string;
   leadLeftManager?: string;
   totalPar: number;
   underwriterFee: number;
-  deals: DealData[];  // Add deals array
+  deals: DealData[];
 }
 
 // Custom styled components using MUI's styled utility
@@ -113,8 +112,8 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Use leadLeftManager if available, fallback to manager
-  const displayName = manager.leadLeftManager || manager.manager || "Unknown Manager";
+  // Simplified - just use leadLeftManager or Unknown Manager
+  const displayName = manager.leadLeftManager || "Unknown Manager";
 
   return (
     <>
@@ -333,14 +332,12 @@ const LeagueTable: React.FC = () => {
             ? Number(manager.underwriterFee.replace?.(/,/g, '') || manager.underwriterFee)
             : null; // Explicitly set to null if not present
           
-          // Map leadLeftManager to manager if manager is empty
-          const managerName = manager.manager || manager.leadLeftManager || "";
-          
+          // Simplified - no more manager.manager reference
           return {
-            ...manager,
-            manager: managerName,
+            leadLeftManager: manager.leadLeftManager || "",
             totalPar,
             underwriterFee,
+            deals: manager.deals || []
           };
         });
 
@@ -348,6 +345,9 @@ const LeagueTable: React.FC = () => {
         if (processedData.length > 0) {
           console.log("Sample data entry:", processedData[0]);
         }
+
+        // Simple test to log what data is returned
+        console.log("Raw API response:", data);
 
         setManagerData(processedData);
 
@@ -433,7 +433,7 @@ const LeagueTable: React.FC = () => {
           <TableBody>
             {managerData.map((manager, index) => (
               <ManagerRow
-                key={`${manager.manager}-${index}`}
+                key={`${manager.leadLeftManager || "unknown"}-${index}`}
                 manager={manager}
                 index={index}
                 isMobile={isMobile}
