@@ -13,17 +13,11 @@ const formatNumber = (value) => {
     return value.toLocaleString("en-US", { maximumFractionDigits: 0 });
 };
 /**
- * Aggregates deal data by lead manager
- * @param {FirebaseFirestore.QuerySnapshot} snapshot - Firestore query snapshot containing deal data
- * @param {UserRole} role - User's access role (unauthenticated/authenticated/subscriber)
- * @return {Array<{
- *   leadLeftManager: string,
- *   totalPar: string,
- *   underwriterFee: string,
- *   deals: Array<Deal>
- * }>} Sorted and formatted array of manager totals
+ * Aggregates deal data by lead left manager (first in lead_managers array)
  */
 function aggregateDealsData(snapshot, role) {
+    // First, let's add some debug logging
+    console.log("Processing data for role:", role);
     const managerTotals = {};
     snapshot.forEach((doc) => {
         const dealData = doc.data();
@@ -31,23 +25,56 @@ function aggregateDealsData(snapshot, role) {
         if (!managerTotals[leadLeftManager]) {
             managerTotals[leadLeftManager] = {
                 leadLeftManager,
-                totalPar: 0,
-                underwriterFee: 0,
+                aggregatePar: 0,
+                aggregateUnderwriterFee: 0,
                 deals: [],
             };
         }
-        const filteredDeal = filterDealsData(dealData, role);
-        managerTotals[leadLeftManager].totalPar += dealData.total_par || 0;
-        managerTotals[leadLeftManager].underwriterFee += dealData.underwriter_fee?.total || 0;
-        managerTotals[leadLeftManager].deals.push(filteredDeal);
+        managerTotals[leadLeftManager].aggregatePar += dealData.total_par || 0;
+        // Make sure we're correctly adding the underwriter fee
+        if (dealData.underwriter_fee?.total) {
+            managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee.total;
+        }
+        // Only add deals for subscribers
+        if (role === 'subscriber') {
+            managerTotals[leadLeftManager].deals.push(filterDealsData(dealData, role));
+        }
     });
-    return Object.values(managerTotals)
-        .sort((a, b) => b.totalPar - a.totalPar)
-        .map((manager) => ({
-        ...manager,
-        totalPar: formatNumber(manager.totalPar),
-        underwriterFee: formatNumber(manager.underwriterFee),
-    }));
+    // Debug log before processing
+    console.log("Pre-processing totals for first manager:", Object.values(managerTotals)[0]);
+    // Convert to array and sort
+    let processedData = Object.values(managerTotals)
+        .sort((a, b) => b.aggregatePar - a.aggregatePar)
+        .map((manager) => {
+        // Base object with common fields
+        const baseData = {
+            leadLeftManager: manager.leadLeftManager,
+            aggregatePar: formatNumber(manager.aggregatePar)
+        };
+        // Add underwriter fee based on role
+        if (role === 'unauthenticated') {
+            return {
+                ...baseData,
+                aggregateUnderwriterFee: null
+            };
+        }
+        else {
+            // For authenticated and subscriber users
+            return {
+                ...baseData,
+                aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee)
+            };
+        }
+    });
+    // Debug log after processing
+    console.log("Processed data for first manager:", processedData[0]);
+    console.log("Manager data before processing:", processedData);
+    // During processing
+    console.log(`Processing ${processedData[0].leadLeftManager}:`, {
+        totalPar: processedData[0].aggregatePar,
+        totalFees: processedData[0].aggregateUnderwriterFee
+    });
+    return processedData;
 }
 const filterDealsData = (deal, role) => {
     const baseData = {
@@ -56,19 +83,22 @@ const filterDealsData = (deal, role) => {
         emma_os_url: deal.emma_os_url || undefined,
         lead_managers: deal.lead_managers,
     };
-    if (role === "authenticated") {
+    // Public users only get basic deal info
+    if (role === 'unauthenticated') {
+        return baseData;
+    }
+    // Authenticated users get underwriter fee totals
+    if (role === 'authenticated') {
         return {
             ...baseData,
             underwriter_fee: { total: deal.underwriter_fee?.total || 0 },
         };
     }
-    if (role === "subscriber") {
-        return {
-            ...baseData,
-            underwriter_fee: deal.underwriter_fee,
-        };
-    }
-    return baseData;
+    // Subscribers get everything
+    return {
+        ...baseData,
+        underwriter_fee: deal.underwriter_fee,
+    };
 };
 // Cloud Function: Public Data
 export const getPublicLeagueData = onRequest(async (req, res) => {
@@ -83,15 +113,18 @@ export const getPublicLeagueData = onRequest(async (req, res) => {
 });
 // Cloud Function: Authenticated User Data
 export const getAuthenticatedLeagueData = onCall(async (request) => {
-    // In v2, auth info is in request.auth instead of context.auth
     if (!request.auth) {
         throw new HttpsError("unauthenticated", "The function must be called while authenticated.");
     }
     try {
         const dealsSnapshot = await db.collection("deals").get();
-        return aggregateDealsData(dealsSnapshot, "authenticated");
+        // Make sure we're explicitly passing 'authenticated' as the role
+        const data = aggregateDealsData(dealsSnapshot, "authenticated");
+        console.log("Authenticated data sample:", data[0]); // Debug log
+        return data;
     }
     catch (error) {
+        console.error("Error in getAuthenticatedLeagueData:", error);
         throw new HttpsError("internal", "Something went wrong");
     }
 });
