@@ -1,5 +1,5 @@
 import React from "react";
-import { LeagueTable, TestTable } from "./components/Tables/";
+import { LeagueTable } from "./components/Tables/";
 import { 
   Container, 
   Paper,

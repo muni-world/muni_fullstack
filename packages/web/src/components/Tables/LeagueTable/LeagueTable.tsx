@@ -374,7 +374,7 @@ const LeagueTable: React.FC = () => {
     return () => {
       // Any cleanup needed
     };
-  }, []); // Empty dependency array ensures it only runs once
+  }, [loading]); // Add loading as a dependency since it's used in the effect
 
   // Render the component UI.
   return (
