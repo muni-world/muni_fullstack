@@ -41,6 +41,7 @@ interface DealData {
  */
 interface ManagerData {
   manager: string;
+  leadLeftManager?: string;
   totalPar: number;
   underwriterFee: number;
   deals: DealData[];  // Add deals array
@@ -112,6 +113,9 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
+  // Use leadLeftManager if available, fallback to manager
+  const displayName = manager.leadLeftManager || manager.manager || "Unknown Manager";
+
   return (
     <>
       <StyledTableRow>
@@ -125,7 +129,7 @@ const ManagerRow: React.FC<{
           </IconButton>
         </TableCell>
         <TableCell align="center">{index + 1}</TableCell>
-        <TableCell align="left">{manager.manager}</TableCell>
+        <TableCell align="left">{displayName}</TableCell>
         <TableCell align="right">
           {isAuthenticated ? `$${formatNumber(manager.totalPar)}` : "🔒"}
         </TableCell>
@@ -329,12 +333,21 @@ const LeagueTable: React.FC = () => {
             ? Number(manager.underwriterFee.replace?.(/,/g, '') || manager.underwriterFee)
             : null; // Explicitly set to null if not present
           
+          // Map leadLeftManager to manager if manager is empty
+          const managerName = manager.manager || manager.leadLeftManager || "";
+          
           return {
             ...manager,
+            manager: managerName,
             totalPar,
             underwriterFee,
           };
         });
+
+        // Log a single entry to debug the structure
+        if (processedData.length > 0) {
+          console.log("Sample data entry:", processedData[0]);
+        }
 
         setManagerData(processedData);
 
