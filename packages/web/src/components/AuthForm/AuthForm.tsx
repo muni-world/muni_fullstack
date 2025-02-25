@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import { logIn, signUp } from "../../auth";
+import { logIn, signUp } from "../../services/authService";
 
 /**
  * AuthForm component provides a conditional login and signup form using Material UI.

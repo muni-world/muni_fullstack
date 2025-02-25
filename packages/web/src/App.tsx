@@ -53,9 +53,6 @@ const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const MainContent: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-      <Paper>
-        <TestTable />
-      </Paper>
       <Paper 
         elevation={1} 
         sx={{ 
