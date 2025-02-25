@@ -75,15 +75,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 /**
- * Formats a number with commas for readability
+ * Formats a number with commas for readability, or returns a dash for null/undefined values
  * @param value - The number to format
+ * @param nullDisplay - What to display for null/undefined values (default: "-")
  * @returns Formatted string
  */
-const formatNumber = (value: number): string => {
+const formatNumber = (value: number | undefined | null, nullDisplay: string = "-"): string => {
+  // Return dash for undefined or null values
+  if (value === undefined || value === null) {
+    return nullDisplay;
+  }
   return value.toLocaleString("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+};
+
+/**
+ * Formats fee percentage or returns dash for null values
+ */
+const formatFeePercentage = (par: number | undefined | null, fee: number | undefined | null): string => {
+  if (par && fee && par > 0) {
+    return ((fee / par) * 100).toFixed(2) + "%";
+  }
+  return "-";
 };
 
 /**
@@ -114,12 +129,12 @@ const ManagerRow: React.FC<{
           ${formatNumber(manager.totalPar)}
         </TableCell>
         <TableCell align="right">
-          ${formatNumber(Math.round(manager.underwriterFee))}
+          {manager.underwriterFee !== undefined && manager.underwriterFee !== null 
+            ? "$" + formatNumber(Math.round(manager.underwriterFee)) 
+            : "-"}
         </TableCell>
         <TableCell align="center">
-          {manager.totalPar > 0 
-            ? ((manager.underwriterFee / manager.totalPar) * 100).toFixed(2) + "%" 
-            : "-"}
+          {formatFeePercentage(manager.totalPar, manager.underwriterFee)}
         </TableCell>
       </StyledTableRow>
       <TableRow>
@@ -141,8 +156,16 @@ const ManagerRow: React.FC<{
                 <TableBody>
                   {manager.deals
                     .sort((a, b) => {
-                      const feeA = a.underwriter_fee?.total ?? 0;
-                      const feeB = b.underwriter_fee?.total ?? 0;
+                      const feeA = a.underwriter_fee?.total ?? null;
+                      const feeB = b.underwriter_fee?.total ?? null;
+                      
+                      // If both fees are null, keep original order
+                      if (feeA === null && feeB === null) return 0;
+                      
+                      // Null fees go to the bottom
+                      if (feeA === null) return 1;
+                      if (feeB === null) return -1;
+                      
                       const ratioA = a.total_par ? feeA / a.total_par : 0;
                       const ratioB = b.total_par ? feeB / b.total_par : 0;
                       return ratioB - ratioA;
@@ -172,16 +195,12 @@ const ManagerRow: React.FC<{
                           ${formatNumber(deal.total_par)}
                         </TableCell>
                         <TableCell align="right">
-                          ${formatNumber(deal.underwriter_fee?.total ?? 0)}
+                          {deal.underwriter_fee?.total !== undefined 
+                            ? "$" + formatNumber(deal.underwriter_fee.total)
+                            : "-"}
                         </TableCell>
                         <TableCell align="right">
-                          {deal.total_par > 0
-                            ? (
-                                ((deal.underwriter_fee?.total ?? 0) /
-                                  deal.total_par) *
-                                100
-                              ).toFixed(2) + "%"
-                            : "-"}
+                          {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
                         </TableCell>
                       </StyledTableRow>
                     ))}
@@ -209,17 +228,13 @@ const LeagueTable: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  /**
-   * Sorts the manager data in descending order according to totalPar
-   * and filters out "Unknown Manager" if its total par is zero.
-   *
-   * @param data - Array of ManagerData objects to process.
-   * @returns A filtered and sorted array of ManagerData.
-   */
-
-  // Replace useEffect with this version
+  // Use a loading state to prevent multiple requests
+  const [loading, setLoading] = useState<boolean>(true);
+  
   useEffect(() => {
     const fetchData = async () => {
+      if (!loading) return; // Prevent re-fetching if already fetched
+      
       try {
         const functions = getFunctions();
         
@@ -243,43 +258,81 @@ const LeagueTable: React.FC = () => {
             ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
             : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
 
-          // Add error handling for fetch
-          const publicResponse = await fetch(functionUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          // Use AbortController to handle potential cancellations
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+          
+          try {
+            const publicResponse = await fetch(functionUrl, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
 
-          // Check if response is OK before parsing
-          if (!publicResponse.ok) {
-            throw new Error(`HTTP error! status: ${publicResponse.status}`);
+            // Check if response is OK before parsing
+            if (!publicResponse.ok) {
+              throw new Error(`HTTP error! status: ${publicResponse.status}`);
+            }
+
+            const publicData = await publicResponse.json();
+            data = publicData.data;
+          } catch (fetchError) {
+            // Type check the error before accessing properties
+            if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+              console.error('Request timed out');
+            }
+            throw fetchError; // Re-throw to be caught by outer try/catch
           }
-
-          const publicData = await publicResponse.json();
-          data = publicData.data;
         }
 
         // Process and set state
-        const processedData = data.map((manager: any) => ({
-          ...manager,
-          totalPar: Number(manager.totalPar.replace(/,/g, '')),
-          underwriterFee: Number(manager.underwriterFee.replace(/,/g, ''))
-        }));
+        const processedData = data.map((manager: any) => {
+          // Convert strings to numbers, keep null/undefined values as they are
+          const totalPar = manager.totalPar 
+            ? Number(manager.totalPar.replace?.(/,/g, '') || manager.totalPar)
+            : manager.totalPar;
+          
+          const underwriterFee = manager.underwriterFee !== undefined && manager.underwriterFee !== null
+            ? Number(manager.underwriterFee.replace?.(/,/g, '') || manager.underwriterFee)
+            : null; // Explicitly set to null if not present
+          
+          return {
+            ...manager,
+            totalPar,
+            underwriterFee,
+          };
+        });
 
         setManagerData(processedData);
-        setTotalPar(processedData.reduce((sum: number, val: any) => sum + val.totalPar, 0));
+
+        // Calculate total par only for values that exist
+        const calculatedTotalPar = processedData.reduce((sum: number, val: any) => {
+          return sum + (val.totalPar || 0);
+        }, 0);
+
+        setTotalPar(calculatedTotalPar);
         
       } catch (error) {
         console.error("Data fetch failed:", error);
         // Add user-friendly error handling
         setManagerData([]);
         setTotalPar(0);
+      } finally {
+        setLoading(false); // Mark as done loading whether success or failure
       }
     };
 
     fetchData();
-  }, []);
+    
+    // Return cleanup function to abort any pending requests
+    return () => {
+      // Any cleanup needed
+    };
+  }, []); // Empty dependency array ensures it only runs once
 
   // Render the component UI.
   return (
