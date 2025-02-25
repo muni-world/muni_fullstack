@@ -1,10 +1,6 @@
 import { firestore } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-
-/**
- * User types supported by the application
- */
-export type UserType = "free" | "authenticated" | "subscriber";
+import { UserType } from "../types/user";
 
 /**
  * Checks if a user has subscriber access
@@ -13,7 +9,7 @@ export type UserType = "free" | "authenticated" | "subscriber";
  */
 export const checkUserSubscription = async (userId: string): Promise<boolean> => {
   try {
-    // Get user document from Firestore
+    
     const userDoc = await getDoc(doc(firestore, "users", userId));
     
     if (!userDoc.exists()) {
@@ -40,7 +36,7 @@ export const getUserAccessLevel = async (userId: string): Promise<UserType> => {
     const userDoc = await getDoc(doc(firestore, "users", userId));
     
     if (!userDoc.exists()) {
-      return "free";
+      return "unauthenticated";
     }
 
     const userData = userDoc.data();
@@ -48,6 +44,6 @@ export const getUserAccessLevel = async (userId: string): Promise<UserType> => {
   } 
   catch (error) {
     console.error("Error getting user access level:", error);
-    return "free";
+    return "unauthenticated";
   }
 }; 

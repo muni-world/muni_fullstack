@@ -11,10 +11,12 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "allowJs": true
+    "allowJs": true,
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "src/**/*.ts",
+    "src/**/*.json"
   ]
 }
