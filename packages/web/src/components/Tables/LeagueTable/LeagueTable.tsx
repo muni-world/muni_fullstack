@@ -140,12 +140,15 @@ const ManagerRow: React.FC<{
                 </TableHead>
                 <TableBody>
                   {manager.deals
-                    .sort((a, b) => 
-                      (b.underwriter_fee.total / b.total_par) - 
-                      (a.underwriter_fee.total / a.total_par)
-                    )
-                    .map((deal) => (
-                      <StyledTableRow key={deal.series_name_obligor}>
+                    .sort((a, b) => {
+                      const feeA = a.underwriter_fee?.total ?? 0;
+                      const feeB = b.underwriter_fee?.total ?? 0;
+                      const ratioA = a.total_par ? feeA / a.total_par : 0;
+                      const ratioB = b.total_par ? feeB / b.total_par : 0;
+                      return ratioB - ratioA;
+                    })
+                    .map((deal, idx) => (
+                      <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
                         <TableCell>
                           {deal.emma_os_url ? (
                             <Typography
@@ -169,10 +172,16 @@ const ManagerRow: React.FC<{
                           ${formatNumber(deal.total_par)}
                         </TableCell>
                         <TableCell align="right">
-                          ${formatNumber(deal.underwriter_fee.total)}
+                          ${formatNumber(deal.underwriter_fee?.total ?? 0)}
                         </TableCell>
                         <TableCell align="right">
-                          {((deal.underwriter_fee.total / deal.total_par) * 100).toFixed(2)}%
+                          {deal.total_par > 0
+                            ? (
+                                ((deal.underwriter_fee?.total ?? 0) /
+                                  deal.total_par) *
+                                100
+                              ).toFixed(2) + "%"
+                            : "-"}
                         </TableCell>
                       </StyledTableRow>
                     ))}
@@ -319,7 +328,7 @@ const LeagueTable: React.FC = () => {
           <TableBody>
             {managerData.map((manager, index) => (
               <ManagerRow
-                key={manager.manager}
+                key={`${manager.manager}-${index}`}
                 manager={manager}
                 index={index}
                 isMobile={isMobile}
