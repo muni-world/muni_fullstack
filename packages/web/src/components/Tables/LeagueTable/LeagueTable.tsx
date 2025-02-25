@@ -113,12 +113,11 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Enhanced debug logging
-  console.log(`Manager #${index + 1}: ${manager.leadLeftManager}`);
-  console.log(`  - isAuthenticated: ${isAuthenticated}`);
-  console.log(`  - aggregatePar: ${manager.aggregatePar}`);
-  console.log(`  - aggregateUnderwriterFee: ${manager.aggregateUnderwriterFee}`);
-  console.log(`  - aggregateUnderwriterFee type: ${typeof manager.aggregateUnderwriterFee}`);
+  // Single, clean log with useful information
+  // Note: Using useEffect to prevent duplicate logging on re-renders
+  useEffect(() => {
+    console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`);
+  }, []);
 
   return (
     <>
@@ -139,19 +138,16 @@ const ManagerRow: React.FC<{
         </TableCell>
         <TableCell align="right">
           {isAuthenticated 
-            ? (manager.aggregateUnderwriterFee !== null 
+            ? (manager.aggregateUnderwriterFee 
                 ? `$${manager.aggregateUnderwriterFee}` 
                 : "-")
             : "🔒"
           }
         </TableCell>
         <TableCell align="center">
-          {isAuthenticated && manager.aggregateUnderwriterFee 
-            ? formatFeePercentage(
-                parseFloat(manager.aggregatePar.replace(/,/g, '')),
-                parseFloat(manager.aggregateUnderwriterFee?.replace(/,/g, '') || '0')
-              )
-            : isAuthenticated ? "-" : "🔒"
+          {isAuthenticated 
+            ? calculateFeePercentage(manager.aggregatePar, manager.aggregateUnderwriterFee)
+            : "🔒"
           }
         </TableCell>
       </StyledTableRow>
@@ -222,64 +218,128 @@ const ManagerRow: React.FC<{
   );
 };
 
+// Helper function to calculate fee percentage - handles all cases properly
+const calculateFeePercentage = (parString: string, feeString?: string): string => {
+  if (!feeString) return "-";
+  
+  try {
+    const par = parseFloat(parString.replace(/,/g, ''));
+    const fee = parseFloat(feeString.replace(/,/g, ''));
+    
+    if (isNaN(par) || isNaN(fee) || par <= 0 || fee <= 0) {
+      return "-";
+    }
+    
+    return ((fee / par) * 100).toFixed(2) + "%";
+  } catch (error) {
+    console.error("Error calculating fee percentage:", error);
+    return "-";
+  }
+};
+
 /**
  * LeagueTable Component
  * Displays league standings in a tabular format
  */
 const LeagueTable: React.FC = () => {
-  // State to store the array of manager data.
+  // State to store the array of manager data
   const [managerData, setManagerData] = useState<ManagerData[]>([]);
-  // State to store the overall total par value across all managers.
+  // State to store the overall total par value across all managers
   const [totalPar, setTotalPar] = useState<number>(0);
-
   // Add this near the top of the component
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // Use a loading state to prevent multiple requests
-  const [loading, setLoading] = useState<boolean>(true);
   
-  // Add authentication state
+  // Authentication states
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isSubscriber, setIsSubscriber] = useState<boolean>(false);
   
+  // Auth loading state - NEW
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  // Data loading state
+  const [loading, setLoading] = useState<boolean>(false);
+  
+  // First effect - check authentication state with minimal logging
   useEffect(() => {
-    // Check if user is authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      console.log("Auth state changed:", user ? `User authenticated (${user.uid})` : "No user");
       setIsAuthenticated(!!user);
+      
+      if (user) {
+        try {
+          const subscriptionStatus = await checkUserSubscription(user.uid);
+          console.log(`Subscription status: ${subscriptionStatus}`);
+          setIsSubscriber(subscriptionStatus);
+        } catch (error) {
+          console.error("Error checking subscription:", error);
+          setIsSubscriber(false);
+        }
+      } else {
+        setIsSubscriber(false);
+      }
+      
+      // Mark auth check as complete
+      setAuthChecked(true);
     });
     
     return () => unsubscribe();
   }, []);
-
+  
+  // Second effect - trigger data loading once auth is checked with minimal logging
   useEffect(() => {
+    if (authChecked) {
+      setLoading(true);
+    }
+  }, [authChecked]);
+
+  // Third effect - fetch data with better error handling
+  useEffect(() => {
+    if (!loading) return;
+    
     const fetchData = async () => {
-      if (!loading) return; // Prevent re-fetching if already fetched
-      
       try {
         const functions = getFunctions();
         
-        // Get public data by default
+        // Get appropriate data based on auth status
         let data;
-        let userRole = "public"; // Track user role for debugging
+        let userType = isAuthenticated ? (isSubscriber ? "subscriber" : "authenticated") : "public";
         
-        const user = auth.currentUser;
-        if (user) {
-          const isSubscriber = await checkUserSubscription(user.uid);
-          
+        console.log(`Fetching data as ${userType} user`);
+        
+        if (isAuthenticated) {
           if (isSubscriber) {
-            console.log("User is a subscriber - fetching subscriber data");
-            userRole = "subscriber";
-            const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
-            const response = await subscriberData();
-            data = response.data;
-            console.log("Subscriber API response:", response);
+            try {
+              // Use a timeout to prevent long-running requests
+              const timeoutPromise = new Promise<never>((_, reject) => 
+                setTimeout(() => reject(new Error("Request timeout")), 10000)
+              );
+              
+              // Call subscriber API with timeout and proper typing
+              const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
+              const subscriberPromise = subscriberData();
+              
+              // Explicitly type the race result
+              const response = await Promise.race([
+                subscriberPromise,
+                timeoutPromise
+              ]) as { data: any };
+              
+              data = response.data;
+              console.log("Subscriber data received successfully");
+            } catch (error) {
+              console.log("Falling back to authenticated data due to error");
+              
+              // Fall back to authenticated API
+              const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
+              const response = await authData();
+              data = response.data;
+              console.log("Using authenticated data as fallback");
+            }
           } else {
-            console.log("User is authenticated but not subscribed - fetching authenticated data");
-            userRole = "authenticated";
+            // Non-subscriber authenticated user
             const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
             const response = await authData();
             data = response.data;
-            console.log("Authenticated API response:", response);
           }
         } else {
           console.log("User is not authenticated - fetching public data");
@@ -319,32 +379,18 @@ const LeagueTable: React.FC = () => {
           }
         }
 
-        console.log(`Data received for ${userRole} user:`, data);
-        
-        // Process and set state
-        const processedData = data.map((manager: any, index: number) => {
-          console.log(`Processing manager ${index} data:`, manager);
-          
-          return {
-            leadLeftManager: manager.leadLeftManager || "",
-            aggregatePar: manager.aggregatePar,
-            // Make sure we're properly handling the aggregateUnderwriterFee
-            aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
-            deals: manager.deals || []
-          };
-        });
+        // Process with minimal logging
+        const processedData = data.map((manager: any) => ({
+          leadLeftManager: manager.leadLeftManager || "",
+          aggregatePar: manager.aggregatePar,
+          aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
+          deals: manager.deals || []
+        }));
 
-        // Log a single entry to debug the structure
-        if (processedData.length > 0) {
-          console.log("Sample data entry:", processedData[0]);
-        }
-
-        // Simple test to log what data is returned
-        console.log("Raw API response:", data);
-
+        console.log(`Processed ${processedData.length} managers`);
         setManagerData(processedData);
 
-        // Calculate total par only for values that exist
+        // Calculate total par
         const calculatedTotalPar = processedData.reduce((sum: number, val: any) => {
           const parValue = val.aggregatePar ? parseFloat(val.aggregatePar.replace(/,/g, '')) : 0;
           return sum + parValue;
@@ -354,21 +400,15 @@ const LeagueTable: React.FC = () => {
         
       } catch (error) {
         console.error("Data fetch failed:", error);
-        // Add user-friendly error handling
         setManagerData([]);
         setTotalPar(0);
       } finally {
-        setLoading(false); // Mark as done loading whether success or failure
+        setLoading(false);
       }
     };
 
     fetchData();
-    
-    // Return cleanup function to abort any pending requests
-    return () => {
-      // Any cleanup needed
-    };
-  }, [loading]); // Add loading as a dependency since it's used in the effect
+  }, [loading, isAuthenticated, isSubscriber]);
 
   // Render the component UI.
   return (
