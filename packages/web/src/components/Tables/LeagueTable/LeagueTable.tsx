@@ -108,7 +108,8 @@ const ManagerRow: React.FC<{
   manager: ManagerData;
   index: number;
   isMobile: boolean;
-}> = ({ manager, index, isMobile }) => {
+  isAuthenticated: boolean;
+}> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -126,15 +127,21 @@ const ManagerRow: React.FC<{
         <TableCell align="center">{index + 1}</TableCell>
         <TableCell align="left">{manager.manager}</TableCell>
         <TableCell align="right">
-          ${formatNumber(manager.totalPar)}
+          {isAuthenticated ? `$${formatNumber(manager.totalPar)}` : "🔒"}
         </TableCell>
         <TableCell align="right">
-          {manager.underwriterFee !== undefined && manager.underwriterFee !== null 
-            ? "$" + formatNumber(Math.round(manager.underwriterFee)) 
-            : "-"}
+          {isAuthenticated 
+            ? (manager.underwriterFee !== undefined && manager.underwriterFee !== null 
+                ? "$" + formatNumber(Math.round(manager.underwriterFee)) 
+                : "-")
+            : "🔒"
+          }
         </TableCell>
         <TableCell align="center">
-          {formatFeePercentage(manager.totalPar, manager.underwriterFee)}
+          {isAuthenticated 
+            ? formatFeePercentage(manager.totalPar, manager.underwriterFee)
+            : "🔒"
+          }
         </TableCell>
       </StyledTableRow>
       <TableRow>
@@ -142,7 +149,7 @@ const ManagerRow: React.FC<{
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Deals
+                Deals {!isAuthenticated && <span>🔒</span>}
               </Typography>
               <Table size="small">
                 <TableHead>
@@ -154,56 +161,66 @@ const ManagerRow: React.FC<{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {manager.deals
-                    .sort((a, b) => {
-                      const feeA = a.underwriter_fee?.total ?? null;
-                      const feeB = b.underwriter_fee?.total ?? null;
-                      
-                      // If both fees are null, keep original order
-                      if (feeA === null && feeB === null) return 0;
-                      
-                      // Null fees go to the bottom
-                      if (feeA === null) return 1;
-                      if (feeB === null) return -1;
-                      
-                      const ratioA = a.total_par ? feeA / a.total_par : 0;
-                      const ratioB = b.total_par ? feeB / b.total_par : 0;
-                      return ratioB - ratioA;
-                    })
-                    .map((deal, idx) => (
-                      <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
-                        <TableCell>
-                          {deal.emma_os_url ? (
-                            <Typography
-                              component="span"
-                              sx={{
-                                cursor: "pointer",
-                                color: "primary.main",
-                                "&:hover": {
-                                  textDecoration: "underline",
-                                },
-                              }}
-                              onClick={() => window.open(deal.emma_os_url, "_blank")}
-                            >
-                              {deal.series_name_obligor}
-                            </Typography>
-                          ) : (
-                            deal.series_name_obligor
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          ${formatNumber(deal.total_par)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {deal.underwriter_fee?.total !== undefined 
-                            ? "$" + formatNumber(deal.underwriter_fee.total)
-                            : "-"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
-                        </TableCell>
-                      </StyledTableRow>
-                    ))}
+                  {isAuthenticated ? (
+                    manager.deals
+                      .sort((a, b) => {
+                        const feeA = a.underwriter_fee?.total ?? null;
+                        const feeB = b.underwriter_fee?.total ?? null;
+                        
+                        // If both fees are null, keep original order
+                        if (feeA === null && feeB === null) return 0;
+                        
+                        // Null fees go to the bottom
+                        if (feeA === null) return 1;
+                        if (feeB === null) return -1;
+                        
+                        const ratioA = a.total_par ? feeA / a.total_par : 0;
+                        const ratioB = b.total_par ? feeB / b.total_par : 0;
+                        return ratioB - ratioA;
+                      })
+                      .map((deal, idx) => (
+                        <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
+                          <TableCell>
+                            {deal.emma_os_url ? (
+                              <Typography
+                                component="span"
+                                sx={{
+                                  cursor: "pointer",
+                                  color: "primary.main",
+                                  "&:hover": {
+                                    textDecoration: "underline",
+                                  },
+                                }}
+                                onClick={() => window.open(deal.emma_os_url, "_blank")}
+                              >
+                                {deal.series_name_obligor}
+                              </Typography>
+                            ) : (
+                              deal.series_name_obligor
+                            )}
+                          </TableCell>
+                          <TableCell align="right">
+                            ${formatNumber(deal.total_par)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {deal.underwriter_fee?.total !== undefined 
+                              ? "$" + formatNumber(deal.underwriter_fee.total)
+                              : "-"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
+                          </TableCell>
+                        </StyledTableRow>
+                      ))
+                  ) : (
+                    <StyledTableRow>
+                      <TableCell colSpan={4} align="center">
+                        <Typography sx={{ py: 2 }}>
+                          🔒 Sign in to view deal details 🔒
+                        </Typography>
+                      </TableCell>
+                    </StyledTableRow>
+                  )}
                 </TableBody>
               </Table>
             </Box>
@@ -231,6 +248,18 @@ const LeagueTable: React.FC = () => {
   // Use a loading state to prevent multiple requests
   const [loading, setLoading] = useState<boolean>(true);
   
+  // Add authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  
+  useEffect(() => {
+    // Check if user is authenticated
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+    });
+    
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       if (!loading) return; // Prevent re-fetching if already fetched
@@ -346,8 +375,18 @@ const LeagueTable: React.FC = () => {
       }}
     >
       <Typography variant="h5" gutterBottom>
-        Total Par Issued: ${formatNumber(totalPar)}
+        Total Par Issued: {isAuthenticated ? `$${formatNumber(totalPar)}` : "🔒"}
       </Typography>
+      
+      {!isAuthenticated && (
+        <Typography 
+          variant="body2" 
+          color="primary" 
+          sx={{ mb: 2, fontWeight: 'medium', textAlign: 'center' }}
+        >
+          Sign in to unlock complete data access
+        </Typography>
+      )}
       
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
         <Table 
@@ -385,6 +424,7 @@ const LeagueTable: React.FC = () => {
                 manager={manager}
                 index={index}
                 isMobile={isMobile}
+                isAuthenticated={isAuthenticated}
               />
             ))}
           </TableBody>
