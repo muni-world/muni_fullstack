@@ -1,10 +1,11 @@
 import React from "react";
-import { AppBar, Toolbar, Button, Typography } from "@mui/material";
+import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+// import logo from "../../assets/mudan_logo.svg";
 
 /**
- * NavBar component renders the top navigation bar with a login button in the upper right.
+ * NavBar component renders the top navigation bar with a logo and login button.
  *
  * @component
  * @returns {JSX.Element} The rendered NavBar component.
@@ -20,9 +21,19 @@ const NavBar: React.FC = () => {
   return (
     <AppBar position="fixed">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          MUDAN.AI: Municipal Data Network
-        </Typography>
+        <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
+          {/* <img
+            src={logo}
+            alt="MUDAN.AI Logo"
+            style={{
+              height: "40px",
+              marginRight: "16px"
+            }}
+          /> */}
+          <Typography variant="h6">
+            Municipal Data Network
+          </Typography>
+        </Box>
         {isAuthenticated ? (
           <Button color="inherit" onClick={logout}>
             Log Out

@@ -23,8 +23,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:emulators": "cross-env REACT_APP_USE_EMULATORS=true react-scripts start",
-    "start:prod": "cross-env REACT_APP_USE_EMULATORS=false react-scripts start",
+    "emulators:start": "cross-env REACT_APP_USE_EMULATORS=true react-scripts start",
+    "emulators-prod:start": "cross-env REACT_APP_USE_EMULATORS=false react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -1,4 +1,4 @@
-import { auth, firestore } from "./firebaseConfig";
+import { auth, firestore } from "../firebaseConfig";
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -37,7 +37,7 @@ export const signUp = async (
       userId: userCredential.user.uid,
       firstName,
       lastName,
-      email: normalizedEmail
+      email: normalizedEmail,
     });
 
     console.log("User created successfully:", userCredential.user.uid);

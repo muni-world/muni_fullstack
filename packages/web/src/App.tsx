@@ -1,5 +1,5 @@
 import React from "react";
-import { TestTable } from "./components/Tables/";
+import { LeagueTable } from "./components/Tables/";
 import { 
   Container, 
   Paper,
@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import NavBar from "./components/NavBar";
-import AuthForm from "./components/Auth/AuthForm";
+import AuthForm from "./components/AuthForm";
 
 // Create a custom theme (you can modify colors and other properties)
 const theme = createTheme({
@@ -53,19 +53,6 @@ const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const MainContent: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-      <Paper>
-        <TestTable />
-      </Paper>
-      {/* <Paper 
-        elevation={1} 
-        sx={{ 
-          p: { xs: 1, sm: 3 },
-          mb: { xs: 0, sm: 3 },
-          elevation: { xs: 0, sm: 3 },
-        }}
-      >
-        <LeagueTable />
-      </Paper>
       <Paper 
         elevation={1} 
         sx={{ 
@@ -74,17 +61,8 @@ const MainContent: React.FC = () => {
           elevation: { xs: 0, sm: 3 },
         }}
       >
-        <OsTypeTable />
-      </Paper>      
-      <Paper 
-        elevation={0}
-        sx={{ 
-          p: { xs: 0, sm: 3 },
-          elevation: { xs: 0, sm: 3 },
-        }}
-      >
-        <UniqueParticipants />
-      </Paper> */}
+      <LeagueTable />
+      </Paper>
     </Container>
   );
 };

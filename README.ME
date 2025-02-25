@@ -1,0 +1,14 @@
+## Deploy Functions
+cd packages/functions
+npm run build
+firebase deploy --only functions
+
+## Start Firestore emulators
+cd packages/functions
+npm run build
+firebase emulators:start
+npm run seed-emulator
+
+## Start Front End
+cd packages/web
+npm run emulators:start

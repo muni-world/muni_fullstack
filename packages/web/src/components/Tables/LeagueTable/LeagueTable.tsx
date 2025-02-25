@@ -33,17 +33,17 @@ interface DealData {
   underwriter_fee: {
     total: number;
   };
-  emma_os_url?: string; // Add PDF URL field
+  emma_os_url?: string; 
 }
 
 /**
  * Interface for manager data with deals
  */
 interface ManagerData {
-  manager: string;
+  leadLeftManager?: string;
   totalPar: number;
   underwriterFee: number;
-  deals: DealData[];  // Add deals array
+  deals: DealData[];
 }
 
 // Custom styled components using MUI's styled utility
@@ -75,15 +75,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 /**
- * Formats a number with commas for readability
+ * Formats a number with commas for readability, or returns a dash for null/undefined values
  * @param value - The number to format
+ * @param nullDisplay - What to display for null/undefined values (default: "-")
  * @returns Formatted string
  */
-const formatNumber = (value: number): string => {
+const formatNumber = (value: number | undefined | null, nullDisplay: string = "-"): string => {
+  // Return dash for undefined or null values
+  if (value === undefined || value === null) {
+    return nullDisplay;
+  }
   return value.toLocaleString("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+};
+
+/**
+ * Formats fee percentage or returns dash for null values
+ */
+const formatFeePercentage = (par: number | undefined | null, fee: number | undefined | null): string => {
+  if (par && fee && par > 0) {
+    return ((fee / par) * 100).toFixed(2) + "%";
+  }
+  return "-";
 };
 
 /**
@@ -93,8 +108,12 @@ const ManagerRow: React.FC<{
   manager: ManagerData;
   index: number;
   isMobile: boolean;
-}> = ({ manager, index, isMobile }) => {
+  isAuthenticated: boolean;
+}> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
+
+  // Simplified - just use leadLeftManager or Unknown Manager
+  const displayName = manager.leadLeftManager || "Unknown Manager";
 
   return (
     <>
@@ -109,17 +128,23 @@ const ManagerRow: React.FC<{
           </IconButton>
         </TableCell>
         <TableCell align="center">{index + 1}</TableCell>
-        <TableCell align="left">{manager.manager}</TableCell>
+        <TableCell align="left">{displayName}</TableCell>
         <TableCell align="right">
-          ${formatNumber(manager.totalPar)}
+          {isAuthenticated ? `$${formatNumber(manager.totalPar)}` : "🔒"}
         </TableCell>
         <TableCell align="right">
-          ${formatNumber(Math.round(manager.underwriterFee))}
+          {isAuthenticated 
+            ? (manager.underwriterFee !== undefined && manager.underwriterFee !== null 
+                ? "$" + formatNumber(Math.round(manager.underwriterFee)) 
+                : "-")
+            : "🔒"
+          }
         </TableCell>
         <TableCell align="center">
-          {manager.totalPar > 0 
-            ? ((manager.underwriterFee / manager.totalPar) * 100).toFixed(2) + "%" 
-            : "-"}
+          {isAuthenticated 
+            ? formatFeePercentage(manager.totalPar, manager.underwriterFee)
+            : "🔒"
+          }
         </TableCell>
       </StyledTableRow>
       <TableRow>
@@ -127,7 +152,7 @@ const ManagerRow: React.FC<{
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Deals
+                Deals {!isAuthenticated && <span>🔒</span>}
               </Typography>
               <Table size="small">
                 <TableHead>
@@ -139,43 +164,66 @@ const ManagerRow: React.FC<{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {manager.deals
-                    .sort((a, b) => 
-                      (b.underwriter_fee.total / b.total_par) - 
-                      (a.underwriter_fee.total / a.total_par)
-                    )
-                    .map((deal) => (
-                      <StyledTableRow key={deal.series_name_obligor}>
-                        <TableCell>
-                          {deal.emma_os_url ? (
-                            <Typography
-                              component="span"
-                              sx={{
-                                cursor: "pointer",
-                                color: "primary.main",
-                                "&:hover": {
-                                  textDecoration: "underline",
-                                },
-                              }}
-                              onClick={() => window.open(deal.emma_os_url, "_blank")}
-                            >
-                              {deal.series_name_obligor}
-                            </Typography>
-                          ) : (
-                            deal.series_name_obligor
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          ${formatNumber(deal.total_par)}
-                        </TableCell>
-                        <TableCell align="right">
-                          ${formatNumber(deal.underwriter_fee.total)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {((deal.underwriter_fee.total / deal.total_par) * 100).toFixed(2)}%
-                        </TableCell>
-                      </StyledTableRow>
-                    ))}
+                  {isAuthenticated ? (
+                    manager.deals
+                      .sort((a, b) => {
+                        const feeA = a.underwriter_fee?.total ?? null;
+                        const feeB = b.underwriter_fee?.total ?? null;
+                        
+                        // If both fees are null, keep original order
+                        if (feeA === null && feeB === null) return 0;
+                        
+                        // Null fees go to the bottom
+                        if (feeA === null) return 1;
+                        if (feeB === null) return -1;
+                        
+                        const ratioA = a.total_par ? feeA / a.total_par : 0;
+                        const ratioB = b.total_par ? feeB / b.total_par : 0;
+                        return ratioB - ratioA;
+                      })
+                      .map((deal, idx) => (
+                        <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
+                          <TableCell>
+                            {deal.emma_os_url ? (
+                              <Typography
+                                component="span"
+                                sx={{
+                                  cursor: "pointer",
+                                  color: "primary.main",
+                                  "&:hover": {
+                                    textDecoration: "underline",
+                                  },
+                                }}
+                                onClick={() => window.open(deal.emma_os_url, "_blank")}
+                              >
+                                {deal.series_name_obligor}
+                              </Typography>
+                            ) : (
+                              deal.series_name_obligor
+                            )}
+                          </TableCell>
+                          <TableCell align="right">
+                            ${formatNumber(deal.total_par)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {deal.underwriter_fee?.total !== undefined 
+                              ? "$" + formatNumber(deal.underwriter_fee.total)
+                              : "-"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
+                          </TableCell>
+                        </StyledTableRow>
+                      ))
+                  ) : (
+                    <StyledTableRow>
+                      <TableCell colSpan={4} align="center">
+                        <Typography sx={{ py: 2 }}>
+                          🔒 Sign in to view deal details 🔒
+                        </Typography>
+                      </TableCell>
+                    </StyledTableRow>
+                  )}
                 </TableBody>
               </Table>
             </Box>
@@ -200,17 +248,25 @@ const LeagueTable: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  /**
-   * Sorts the manager data in descending order according to totalPar
-   * and filters out "Unknown Manager" if its total par is zero.
-   *
-   * @param data - Array of ManagerData objects to process.
-   * @returns A filtered and sorted array of ManagerData.
-   */
+  // Use a loading state to prevent multiple requests
+  const [loading, setLoading] = useState<boolean>(true);
+  
+  // Add authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  
+  useEffect(() => {
+    // Check if user is authenticated
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+    });
+    
+    return () => unsubscribe();
+  }, []);
 
-  // Replace useEffect with this version
   useEffect(() => {
     const fetchData = async () => {
+      if (!loading) return; // Prevent re-fetching if already fetched
+      
       try {
         const functions = getFunctions();
         
@@ -234,43 +290,91 @@ const LeagueTable: React.FC = () => {
             ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
             : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
 
-          // Add error handling for fetch
-          const publicResponse = await fetch(functionUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          // Use AbortController to handle potential cancellations
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+          
+          try {
+            const publicResponse = await fetch(functionUrl, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
 
-          // Check if response is OK before parsing
-          if (!publicResponse.ok) {
-            throw new Error(`HTTP error! status: ${publicResponse.status}`);
+            // Check if response is OK before parsing
+            if (!publicResponse.ok) {
+              throw new Error(`HTTP error! status: ${publicResponse.status}`);
+            }
+
+            const publicData = await publicResponse.json();
+            data = publicData.data;
+          } catch (fetchError) {
+            // Type check the error before accessing properties
+            if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+              console.error('Request timed out');
+            }
+            throw fetchError; // Re-throw to be caught by outer try/catch
           }
-
-          const publicData = await publicResponse.json();
-          data = publicData.data;
         }
 
         // Process and set state
-        const processedData = data.map((manager: any) => ({
-          ...manager,
-          totalPar: Number(manager.totalPar.replace(/,/g, '')),
-          underwriterFee: Number(manager.underwriterFee.replace(/,/g, ''))
-        }));
+        const processedData = data.map((manager: any) => {
+          // Convert strings to numbers, keep null/undefined values as they are
+          const totalPar = manager.totalPar 
+            ? Number(manager.totalPar.replace?.(/,/g, '') || manager.totalPar)
+            : manager.totalPar;
+          
+          const underwriterFee = manager.underwriterFee !== undefined && manager.underwriterFee !== null
+            ? Number(manager.underwriterFee.replace?.(/,/g, '') || manager.underwriterFee)
+            : null; // Explicitly set to null if not present
+          
+          // Simplified - no more manager.manager reference
+          return {
+            leadLeftManager: manager.leadLeftManager || "",
+            totalPar,
+            underwriterFee,
+            deals: manager.deals || []
+          };
+        });
+
+        // Log a single entry to debug the structure
+        if (processedData.length > 0) {
+          console.log("Sample data entry:", processedData[0]);
+        }
+
+        // Simple test to log what data is returned
+        console.log("Raw API response:", data);
 
         setManagerData(processedData);
-        setTotalPar(processedData.reduce((sum: number, val: any) => sum + val.totalPar, 0));
+
+        // Calculate total par only for values that exist
+        const calculatedTotalPar = processedData.reduce((sum: number, val: any) => {
+          return sum + (val.totalPar || 0);
+        }, 0);
+
+        setTotalPar(calculatedTotalPar);
         
       } catch (error) {
         console.error("Data fetch failed:", error);
         // Add user-friendly error handling
         setManagerData([]);
         setTotalPar(0);
+      } finally {
+        setLoading(false); // Mark as done loading whether success or failure
       }
     };
 
     fetchData();
-  }, []);
+    
+    // Return cleanup function to abort any pending requests
+    return () => {
+      // Any cleanup needed
+    };
+  }, [loading]); // Add loading as a dependency since it's used in the effect
 
   // Render the component UI.
   return (
@@ -284,8 +388,18 @@ const LeagueTable: React.FC = () => {
       }}
     >
       <Typography variant="h5" gutterBottom>
-        Total Par Issued: ${formatNumber(totalPar)}
+        Total Par Issued: {isAuthenticated ? `$${formatNumber(totalPar)}` : "🔒"}
       </Typography>
+      
+      {!isAuthenticated && (
+        <Typography 
+          variant="body2" 
+          color="primary" 
+          sx={{ mb: 2, fontWeight: 'medium', textAlign: 'center' }}
+        >
+          Sign in to unlock complete data access
+        </Typography>
+      )}
       
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
         <Table 
@@ -319,10 +433,11 @@ const LeagueTable: React.FC = () => {
           <TableBody>
             {managerData.map((manager, index) => (
               <ManagerRow
-                key={manager.manager}
+                key={`${manager.leadLeftManager || "unknown"}-${index}`}
                 manager={manager}
                 index={index}
                 isMobile={isMobile}
+                isAuthenticated={isAuthenticated}
               />
             ))}
           </TableBody>

@@ -9,7 +9,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "seed-emulator": "npm run build && cross-env NODE_OPTIONS=\"--require dotenv/config\" node lib/src/seedEmulator.js"
+    "seed-emulator": "npm run build && cross-env NODE_OPTIONS=\"--require dotenv/config\" node lib/src/emulators/seedEmulator.js"
   },
   "engines": {
     "node": "22"

@@ -3,47 +3,52 @@ import { auth } from "../firebaseConfig";
 import { User, onAuthStateChanged, signOut } from "firebase/auth";
 
 /**
- * AuthContext Shape (TypeScript interface)
- * @property {boolean} isAuthenticated - True if user has valid library card
- * @property {() => Promise<void>} logout - Function to return all books/card
+ * Interface defining the shape of the authentication context
+ * @interface AuthContextType
+ * @property {boolean} isAuthenticated - Indicates if a user is currently authenticated
+ * @property {() => Promise<void>} logout - Async function to handle user logout
  */
 interface AuthContextType {
   isAuthenticated: boolean;
   logout: () => Promise<void>;
 }
 
-// Create empty context shelf (will fill with real data later)
+// Initialize context with default values
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   logout: async () => {},
 });
 
 /**
- * AuthProvider Component - Library Card Desk
+ * Authentication Provider Component
+ * Manages authentication state and provides authentication context to child components
+ * 
  * @component
- * @param {object} props - React props
- * @param {React.ReactNode} props.children - Components that need access to library system
+ * @param {object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to be wrapped with auth context
  */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Library card scanner - checks for valid card on mount and changes
+  // Subscribe to authentication state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      setIsAuthenticated(!!user); // Convert to boolean: true if user exists
+      setIsAuthenticated(!!user);
     });
-    return () => unsubscribe(); // Cleanup scanner when component unmounts
+    return () => unsubscribe(); // Cleanup subscription on unmount
   }, []);
 
   /**
-   * Book Return Process - Handles logout functionality
+   * Handles user logout process
+   * @async
+   * @throws {Error} If logout process fails
    */
   const logout = async () => {
     try {
-      await signOut(auth); // Firebase signout
-      console.log("Successfully returned library card");
+      await signOut(auth);
+      console.log("Successfully logged out");
     } catch (error) {
-      console.error("Error returning card:", error);
+      console.error("Logout error:", error);
       throw error;
     }
   };
@@ -56,7 +61,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 /**
- * Custom hook - Library Card Checkout Counter
- * @returns {AuthContextType} Access to library card system
+ * Custom hook for accessing authentication context
+ * @returns {AuthContextType} Authentication context value
+ * @throws {Error} If used outside of AuthProvider
  */
 export const useAuth = () => useContext(AuthContext);

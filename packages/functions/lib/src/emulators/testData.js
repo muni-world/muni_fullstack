@@ -50,30 +50,6 @@ const rawDealsData = [
     }
 ];
 /**
- * Group deals by manager and calculate totals
- */
-const groupDealsByManager = (deals) => {
-    const managerMap = new Map();
-    // Group deals by lead manager
-    deals.forEach(deal => {
-        if (deal.lead_managers) {
-            deal.lead_managers.forEach(manager => {
-                if (!managerMap.has(manager)) {
-                    managerMap.set(manager, []);
-                }
-                managerMap.get(manager)?.push(deal);
-            });
-        }
-    });
-    // Convert map to ManagerData array
-    return Array.from(managerMap.entries()).map(([manager, deals]) => ({
-        manager,
-        totalPar: deals.reduce((sum, deal) => sum + deal.total_par, 0),
-        underwriterFee: deals.reduce((sum, deal) => sum + deal.underwriter_fee.total, 0),
-        deals,
-    }));
-};
-/**
  * Filter deal data based on user type
  * @param deal - The deal data to filter
  * @param userType - The type of user accessing the data
@@ -88,34 +64,52 @@ const filterDealData = (deal, userType) => {
             total: 0
         },
         emma_os_url: deal.emma_os_url,
+        lead_managers: [], // Always include lead_managers array, even if empty
     };
     // Add additional data for authenticated users
-    if (userType === "authenticated") {
+    if (userType === "authenticated" || userType === "subscriber") {
         return {
             ...baseData,
             total_par: deal.total_par,
             underwriter_fee: {
                 total: deal.underwriter_fee.total
             },
-            lead_managers: deal.lead_managers,
-        };
-    }
-    // Add all data for subscribers
-    if (userType === "subscriber") {
-        return {
-            ...baseData,
-            total_par: deal.total_par,
-            underwriter_fee: deal.underwriter_fee,
-            os_type: deal.os_type,
-            lead_managers: deal.lead_managers,
-            co_managers: deal.co_managers,
-            counsels: deal.counsels,
-            municipal_advisors: deal.municipal_advisors,
-            underwriters_advisors: deal.underwriters_advisors,
+            lead_managers: deal.lead_managers || [],
+            ...(userType === "subscriber" && {
+                os_type: deal.os_type,
+                co_managers: deal.co_managers,
+                counsels: deal.counsels,
+                municipal_advisors: deal.municipal_advisors,
+                underwriters_advisors: deal.underwriters_advisors,
+            }),
         };
     }
     // Return base data for unauthenticated users
     return baseData;
+};
+/**
+ * Group deals by manager and calculate totals
+ */
+const groupDealsByManager = (deals) => {
+    const managerMap = new Map();
+    // Group deals by lead manager
+    deals.forEach(deal => {
+        if (deal.lead_managers && deal.lead_managers.length > 0) {
+            deal.lead_managers.forEach(manager => {
+                if (!managerMap.has(manager)) {
+                    managerMap.set(manager, []);
+                }
+                managerMap.get(manager)?.push(deal);
+            });
+        }
+    });
+    // Convert map to ManagerData array
+    return Array.from(managerMap.entries()).map(([manager, managerDeals]) => ({
+        manager,
+        totalPar: managerDeals.reduce((sum, deal) => sum + deal.total_par, 0),
+        underwriterFee: managerDeals.reduce((sum, deal) => sum + (deal.underwriter_fee?.total || 0), 0),
+        deals: managerDeals,
+    }));
 };
 /**
  * Get filtered deals data based on user type
