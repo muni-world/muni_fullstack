@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { httpsCallable, getFunctions } from "firebase/functions";
 import { auth } from "../../../firebaseConfig";
 import { checkUserSubscription } from "../../../services/userService";
@@ -113,11 +113,13 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Single, clean log with useful information
-  // Note: Using useEffect to prevent duplicate logging on re-renders
-  useEffect(() => {
-    console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`);
-  }, []);
+  // Remove useEffect and use a memoized value for logging
+  const logMessage = useMemo(() => {
+    return `Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`;
+  }, [index, manager.leadLeftManager, manager.aggregatePar, manager.aggregateUnderwriterFee]);
+
+  // Log only once when the component mounts
+  console.log(logMessage);
 
   return (
     <>
@@ -259,8 +261,9 @@ const LeagueTable: React.FC = () => {
   // Data loading state
   const [loading, setLoading] = useState<boolean>(false);
   
-  // First effect - check authentication state with minimal logging
+  // First effect - check authentication state
   useEffect(() => {
+    console.log("Setting up auth listener");
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       console.log("Auth state changed:", user ? `User authenticated (${user.uid})` : "No user");
       setIsAuthenticated(!!user);
@@ -268,7 +271,7 @@ const LeagueTable: React.FC = () => {
       if (user) {
         try {
           const subscriptionStatus = await checkUserSubscription(user.uid);
-          console.log(`Subscription status: ${subscriptionStatus}`);
+          console.log(`Subscription status for ${user.uid}:`, subscriptionStatus);
           setIsSubscriber(subscriptionStatus);
         } catch (error) {
           console.error("Error checking subscription:", error);
@@ -285,14 +288,15 @@ const LeagueTable: React.FC = () => {
     return () => unsubscribe();
   }, []);
   
-  // Second effect - trigger data loading once auth is checked with minimal logging
+  // Second effect - trigger data loading once auth is checked
   useEffect(() => {
     if (authChecked) {
+      console.log("Auth check completed, triggering data fetch");
       setLoading(true);
     }
   }, [authChecked]);
 
-  // Third effect - fetch data with better error handling
+  // Third effect - fetch data
   useEffect(() => {
     if (!loading) return;
     
@@ -302,44 +306,34 @@ const LeagueTable: React.FC = () => {
         
         // Get appropriate data based on auth status
         let data;
-        let userType = isAuthenticated ? (isSubscriber ? "subscriber" : "authenticated") : "public";
         
-        console.log(`Fetching data as ${userType} user`);
+        // Log detailed auth state before API calls
+        console.log("Fetching data with auth state:", { 
+          isAuthenticated, 
+          isSubscriber,
+          authChecked
+        });
         
         if (isAuthenticated) {
           if (isSubscriber) {
+            console.log("User is a subscriber - fetching subscriber data");
             try {
-              // Use a timeout to prevent long-running requests
-              const timeoutPromise = new Promise<never>((_, reject) => 
-                setTimeout(() => reject(new Error("Request timeout")), 10000)
-              );
-              
-              // Call subscriber API with timeout and proper typing
               const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
-              const subscriberPromise = subscriberData();
-              
-              // Explicitly type the race result
-              const response = await Promise.race([
-                subscriberPromise,
-                timeoutPromise
-              ]) as { data: any };
-              
+              const response = await subscriberData();
               data = response.data;
-              console.log("Subscriber data received successfully");
+              console.log("Subscriber API response:", response);
             } catch (error) {
-              console.log("Falling back to authenticated data due to error");
-              
-              // Fall back to authenticated API
+              console.error("Subscriber API call failed, falling back to authenticated:", error);
               const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
               const response = await authData();
               data = response.data;
-              console.log("Using authenticated data as fallback");
             }
           } else {
-            // Non-subscriber authenticated user
+            console.log("User is authenticated but not subscribed - fetching authenticated data");
             const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
             const response = await authData();
             data = response.data;
+            console.log("Authenticated API response:", response);
           }
         } else {
           console.log("User is not authenticated - fetching public data");
