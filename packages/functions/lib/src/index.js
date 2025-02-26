@@ -12,6 +12,10 @@ const auth = getAuth();
 const formatNumber = (value) => {
     return value.toLocaleString("en-US", { maximumFractionDigits: 0 });
 };
+// Helper function to check if manager data is authenticated
+function isAuthenticatedData(data) {
+    return "aggregateUnderwriterFee" in data;
+}
 /**
  * Aggregates deal data by lead left manager (first in lead_managers array)
  */
@@ -46,33 +50,28 @@ function aggregateDealsData(snapshot, role) {
     const processedData = Object.values(managerTotals)
         .sort((a, b) => b.aggregatePar - a.aggregatePar)
         .map((manager) => {
-        // Base object with common fields
-        const baseData = {
-            leadLeftManager: manager.leadLeftManager,
-            aggregatePar: formatNumber(manager.aggregatePar),
-        };
-        // Add underwriter fee based on role
         if (role === "unauthenticated") {
             return {
-                ...baseData,
-                aggregateUnderwriterFee: null,
+                leadLeftManager: manager.leadLeftManager,
+                aggregatePar: formatNumber(manager.aggregatePar),
             };
         }
-        else {
-            // For authenticated and subscriber users
-            return {
-                ...baseData,
-                aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
-            };
-        }
+        return {
+            leadLeftManager: manager.leadLeftManager,
+            aggregatePar: formatNumber(manager.aggregatePar),
+            aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
+            deals: manager.deals,
+        };
     });
     // Debug log after processing
     console.log("Processed data for first manager:", processedData[0]);
-    console.log("Manager data before processing:", processedData);
     // During processing
-    console.log(`Processing ${processedData[0].leadLeftManager}:`, {
-        totalPar: processedData[0].aggregatePar,
-        totalFees: processedData[0].aggregateUnderwriterFee,
+    const firstManager = processedData[0];
+    console.log(`Processing ${firstManager.leadLeftManager}:`, {
+        aggregatePar: firstManager.aggregatePar,
+        ...(isAuthenticatedData(firstManager) && {
+            aggregateFees: firstManager.aggregateUnderwriterFee,
+        }),
     });
     return processedData;
 }
@@ -87,7 +86,7 @@ const filterDealsData = (deal, role) => {
     if (role === "unauthenticated") {
         return baseData;
     }
-    // Authenticated users get underwriter fee totals
+    // Authenticated users get underwriter fee aggregates
     if (role === "authenticated") {
         return {
             ...baseData,

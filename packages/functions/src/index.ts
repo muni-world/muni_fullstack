@@ -19,6 +19,23 @@ const formatNumber = (value: number): string => {
 // Type definitions for security rules
 type UserRole = "unauthenticated" | "authenticated" | "subscriber";
 
+interface BaseManagerData {
+  leadLeftManager: string;
+  aggregatePar: string;
+}
+
+interface AuthenticatedManagerData extends BaseManagerData {
+  aggregateUnderwriterFee: string;
+  deals?: Deal[];
+}
+
+interface ManagerTotals {
+  leadLeftManager: string;
+  aggregatePar: number;
+  aggregateUnderwriterFee: number;
+  deals: Deal[];
+}
+
 // Simple interface with only the fields we need
 interface Deal {
   series_name_obligor: string;
@@ -28,11 +45,9 @@ interface Deal {
   lead_managers?: string[];
 }
 
-interface ManagerAggregate {
-  leadLeftManager: string;
-  aggregatePar: number;
-  aggregateUnderwriterFee: number;
-  deals: Deal[];
+// Helper function to check if manager data is authenticated
+function isAuthenticatedData(data: BaseManagerData | AuthenticatedManagerData): data is AuthenticatedManagerData {
+  return "aggregateUnderwriterFee" in data;
 }
 
 /**
@@ -41,11 +56,11 @@ interface ManagerAggregate {
 function aggregateDealsData(
   snapshot: FirebaseFirestore.QuerySnapshot,
   role: UserRole
-) {
+): BaseManagerData[] | AuthenticatedManagerData[] {
   // First, let's add some debug logging
   console.log("Processing data for role:", role);
 
-  const managerTotals: Record<string, ManagerAggregate> = {};
+  const managerTotals: Record<string, ManagerTotals> = {};
 
   snapshot.forEach((doc) => {
     const dealData = doc.data() as Deal;
@@ -80,37 +95,32 @@ function aggregateDealsData(
   // Convert to array and sort
   const processedData = Object.values(managerTotals)
     .sort((a, b) => b.aggregatePar - a.aggregatePar)
-    .map((manager) => {
-      // Base object with common fields
-      const baseData = {
-        leadLeftManager: manager.leadLeftManager,
-        aggregatePar: formatNumber(manager.aggregatePar),
-      };
-
-      // Add underwriter fee based on role
+    .map((manager): BaseManagerData | AuthenticatedManagerData => {
       if (role === "unauthenticated") {
         return {
-          ...baseData,
-          aggregateUnderwriterFee: null,
-        };
-      } else {
-        // For authenticated and subscriber users
-        return {
-          ...baseData,
-          aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
+          leadLeftManager: manager.leadLeftManager,
+          aggregatePar: formatNumber(manager.aggregatePar),
         };
       }
+
+      return {
+        leadLeftManager: manager.leadLeftManager,
+        aggregatePar: formatNumber(manager.aggregatePar),
+        aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
+        deals: manager.deals,
+      };
     });
 
   // Debug log after processing
   console.log("Processed data for first manager:", processedData[0]);
 
-  console.log("Manager data before processing:", processedData);
-
   // During processing
-  console.log(`Processing ${processedData[0].leadLeftManager}:`, {
-    totalPar: processedData[0].aggregatePar,
-    totalFees: processedData[0].aggregateUnderwriterFee,
+  const firstManager = processedData[0];
+  console.log(`Processing ${firstManager.leadLeftManager}:`, {
+    aggregatePar: firstManager.aggregatePar,
+    ...(isAuthenticatedData(firstManager) && {
+      aggregateFees: firstManager.aggregateUnderwriterFee,
+    }),
   });
 
   return processedData;
@@ -129,7 +139,7 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
     return baseData;
   }
 
-  // Authenticated users get underwriter fee totals
+  // Authenticated users get underwriter fee aggregates
   if (role === "authenticated") {
     return {
       ...baseData,

@@ -112,8 +112,10 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Simplified logging - just one entry per manager
-  console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`);
+  // Use useEffect to log only once per actual render
+  useEffect(() => {
+    console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Aggregate Par: ${manager.aggregatePar} - Aggregate Fee: ${manager.aggregateUnderwriterFee}`);
+  }, [manager, index]);
 
   return (
     <>
@@ -142,7 +144,12 @@ const ManagerRow: React.FC<{
         </TableCell>
         <TableCell align="center">
           {isAuthenticated 
-            ? calculateFeePercentage(manager.aggregatePar, manager.aggregateUnderwriterFee)
+            ? formatFeePercentage(
+                parseFloat(manager.aggregatePar.replace(/,/g, '')),
+                manager.aggregateUnderwriterFee 
+                  ? parseFloat(manager.aggregateUnderwriterFee.replace(/,/g, ''))
+                  : null
+              )
             : "🔒"
           }
         </TableCell>
@@ -154,13 +161,13 @@ const ManagerRow: React.FC<{
               <Typography variant="h6" gutterBottom component="div">
                 Deals {!isAuthenticated && <span>🔒</span>}
               </Typography>
-              {manager.deals ? (
+              {manager.deals && isAuthenticated ? (
                 <Table size="small">
                   <TableHead>
                     <TableRow>
                       <StyledTableCell>Series Name/Obligor</StyledTableCell>
                       <StyledTableCell align="right">Par Amount</StyledTableCell>
-                      <StyledTableCell align="right">Fee Amount</StyledTableCell>
+                      <StyledTableCell align="right">Underwriter Fee</StyledTableCell>
                       <StyledTableCell align="right">Fee %</StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -212,25 +219,6 @@ const ManagerRow: React.FC<{
       </TableRow>
     </>
   );
-};
-
-// Helper function to calculate fee percentage - handles all cases properly
-const calculateFeePercentage = (parString: string, feeString?: string): string => {
-  if (!feeString) return "-";
-  
-  try {
-    const par = parseFloat(parString.replace(/,/g, ''));
-    const fee = parseFloat(feeString.replace(/,/g, ''));
-    
-    if (isNaN(par) || isNaN(fee) || par <= 0 || fee <= 0) {
-      return "-";
-    }
-    
-    return ((fee / par) * 100).toFixed(2) + "%";
-  } catch (error) {
-    console.error("Error calculating fee percentage:", error);
-    return "-";
-  }
 };
 
 /**
@@ -329,41 +317,24 @@ const LeagueTable: React.FC = () => {
           const publicData = httpsCallable(functions, "getPublicLeagueData");
           const response = await publicData();
           data = response.data;
+          console.log("Public API response:", response);
         }
-        // Process with minimal logging
 
-        // First, we need to ensure that 'data' is an array and not 'unknown'
+        // Process with minimal logging
         if (!Array.isArray(data)) {
+          console.error("Expected array data but got:", typeof data);
           throw new Error("Expected 'data' to be an array");
         }
 
-        // Process the data
-        const processedData = data.map((manager: any, index: number) => {
-          // Only log if needed for debugging specific managers
-          // console.log(`Processing manager ${index} data:`, manager);
-
-          // Ensure manager has the required properties
-          if (typeof manager !== "object" || manager === null) {
-            throw new Error(`Expected 'manager' to be an object at index ${index}`);
-          }
-
-          return {
-            leadLeftManager: manager.leadLeftManager || "",
-            aggregatePar: manager.aggregatePar,
-            aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
-            deals: manager.deals || []
-          };
-        });
-
-        console.log(`Processed ${processedData.length} managers`);
-        setManagerData(processedData);
+        console.log("First manager data sample:", data[0]);
 
         // Calculate total par
-        const calculatedTotalPar = processedData.reduce((sum: number, val: any) => {
+        const calculatedTotalPar = data.reduce((sum: number, val: any) => {
           const parValue = val.aggregatePar ? parseFloat(val.aggregatePar.replace(/,/g, '')) : 0;
           return sum + parValue;
         }, 0);
 
+        setManagerData(data);
         setTotalPar(calculatedTotalPar);
         
       } catch (error) {
