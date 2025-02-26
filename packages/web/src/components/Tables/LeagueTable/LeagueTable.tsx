@@ -2,7 +2,6 @@ import React, { useEffect, useState} from "react";
 import { httpsCallable, getFunctions } from "firebase/functions";
 import { auth } from "../../../firebaseConfig";
 import { checkUserSubscription } from "../../../services/userService";
-import { firebaseConfig } from "../../../firebaseConfig";
 
 // Add these MUI imports
 import {
@@ -327,47 +326,27 @@ const LeagueTable: React.FC = () => {
           }
         } else {
           console.log("User is not authenticated - fetching public data");
-          // Public data fetch - Fixed version
-          const functionUrl = process.env.NODE_ENV === "development" 
-            ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
-            : `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/getPublicLeagueData`;
+          const publicData = httpsCallable(functions, "getPublicLeagueData");
+          const response = await publicData();
+          data = response.data;
+        }
+        // Process with minimal logging
 
-          // Use AbortController to handle potential cancellations
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-          
-          try {
-            const publicResponse = await fetch(functionUrl, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-
-            // Check if response is OK before parsing
-            if (!publicResponse.ok) {
-              throw new Error(`HTTP error! status: ${publicResponse.status}`);
-            }
-
-            const publicData = await publicResponse.json();
-            data = publicData.data;
-          } catch (fetchError) {
-            // Type check the error before accessing properties
-            if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-              console.error('Request timed out');
-            }
-            throw fetchError; // Re-throw to be caught by outer try/catch
-          }
+        // First, we need to ensure that 'data' is an array and not 'unknown'
+        if (!Array.isArray(data)) {
+          throw new Error("Expected 'data' to be an array");
         }
 
-        // Process with minimal logging
+        // Process the data
         const processedData = data.map((manager: any, index: number) => {
           // Only log if needed for debugging specific managers
           // console.log(`Processing manager ${index} data:`, manager);
-          
+
+          // Ensure manager has the required properties
+          if (typeof manager !== "object" || manager === null) {
+            throw new Error(`Expected 'manager' to be an object at index ${index}`);
+          }
+
           return {
             leadLeftManager: manager.leadLeftManager || "",
             aggregatePar: manager.aggregatePar,

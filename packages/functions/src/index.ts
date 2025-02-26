@@ -5,7 +5,7 @@
  */
 
 import {handleNewUser} from "./authTriggers.js";
-import {onRequest, onCall, HttpsError} from "firebase-functions/v2/https";
+import {onCall, HttpsError} from "firebase-functions/v2/https";
 import {getAuth} from "firebase-admin/auth";
 import {db} from "./adminConfig.js";
 
@@ -145,13 +145,13 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
 };
 
 // Cloud Function: Public Data
-export const getPublicLeagueData = onRequest(async (req, res) => {
+export const getPublicLeagueData = onCall(async () => {
   try {
     const dealsSnapshot = await db.collection("deals").get();
     const aggregatedData = aggregateDealsData(dealsSnapshot, "unauthenticated");
-    res.status(200).json({success: true, data: aggregatedData});
+    return aggregatedData;
   } catch (error) {
-    res.status(500).json({success: false, error: "Data access denied"});
+    throw new HttpsError("internal", "Something went wrong");
   }
 });
 
