@@ -1,8 +1,8 @@
-import { initializeApp, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { processFirestoreData } from "../utils/firestoreUtils.js";
+import {initializeApp, cert} from "firebase-admin/app";
+import {getFirestore} from "firebase-admin/firestore";
+import {fileURLToPath} from "url";
+import {dirname} from "path";
+import {processFirestoreData, type FirestoreData} from "../utils/firestoreUtils.js";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -30,6 +30,13 @@ if (process.env.FUNCTIONS_EMULATOR === "true") {
   });
 }
 
+// Define types for your JSON structure
+type FirestoreJSON = {
+  [collection: string]: {
+    [documentId: string]: FirestoreData;
+  };
+};
+
 /**
  * Seeds the Firestore emulator with test data from firestore-data.json
  * Processes any timestamp fields and preserves document IDs
@@ -38,27 +45,30 @@ async function seedFirestore() {
   try {
     const firestoreDataPath = path.join(
       dirname(dirname(__dirname)), // go up two levels from lib/src/emulators to src
-      'src',
-      'emulators',
-      'firestore-data.json'
+      "src",
+      "emulators",
+      "firestore-data.json"
     );
-    const firestoreData = JSON.parse(fs.readFileSync(firestoreDataPath, "utf8"));
+    const firestoreData = JSON.parse(fs.readFileSync(firestoreDataPath, "utf8")) as FirestoreJSON;
 
-    // Process each collection
-    for (const [collectionName, documents] of Object.entries<Record<string, any>>(firestoreData)) {
+    // Type-safe iteration
+    for (const [collectionName, documents] of Object.entries(firestoreData)) {
       console.log(`📝 Processing collection: ${collectionName}`);
-      
-      // Process each document
+
       const documentPromises = Object.entries(documents).map(async ([docId, docData]) => {
         if (typeof docData === "object" && docData !== null) {
           const processedData = processFirestoreData(docData);
           const docRef = db.collection(collectionName).doc(docId);
-          
+
           try {
             await docRef.set(processedData);
             console.log(`✅ Document written: ${collectionName}/${docId}`);
           } catch (error) {
             console.error(`❌ Failed to write ${collectionName}/${docId}:`, error);
+            // Type-safe error handling
+            if (error instanceof Error) {
+              console.error(error.message);
+            }
           }
         }
       });
@@ -68,7 +78,7 @@ async function seedFirestore() {
 
     console.log("✅ Database seeded successfully!");
   } catch (error) {
-    console.error("❌ Seeding failed:", error);
+    console.error("❌ Seeding failed:", error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
   process.exit(0);

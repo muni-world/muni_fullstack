@@ -36,33 +36,33 @@ function aggregateDealsData(snapshot, role) {
             managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee.total;
         }
         // Only add deals for subscribers
-        if (role === 'subscriber') {
+        if (role === "subscriber") {
             managerTotals[leadLeftManager].deals.push(filterDealsData(dealData, role));
         }
     });
     // Debug log before processing
     console.log("Pre-processing totals for first manager:", Object.values(managerTotals)[0]);
     // Convert to array and sort
-    let processedData = Object.values(managerTotals)
+    const processedData = Object.values(managerTotals)
         .sort((a, b) => b.aggregatePar - a.aggregatePar)
         .map((manager) => {
         // Base object with common fields
         const baseData = {
             leadLeftManager: manager.leadLeftManager,
-            aggregatePar: formatNumber(manager.aggregatePar)
+            aggregatePar: formatNumber(manager.aggregatePar),
         };
         // Add underwriter fee based on role
-        if (role === 'unauthenticated') {
+        if (role === "unauthenticated") {
             return {
                 ...baseData,
-                aggregateUnderwriterFee: null
+                aggregateUnderwriterFee: null,
             };
         }
         else {
             // For authenticated and subscriber users
             return {
                 ...baseData,
-                aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee)
+                aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
             };
         }
     });
@@ -72,7 +72,7 @@ function aggregateDealsData(snapshot, role) {
     // During processing
     console.log(`Processing ${processedData[0].leadLeftManager}:`, {
         totalPar: processedData[0].aggregatePar,
-        totalFees: processedData[0].aggregateUnderwriterFee
+        totalFees: processedData[0].aggregateUnderwriterFee,
     });
     return processedData;
 }
@@ -84,11 +84,11 @@ const filterDealsData = (deal, role) => {
         lead_managers: deal.lead_managers,
     };
     // Public users only get basic deal info
-    if (role === 'unauthenticated') {
+    if (role === "unauthenticated") {
         return baseData;
     }
     // Authenticated users get underwriter fee totals
-    if (role === 'authenticated') {
+    if (role === "authenticated") {
         return {
             ...baseData,
             underwriter_fee: { total: deal.underwriter_fee?.total || 0 },

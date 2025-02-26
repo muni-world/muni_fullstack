@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState} from "react";
 import { httpsCallable, getFunctions } from "firebase/functions";
 import { auth } from "../../../firebaseConfig";
 import { checkUserSubscription } from "../../../services/userService";
@@ -113,13 +113,8 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Remove useEffect and use a memoized value for logging
-  const logMessage = useMemo(() => {
-    return `Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`;
-  }, [index, manager.leadLeftManager, manager.aggregatePar, manager.aggregateUnderwriterFee]);
-
-  // Log only once when the component mounts
-  console.log(logMessage);
+  // Simplified logging - just one entry per manager
+  console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`);
 
   return (
     <>
@@ -307,12 +302,7 @@ const LeagueTable: React.FC = () => {
         // Get appropriate data based on auth status
         let data;
         
-        // Log detailed auth state before API calls
-        console.log("Fetching data with auth state:", { 
-          isAuthenticated, 
-          isSubscriber,
-          authChecked
-        });
+        console.log(`Fetching data as ${isAuthenticated ? (isSubscriber ? "subscriber" : "authenticated") : "public"} user`);
         
         if (isAuthenticated) {
           if (isSubscriber) {
@@ -374,12 +364,17 @@ const LeagueTable: React.FC = () => {
         }
 
         // Process with minimal logging
-        const processedData = data.map((manager: any) => ({
-          leadLeftManager: manager.leadLeftManager || "",
-          aggregatePar: manager.aggregatePar,
-          aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
-          deals: manager.deals || []
-        }));
+        const processedData = data.map((manager: any, index: number) => {
+          // Only log if needed for debugging specific managers
+          // console.log(`Processing manager ${index} data:`, manager);
+          
+          return {
+            leadLeftManager: manager.leadLeftManager || "",
+            aggregatePar: manager.aggregatePar,
+            aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
+            deals: manager.deals || []
+          };
+        });
 
         console.log(`Processed ${processedData.length} managers`);
         setManagerData(processedData);

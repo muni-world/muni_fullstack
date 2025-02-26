@@ -7,7 +7,7 @@
 import {handleNewUser} from "./authTriggers.js";
 import {onRequest, onCall, HttpsError} from "firebase-functions/v2/https";
 import {getAuth} from "firebase-admin/auth";
-import { db } from "./adminConfig.js";
+import {db} from "./adminConfig.js";
 
 const auth = getAuth();
 
@@ -61,43 +61,43 @@ function aggregateDealsData(
     }
 
     managerTotals[leadLeftManager].aggregatePar += dealData.total_par || 0;
-    
+
     // Make sure we're correctly adding the underwriter fee
     if (dealData.underwriter_fee?.total) {
       managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee.total;
     }
-    
+
     // Only add deals for subscribers
-    if (role === 'subscriber') {
+    if (role === "subscriber") {
       managerTotals[leadLeftManager].deals.push(filterDealsData(dealData, role));
     }
   });
 
   // Debug log before processing
-  console.log("Pre-processing totals for first manager:", 
+  console.log("Pre-processing totals for first manager:",
     Object.values(managerTotals)[0]);
 
   // Convert to array and sort
-  let processedData = Object.values(managerTotals)
+  const processedData = Object.values(managerTotals)
     .sort((a, b) => b.aggregatePar - a.aggregatePar)
     .map((manager) => {
       // Base object with common fields
       const baseData = {
         leadLeftManager: manager.leadLeftManager,
-        aggregatePar: formatNumber(manager.aggregatePar)
+        aggregatePar: formatNumber(manager.aggregatePar),
       };
 
       // Add underwriter fee based on role
-      if (role === 'unauthenticated') {
+      if (role === "unauthenticated") {
         return {
           ...baseData,
-          aggregateUnderwriterFee: null
+          aggregateUnderwriterFee: null,
         };
       } else {
         // For authenticated and subscriber users
         return {
           ...baseData,
-          aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee)
+          aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
         };
       }
     });
@@ -106,11 +106,11 @@ function aggregateDealsData(
   console.log("Processed data for first manager:", processedData[0]);
 
   console.log("Manager data before processing:", processedData);
-  
+
   // During processing
   console.log(`Processing ${processedData[0].leadLeftManager}:`, {
     totalPar: processedData[0].aggregatePar,
-    totalFees: processedData[0].aggregateUnderwriterFee
+    totalFees: processedData[0].aggregateUnderwriterFee,
   });
 
   return processedData;
@@ -125,15 +125,15 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
   };
 
   // Public users only get basic deal info
-  if (role === 'unauthenticated') {
+  if (role === "unauthenticated") {
     return baseData;
   }
 
   // Authenticated users get underwriter fee totals
-  if (role === 'authenticated') {
+  if (role === "authenticated") {
     return {
       ...baseData,
-      underwriter_fee: { total: deal.underwriter_fee?.total || 0 },
+      underwriter_fee: {total: deal.underwriter_fee?.total || 0},
     };
   }
 
@@ -202,4 +202,4 @@ export const getSubscriberLeagueData = onCall(async (request) => {
 
 export {handleNewUser};
 
-export { testAuthSubscriptionData } from "./testAuthSubscriptionData.js";
+export {testAuthSubscriptionData} from "./testAuthSubscriptionData.js";
