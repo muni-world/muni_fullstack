@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { httpsCallable, getFunctions } from "firebase/functions";
 import { auth } from "../../../firebaseConfig";
 import { checkUserSubscription } from "../../../services/userService";
@@ -27,23 +27,24 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 /**
  * Interface for deal data
  */
-interface DealData {
+interface Deal {
   series_name_obligor: string;
   total_par: number;
-  underwriter_fee: {
-    total: number;
+  emma_os_url?: string;
+  underwriter_fee?: {
+    total: number | null;
   };
-  emma_os_url?: string; 
+  lead_managers?: string[];
 }
 
 /**
  * Interface for manager data with deals
  */
 interface ManagerData {
-  leadLeftManager?: string;
-  totalPar: number;
-  underwriterFee: number;
-  deals: DealData[];
+  leadLeftManager: string;
+  aggregatePar: string;
+  aggregateUnderwriterFee?: string;
+  deals?: Deal[];
 }
 
 // Custom styled components using MUI's styled utility
@@ -112,8 +113,8 @@ const ManagerRow: React.FC<{
 }> = ({ manager, index, isMobile, isAuthenticated }) => {
   const [open, setOpen] = useState(false);
 
-  // Simplified - just use leadLeftManager or Unknown Manager
-  const displayName = manager.leadLeftManager || "Unknown Manager";
+  // Simplified logging - just one entry per manager
+  console.log(`Manager #${index + 1}: ${manager.leadLeftManager} - Par: ${manager.aggregatePar} - Fee: ${manager.aggregateUnderwriterFee}`);
 
   return (
     <>
@@ -128,21 +129,21 @@ const ManagerRow: React.FC<{
           </IconButton>
         </TableCell>
         <TableCell align="center">{index + 1}</TableCell>
-        <TableCell align="left">{displayName}</TableCell>
+        <TableCell align="left">{manager.leadLeftManager}</TableCell>
         <TableCell align="right">
-          {isAuthenticated ? `$${formatNumber(manager.totalPar)}` : "🔒"}
+          ${manager.aggregatePar}
         </TableCell>
         <TableCell align="right">
           {isAuthenticated 
-            ? (manager.underwriterFee !== undefined && manager.underwriterFee !== null 
-                ? "$" + formatNumber(Math.round(manager.underwriterFee)) 
+            ? (manager.aggregateUnderwriterFee 
+                ? `$${manager.aggregateUnderwriterFee}` 
                 : "-")
             : "🔒"
           }
         </TableCell>
         <TableCell align="center">
           {isAuthenticated 
-            ? formatFeePercentage(manager.totalPar, manager.underwriterFee)
+            ? calculateFeePercentage(manager.aggregatePar, manager.aggregateUnderwriterFee)
             : "🔒"
           }
         </TableCell>
@@ -154,78 +155,58 @@ const ManagerRow: React.FC<{
               <Typography variant="h6" gutterBottom component="div">
                 Deals {!isAuthenticated && <span>🔒</span>}
               </Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Series Name/Obligor</StyledTableCell>
-                    <StyledTableCell align="right">Par Amount</StyledTableCell>
-                    <StyledTableCell align="right">Fee Amount</StyledTableCell>
-                    <StyledTableCell align="right">Fee %</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {isAuthenticated ? (
-                    manager.deals
-                      .sort((a, b) => {
-                        const feeA = a.underwriter_fee?.total ?? null;
-                        const feeB = b.underwriter_fee?.total ?? null;
-                        
-                        // If both fees are null, keep original order
-                        if (feeA === null && feeB === null) return 0;
-                        
-                        // Null fees go to the bottom
-                        if (feeA === null) return 1;
-                        if (feeB === null) return -1;
-                        
-                        const ratioA = a.total_par ? feeA / a.total_par : 0;
-                        const ratioB = b.total_par ? feeB / b.total_par : 0;
-                        return ratioB - ratioA;
-                      })
-                      .map((deal, idx) => (
-                        <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
-                          <TableCell>
-                            {deal.emma_os_url ? (
-                              <Typography
-                                component="span"
-                                sx={{
-                                  cursor: "pointer",
-                                  color: "primary.main",
-                                  "&:hover": {
-                                    textDecoration: "underline",
-                                  },
-                                }}
-                                onClick={() => window.open(deal.emma_os_url, "_blank")}
-                              >
-                                {deal.series_name_obligor}
-                              </Typography>
-                            ) : (
-                              deal.series_name_obligor
-                            )}
-                          </TableCell>
-                          <TableCell align="right">
-                            ${formatNumber(deal.total_par)}
-                          </TableCell>
-                          <TableCell align="right">
-                            {deal.underwriter_fee?.total !== undefined 
-                              ? "$" + formatNumber(deal.underwriter_fee.total)
-                              : "-"}
-                          </TableCell>
-                          <TableCell align="right">
-                            {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
-                          </TableCell>
-                        </StyledTableRow>
-                      ))
-                  ) : (
-                    <StyledTableRow>
-                      <TableCell colSpan={4} align="center">
-                        <Typography sx={{ py: 2 }}>
-                          🔒 Sign in to view deal details 🔒
-                        </Typography>
-                      </TableCell>
-                    </StyledTableRow>
-                  )}
-                </TableBody>
-              </Table>
+              {manager.deals ? (
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>Series Name/Obligor</StyledTableCell>
+                      <StyledTableCell align="right">Par Amount</StyledTableCell>
+                      <StyledTableCell align="right">Fee Amount</StyledTableCell>
+                      <StyledTableCell align="right">Fee %</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {manager.deals.map((deal, idx) => (
+                      <StyledTableRow key={`${deal.series_name_obligor}-${idx}`}>
+                        <TableCell>
+                          {deal.emma_os_url ? (
+                            <Typography
+                              component="span"
+                              sx={{
+                                cursor: "pointer",
+                                color: "primary.main",
+                                "&:hover": {
+                                  textDecoration: "underline",
+                                },
+                              }}
+                              onClick={() => window.open(deal.emma_os_url, "_blank")}
+                            >
+                              {deal.series_name_obligor}
+                            </Typography>
+                          ) : (
+                            deal.series_name_obligor
+                          )}
+                        </TableCell>
+                        <TableCell align="right">
+                          ${formatNumber(deal.total_par)}
+                        </TableCell>
+                        <TableCell align="right">
+                          {deal.underwriter_fee?.total !== undefined 
+                            ? "$" + formatNumber(deal.underwriter_fee.total)
+                            : "-"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {formatFeePercentage(deal.total_par, deal.underwriter_fee?.total)}
+                        </TableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <Typography sx={{ py: 2 }} align="center">
+                  🔒 Sign in to view deal details 🔒
+                </Typography>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -234,57 +215,118 @@ const ManagerRow: React.FC<{
   );
 };
 
+// Helper function to calculate fee percentage - handles all cases properly
+const calculateFeePercentage = (parString: string, feeString?: string): string => {
+  if (!feeString) return "-";
+  
+  try {
+    const par = parseFloat(parString.replace(/,/g, ''));
+    const fee = parseFloat(feeString.replace(/,/g, ''));
+    
+    if (isNaN(par) || isNaN(fee) || par <= 0 || fee <= 0) {
+      return "-";
+    }
+    
+    return ((fee / par) * 100).toFixed(2) + "%";
+  } catch (error) {
+    console.error("Error calculating fee percentage:", error);
+    return "-";
+  }
+};
+
 /**
  * LeagueTable Component
  * Displays league standings in a tabular format
  */
 const LeagueTable: React.FC = () => {
-  // State to store the array of manager data.
+  // State to store the array of manager data
   const [managerData, setManagerData] = useState<ManagerData[]>([]);
-  // State to store the overall total par value across all managers.
+  // State to store the overall total par value across all managers
   const [totalPar, setTotalPar] = useState<number>(0);
-
   // Add this near the top of the component
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // Use a loading state to prevent multiple requests
-  const [loading, setLoading] = useState<boolean>(true);
   
-  // Add authentication state
+  // Authentication states
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isSubscriber, setIsSubscriber] = useState<boolean>(false);
   
+  // Auth loading state - NEW
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  // Data loading state
+  const [loading, setLoading] = useState<boolean>(false);
+  
+  // First effect - check authentication state
   useEffect(() => {
-    // Check if user is authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    console.log("Setting up auth listener");
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      console.log("Auth state changed:", user ? `User authenticated (${user.uid})` : "No user");
       setIsAuthenticated(!!user);
+      
+      if (user) {
+        try {
+          const subscriptionStatus = await checkUserSubscription(user.uid);
+          console.log(`Subscription status for ${user.uid}:`, subscriptionStatus);
+          setIsSubscriber(subscriptionStatus);
+        } catch (error) {
+          console.error("Error checking subscription:", error);
+          setIsSubscriber(false);
+        }
+      } else {
+        setIsSubscriber(false);
+      }
+      
+      // Mark auth check as complete
+      setAuthChecked(true);
     });
     
     return () => unsubscribe();
   }, []);
-
+  
+  // Second effect - trigger data loading once auth is checked
   useEffect(() => {
+    if (authChecked) {
+      console.log("Auth check completed, triggering data fetch");
+      setLoading(true);
+    }
+  }, [authChecked]);
+
+  // Third effect - fetch data
+  useEffect(() => {
+    if (!loading) return;
+    
     const fetchData = async () => {
-      if (!loading) return; // Prevent re-fetching if already fetched
-      
       try {
         const functions = getFunctions();
         
-        // Get public data by default
+        // Get appropriate data based on auth status
         let data;
         
-        const user = auth.currentUser;
-        if (user) {
-          const isSubscriber = await checkUserSubscription(user.uid);
-          
+        console.log(`Fetching data as ${isAuthenticated ? (isSubscriber ? "subscriber" : "authenticated") : "public"} user`);
+        
+        if (isAuthenticated) {
           if (isSubscriber) {
-            const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
-            data = (await subscriberData()).data;
+            console.log("User is a subscriber - fetching subscriber data");
+            try {
+              const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
+              const response = await subscriberData();
+              data = response.data;
+              console.log("Subscriber API response:", response);
+            } catch (error) {
+              console.error("Subscriber API call failed, falling back to authenticated:", error);
+              const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
+              const response = await authData();
+              data = response.data;
+            }
           } else {
+            console.log("User is authenticated but not subscribed - fetching authenticated data");
             const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
-            data = (await authData()).data;
+            const response = await authData();
+            data = response.data;
+            console.log("Authenticated API response:", response);
           }
         } else {
+          console.log("User is not authenticated - fetching public data");
           // Public data fetch - Fixed version
           const functionUrl = process.env.NODE_ENV === "development" 
             ? `http://localhost:5001/${firebaseConfig.projectId}/us-central1/getPublicLeagueData`
@@ -321,60 +363,41 @@ const LeagueTable: React.FC = () => {
           }
         }
 
-        // Process and set state
-        const processedData = data.map((manager: any) => {
-          // Convert strings to numbers, keep null/undefined values as they are
-          const totalPar = manager.totalPar 
-            ? Number(manager.totalPar.replace?.(/,/g, '') || manager.totalPar)
-            : manager.totalPar;
+        // Process with minimal logging
+        const processedData = data.map((manager: any, index: number) => {
+          // Only log if needed for debugging specific managers
+          // console.log(`Processing manager ${index} data:`, manager);
           
-          const underwriterFee = manager.underwriterFee !== undefined && manager.underwriterFee !== null
-            ? Number(manager.underwriterFee.replace?.(/,/g, '') || manager.underwriterFee)
-            : null; // Explicitly set to null if not present
-          
-          // Simplified - no more manager.manager reference
           return {
             leadLeftManager: manager.leadLeftManager || "",
-            totalPar,
-            underwriterFee,
+            aggregatePar: manager.aggregatePar,
+            aggregateUnderwriterFee: manager.aggregateUnderwriterFee,
             deals: manager.deals || []
           };
         });
 
-        // Log a single entry to debug the structure
-        if (processedData.length > 0) {
-          console.log("Sample data entry:", processedData[0]);
-        }
-
-        // Simple test to log what data is returned
-        console.log("Raw API response:", data);
-
+        console.log(`Processed ${processedData.length} managers`);
         setManagerData(processedData);
 
-        // Calculate total par only for values that exist
+        // Calculate total par
         const calculatedTotalPar = processedData.reduce((sum: number, val: any) => {
-          return sum + (val.totalPar || 0);
+          const parValue = val.aggregatePar ? parseFloat(val.aggregatePar.replace(/,/g, '')) : 0;
+          return sum + parValue;
         }, 0);
 
         setTotalPar(calculatedTotalPar);
         
       } catch (error) {
         console.error("Data fetch failed:", error);
-        // Add user-friendly error handling
         setManagerData([]);
         setTotalPar(0);
       } finally {
-        setLoading(false); // Mark as done loading whether success or failure
+        setLoading(false);
       }
     };
 
     fetchData();
-    
-    // Return cleanup function to abort any pending requests
-    return () => {
-      // Any cleanup needed
-    };
-  }, [loading]); // Add loading as a dependency since it's used in the effect
+  }, [loading, isAuthenticated, isSubscriber]);
 
   // Render the component UI.
   return (
@@ -388,7 +411,7 @@ const LeagueTable: React.FC = () => {
       }}
     >
       <Typography variant="h5" gutterBottom>
-        Total Par Issued: {isAuthenticated ? `$${formatNumber(totalPar)}` : "🔒"}
+        Total Par Issued: ${formatNumber(totalPar)}
       </Typography>
       
       {!isAuthenticated && (

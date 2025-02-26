@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import {initializeApp} from "firebase-admin/app";
+import {getFirestore} from "firebase-admin/firestore";
 
 // Initialize Firebase Admin once
 const app = initializeApp({
@@ -17,4 +17,4 @@ if (process.env.FUNCTIONS_EMULATOR === "true") {
   });
 }
 
-export { db }; 
+export {db};

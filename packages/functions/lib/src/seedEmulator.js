@@ -45,4 +45,3 @@ async function seedFirestore() {
     }
 }
 seedFirestore();
-//# sourceMappingURL=seedEmulator.js.map

@@ -7,7 +7,7 @@
 import {handleNewUser} from "./authTriggers.js";
 import {onRequest, onCall, HttpsError} from "firebase-functions/v2/https";
 import {getAuth} from "firebase-admin/auth";
-import { db } from "./adminConfig.js";
+import {db} from "./adminConfig.js";
 
 const auth = getAuth();
 
@@ -28,29 +28,24 @@ interface Deal {
   lead_managers?: string[];
 }
 
-interface ManagerTotal {
-  leadLeftManager: string;  // Keep this camelCase since it's our internal variable
-  totalPar: number;        // Keep this camelCase since it's our internal variable
-  underwriterFee: number;  // Keep this camelCase since it's our internal variable
+interface ManagerAggregate {
+  leadLeftManager: string;
+  aggregatePar: number;
+  aggregateUnderwriterFee: number;
   deals: Deal[];
 }
 
 /**
- * Aggregates deal data by lead manager
- * @param {FirebaseFirestore.QuerySnapshot} snapshot - Firestore query snapshot containing deal data
- * @param {UserRole} role - User's access role (unauthenticated/authenticated/subscriber)
- * @return {Array<{
- *   leadLeftManager: string,
- *   totalPar: string,
- *   underwriterFee: string,
- *   deals: Array<Deal>
- * }>} Sorted and formatted array of manager totals
+ * Aggregates deal data by lead left manager (first in lead_managers array)
  */
 function aggregateDealsData(
   snapshot: FirebaseFirestore.QuerySnapshot,
   role: UserRole
 ) {
-  const managerTotals: Record<string, ManagerTotal> = {};
+  // First, let's add some debug logging
+  console.log("Processing data for role:", role);
+
+  const managerTotals: Record<string, ManagerAggregate> = {};
 
   snapshot.forEach((doc) => {
     const dealData = doc.data() as Deal;
@@ -59,26 +54,66 @@ function aggregateDealsData(
     if (!managerTotals[leadLeftManager]) {
       managerTotals[leadLeftManager] = {
         leadLeftManager,
-        totalPar: 0,
-        underwriterFee: 0,
+        aggregatePar: 0,
+        aggregateUnderwriterFee: 0,
         deals: [],
       };
     }
 
-    const filteredDeal = filterDealsData(dealData, role);
+    managerTotals[leadLeftManager].aggregatePar += dealData.total_par || 0;
 
-    managerTotals[leadLeftManager].totalPar += dealData.total_par || 0;
-    managerTotals[leadLeftManager].underwriterFee += dealData.underwriter_fee?.total || 0;
-    managerTotals[leadLeftManager].deals.push(filteredDeal);
+    // Make sure we're correctly adding the underwriter fee
+    if (dealData.underwriter_fee?.total) {
+      managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee.total;
+    }
+
+    // Only add deals for subscribers
+    if (role === "subscriber") {
+      managerTotals[leadLeftManager].deals.push(filterDealsData(dealData, role));
+    }
   });
 
-  return Object.values(managerTotals)
-    .sort((a, b) => b.totalPar - a.totalPar)
-    .map((manager) => ({
-      ...manager,
-      totalPar: formatNumber(manager.totalPar),
-      underwriterFee: formatNumber(manager.underwriterFee),
-    }));
+  // Debug log before processing
+  console.log("Pre-processing totals for first manager:",
+    Object.values(managerTotals)[0]);
+
+  // Convert to array and sort
+  const processedData = Object.values(managerTotals)
+    .sort((a, b) => b.aggregatePar - a.aggregatePar)
+    .map((manager) => {
+      // Base object with common fields
+      const baseData = {
+        leadLeftManager: manager.leadLeftManager,
+        aggregatePar: formatNumber(manager.aggregatePar),
+      };
+
+      // Add underwriter fee based on role
+      if (role === "unauthenticated") {
+        return {
+          ...baseData,
+          aggregateUnderwriterFee: null,
+        };
+      } else {
+        // For authenticated and subscriber users
+        return {
+          ...baseData,
+          aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
+        };
+      }
+    });
+
+  // Debug log after processing
+  console.log("Processed data for first manager:", processedData[0]);
+
+  console.log("Manager data before processing:", processedData);
+
+  // During processing
+  console.log(`Processing ${processedData[0].leadLeftManager}:`, {
+    totalPar: processedData[0].aggregatePar,
+    totalFees: processedData[0].aggregateUnderwriterFee,
+  });
+
+  return processedData;
 }
 
 const filterDealsData = (deal: Deal, role: UserRole): Deal => {
@@ -89,6 +124,12 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
     lead_managers: deal.lead_managers,
   };
 
+  // Public users only get basic deal info
+  if (role === "unauthenticated") {
+    return baseData;
+  }
+
+  // Authenticated users get underwriter fee totals
   if (role === "authenticated") {
     return {
       ...baseData,
@@ -96,14 +137,11 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
     };
   }
 
-  if (role === "subscriber") {
-    return {
-      ...baseData,
-      underwriter_fee: deal.underwriter_fee,
-    };
-  }
-
-  return baseData;
+  // Subscribers get everything
+  return {
+    ...baseData,
+    underwriter_fee: deal.underwriter_fee,
+  };
 };
 
 // Cloud Function: Public Data
@@ -119,7 +157,6 @@ export const getPublicLeagueData = onRequest(async (req, res) => {
 
 // Cloud Function: Authenticated User Data
 export const getAuthenticatedLeagueData = onCall(async (request) => {
-  // In v2, auth info is in request.auth instead of context.auth
   if (!request.auth) {
     throw new HttpsError(
       "unauthenticated",
@@ -129,8 +166,12 @@ export const getAuthenticatedLeagueData = onCall(async (request) => {
 
   try {
     const dealsSnapshot = await db.collection("deals").get();
-    return aggregateDealsData(dealsSnapshot, "authenticated");
+    // Make sure we're explicitly passing 'authenticated' as the role
+    const data = aggregateDealsData(dealsSnapshot, "authenticated");
+    console.log("Authenticated data sample:", data[0]); // Debug log
+    return data;
   } catch (error) {
+    console.error("Error in getAuthenticatedLeagueData:", error);
     throw new HttpsError("internal", "Something went wrong");
   }
 });
@@ -161,4 +202,4 @@ export const getSubscriberLeagueData = onCall(async (request) => {
 
 export {handleNewUser};
 
-export { testAuthSubscriptionData } from "./testAuthSubscriptionData.js";
+export {testAuthSubscriptionData} from "./testAuthSubscriptionData.js";

@@ -46,9 +46,9 @@ export const testAuthSubscriptionData = onCall({ ingressSettings: "ALLOW_ALL" },
             }
             if (userType === "subscriber") {
                 row.underwriters_fee_total =
-                    typeof deal.underwriter_fee?.total === "number"
-                        ? deal.underwriter_fee.total
-                        : Number(deal.underwriter_fee?.total || 0);
+                    typeof deal.underwriter_fee?.total === "number" ?
+                        deal.underwriter_fee.total :
+                        Number(deal.underwriter_fee?.total || 0);
             }
             result.push(row);
         });

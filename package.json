@@ -6,5 +6,9 @@
     "dependencies": {
     },
     "devDependencies": {
+    },
+    "scripts": {
+        "lint": "eslint \"packages/**/*.{ts,tsx}\"",
+        "lint:fix": "eslint \"packages/**/*.{ts,tsx}\" --fix"
     }
 }
