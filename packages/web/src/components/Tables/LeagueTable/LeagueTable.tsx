@@ -242,6 +242,8 @@ const LeagueTable: React.FC = () => {
   const [authChecked, setAuthChecked] = useState<boolean>(false);
   // Data loading state
   const [loading, setLoading] = useState<boolean>(false);
+  // Error state
+  const [error, setError] = useState<string | null>(null);
   
   // First effect - check authentication state
   useEffect(() => {
@@ -275,6 +277,7 @@ const LeagueTable: React.FC = () => {
     if (authChecked) {
       console.log("Auth check completed, triggering data fetch");
       setLoading(true);
+      setError(null); // Reset error state when starting a new fetch
     }
   }, [authChecked]);
 
@@ -295,59 +298,116 @@ const LeagueTable: React.FC = () => {
           if (isSubscriber) {
             console.log("User is a subscriber - fetching subscriber data");
             try {
-              const subscriberData = httpsCallable(functions, 'getSubscriberLeagueData');
+              const subscriberData = httpsCallable(functions, "getSubscriberLeagueData");
               const response = await subscriberData();
               data = response.data;
               console.log("Subscriber API response:", response);
             } catch (error) {
               console.error("Subscriber API call failed, falling back to authenticated:", error);
-              const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
+              const authData = httpsCallable(functions, "getAuthenticatedLeagueData");
               const response = await authData();
               data = response.data;
             }
           } else {
             console.log("User is authenticated but not subscribed - fetching authenticated data");
-            const authData = httpsCallable(functions, 'getAuthenticatedLeagueData');
+            const authData = httpsCallable(functions, "getAuthenticatedLeagueData");
             const response = await authData();
             data = response.data;
             console.log("Authenticated API response:", response);
           }
         } else {
           console.log("User is not authenticated - fetching public data");
-          const publicData = httpsCallable(functions, "getPublicLeagueData");
-          const response = await publicData();
-          data = response.data;
-          console.log("Public API response:", response);
+          try {
+            const publicData = httpsCallable(functions, "getPublicLeagueData");
+            console.log("Calling getPublicLeagueData...");
+            const response = await publicData();
+            console.log("Public API raw response:", response);
+            
+            // Check if response exists
+            if (!response) {
+              throw new Error("No response received from public API");
+            }
+            
+            // Check if data exists in response
+            if (!response.data) {
+              throw new Error("No data field in API response");
+            }
+            
+            data = response.data;
+            
+            // Check if data is empty array
+            if (Array.isArray(data) && data.length === 0) {
+              console.warn("Received empty array from API");
+              setError("No data available at this time");
+              setManagerData([]);
+              setTotalPar(0);
+              return;
+            }
+            
+            console.log("Public API processed data:", data);
+          } catch (error: any) {
+            console.error("Public data fetch failed:", error);
+            // Include more detailed error information
+            const errorMessage = error.message || "Unknown error";
+            const errorCode = error.code || "unknown";
+            throw new Error(`Public data fetch failed: ${errorCode} - ${errorMessage}`);
+          }
         }
 
         // Process with minimal logging
         if (!Array.isArray(data)) {
           console.error("Expected array data but got:", typeof data);
-          throw new Error("Expected 'data' to be an array");
+          throw new Error(`Expected 'data' to be an array, got ${typeof data}`);
+        }
+
+        if (data.length === 0) {
+          console.warn("Received empty data array");
+          setError("No data available");
+          return;
         }
 
         console.log("First manager data sample:", data[0]);
 
         // Calculate total par
         const calculatedTotalPar = data.reduce((sum: number, val: any) => {
-          const parValue = val.aggregatePar ? parseFloat(val.aggregatePar.replace(/,/g, '')) : 0;
+          const parValue = val.aggregatePar ? parseFloat(val.aggregatePar.replace(/,/g, "")) : 0;
           return sum + parValue;
         }, 0);
 
         setManagerData(data);
         setTotalPar(calculatedTotalPar);
+        setError(null);
         
-      } catch (error) {
+      } catch (error: any) {
         console.error("Data fetch failed:", error);
         setManagerData([]);
         setTotalPar(0);
+        setError(error.message || "Failed to load data");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [loading, isAuthenticated, isSubscriber]);
+  }, [isAuthenticated, isSubscriber, loading]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <Paper sx={{ width: "100%", margin: "0 auto", padding: 2, textAlign: "center" }}>
+        <Typography>Loading data...</Typography>
+      </Paper>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <Paper sx={{ width: "100%", margin: "0 auto", padding: 2, textAlign: "center" }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Paper>
+    );
+  }
 
   // Render the component UI.
   return (

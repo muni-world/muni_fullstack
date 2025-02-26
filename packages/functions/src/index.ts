@@ -156,12 +156,32 @@ const filterDealsData = (deal: Deal, role: UserRole): Deal => {
 
 // Cloud Function: Public Data
 export const getPublicLeagueData = onCall(async () => {
+  console.log("getPublicLeagueData called");
+
   try {
+    console.log("Fetching deals from Firestore...");
     const dealsSnapshot = await db.collection("deals").get();
+
+    console.log(`Found ${dealsSnapshot.size} deals in the database`);
+
+    if (dealsSnapshot.empty) {
+      console.warn("No deals found in the database");
+      return [];
+    }
+
+    console.log("Aggregating deals data...");
     const aggregatedData = aggregateDealsData(dealsSnapshot, "unauthenticated");
+
+    console.log(`Processed ${aggregatedData.length} managers`);
+    console.log("Sample of first manager:", JSON.stringify(aggregatedData[0]));
+
     return aggregatedData;
   } catch (error) {
-    throw new HttpsError("internal", "Something went wrong");
+    console.error("Error in getPublicLeagueData:", error);
+    throw new HttpsError(
+      "internal",
+      error instanceof Error ? error.message : "Something went wrong"
+    );
   }
 });
 
