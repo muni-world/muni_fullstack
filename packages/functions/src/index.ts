@@ -43,11 +43,25 @@ interface Deal {
   emma_os_url?: string;
   underwriter_fee?: { total: number };
   lead_managers?: string[];
+  os_type?: string;
+  co_managers?: string[];
+  counsels?: string[];
+  municipal_advisors?: string[];
+  underwriters_advisors?: string[];
 }
 
-// Helper function to check if manager data is authenticated
-function isAuthenticatedData(data: BaseManagerData | AuthenticatedManagerData): data is AuthenticatedManagerData {
-  return "aggregateUnderwriterFee" in data;
+// Interface for raw data from Firestore
+interface RawDealData {
+  series_name_obligor?: string;
+  total_par?: number;
+  emma_os_url?: string;
+  underwriter_fee?: { total?: number };
+  lead_managers?: string[];
+  os_type?: string;
+  co_managers?: string[];
+  counsels?: string[];
+  municipal_advisors?: string[];
+  underwriters_advisors?: string[];
 }
 
 /**
@@ -63,8 +77,22 @@ function aggregateDealsData(
   const managerTotals: Record<string, ManagerTotals> = {};
 
   snapshot.forEach((doc) => {
-    const dealData = doc.data() as Deal;
-    const leadLeftManager = dealData.lead_managers?.[0] || "Unknown Manager";
+    const rawDealData = doc.data() as RawDealData;
+    console.log("Processing raw deal:", rawDealData.series_name_obligor);
+
+    // Map the raw deal data to our expected format with fallbacks for missing data
+    const dealData: Deal = {
+      series_name_obligor: rawDealData.series_name_obligor || "Unknown Series",
+      total_par: rawDealData.total_par || 0,
+      emma_os_url: rawDealData.emma_os_url,
+      underwriter_fee: {
+        total: rawDealData.underwriter_fee?.total || 0,
+      },
+      lead_managers: rawDealData.lead_managers || [],
+    };
+
+    const leadLeftManager = (rawDealData.lead_managers || [])[0] || "Unknown Manager";
+    console.log(`Processing for manager: ${leadLeftManager}`);
 
     if (!managerTotals[leadLeftManager]) {
       managerTotals[leadLeftManager] = {
@@ -75,22 +103,37 @@ function aggregateDealsData(
       };
     }
 
-    managerTotals[leadLeftManager].aggregatePar += dealData.total_par || 0;
+    managerTotals[leadLeftManager].aggregatePar += dealData.total_par;
 
-    // Make sure we're correctly adding the underwriter fee
-    if (dealData.underwriter_fee?.total) {
-      managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee.total;
-    }
+    // Add underwriter fee with fallback
+    managerTotals[leadLeftManager].aggregateUnderwriterFee += dealData.underwriter_fee?.total || 0;
 
     // Only add deals for subscribers
     if (role === "subscriber") {
-      managerTotals[leadLeftManager].deals.push(filterDealsData(dealData, role));
+      console.log(`Adding deal to ${leadLeftManager}'s deals array:`, dealData.series_name_obligor);
+      const subscriberDeal: Deal = {
+        ...dealData,
+        // Add additional fields for subscribers with fallbacks
+        os_type: rawDealData.os_type || "Unknown",
+        co_managers: rawDealData.co_managers || [],
+        counsels: rawDealData.counsels || [],
+        municipal_advisors: rawDealData.municipal_advisors || [],
+        underwriters_advisors: rawDealData.underwriters_advisors || [],
+      };
+      managerTotals[leadLeftManager].deals.push(subscriberDeal);
     }
   });
 
   // Debug log before processing
-  console.log("Pre-processing totals for first manager:",
-    Object.values(managerTotals)[0]);
+  const firstManager = Object.values(managerTotals)[0];
+  if (firstManager) {
+    console.log("Pre-processing totals for first manager:", {
+      manager: firstManager.leadLeftManager,
+      aggregatePar: firstManager.aggregatePar,
+      aggregateUnderwriterFee: firstManager.aggregateUnderwriterFee,
+      dealsCount: firstManager.deals.length,
+    });
+  }
 
   // Convert to array and sort
   const processedData = Object.values(managerTotals)
@@ -103,6 +146,16 @@ function aggregateDealsData(
         };
       }
 
+      // For authenticated users, include fee but no deals
+      if (role === "authenticated") {
+        return {
+          leadLeftManager: manager.leadLeftManager,
+          aggregatePar: formatNumber(manager.aggregatePar),
+          aggregateUnderwriterFee: formatNumber(manager.aggregateUnderwriterFee),
+        };
+      }
+
+      // For subscribers, include everything including deals
       return {
         leadLeftManager: manager.leadLeftManager,
         aggregatePar: formatNumber(manager.aggregatePar),
@@ -112,47 +165,12 @@ function aggregateDealsData(
     });
 
   // Debug log after processing
-  console.log("Processed data for first manager:", processedData[0]);
-
-  // During processing
-  const firstManager = processedData[0];
-  console.log(`Processing ${firstManager.leadLeftManager}:`, {
-    aggregatePar: firstManager.aggregatePar,
-    ...(isAuthenticatedData(firstManager) && {
-      aggregateFees: firstManager.aggregateUnderwriterFee,
-    }),
-  });
+  if (processedData.length > 0) {
+    console.log("Processed data for first manager:", JSON.stringify(processedData[0], null, 2));
+  }
 
   return processedData;
 }
-
-const filterDealsData = (deal: Deal, role: UserRole): Deal => {
-  const baseData: Deal = {
-    series_name_obligor: deal.series_name_obligor,
-    total_par: deal.total_par,
-    emma_os_url: deal.emma_os_url || undefined,
-    lead_managers: deal.lead_managers,
-  };
-
-  // Public users only get basic deal info
-  if (role === "unauthenticated") {
-    return baseData;
-  }
-
-  // Authenticated users get underwriter fee aggregates
-  if (role === "authenticated") {
-    return {
-      ...baseData,
-      underwriter_fee: {total: deal.underwriter_fee?.total || 0},
-    };
-  }
-
-  // Subscribers get everything
-  return {
-    ...baseData,
-    underwriter_fee: deal.underwriter_fee,
-  };
-};
 
 // Cloud Function: Public Data
 export const getPublicLeagueData = onCall(async () => {
@@ -169,18 +187,49 @@ export const getPublicLeagueData = onCall(async () => {
       return [];
     }
 
+    // Log a sample of raw data to verify structure
+    if (dealsSnapshot.size > 0) {
+      const sampleDeal = dealsSnapshot.docs[0].data();
+      console.log("Sample raw deal data:", JSON.stringify(sampleDeal));
+    }
+
     console.log("Aggregating deals data...");
-    const aggregatedData = aggregateDealsData(dealsSnapshot, "unauthenticated");
+    try {
+      const aggregatedData = aggregateDealsData(dealsSnapshot, "unauthenticated");
+      console.log(`Processed ${aggregatedData.length} managers`);
 
-    console.log(`Processed ${aggregatedData.length} managers`);
-    console.log("Sample of first manager:", JSON.stringify(aggregatedData[0]));
+      if (aggregatedData.length > 0) {
+        console.log("Sample of first manager:", JSON.stringify(aggregatedData[0]));
+      } else {
+        console.warn("No managers found after aggregation");
+      }
 
-    return aggregatedData;
+      return aggregatedData;
+    } catch (aggregationError) {
+      console.error("Error during data aggregation:", aggregationError);
+      throw new HttpsError(
+        "internal",
+        `Data aggregation failed: ${aggregationError instanceof Error ? aggregationError.message : "Unknown aggregation error"}`
+      );
+    }
   } catch (error) {
-    console.error("Error in getPublicLeagueData:", error);
+    // Log the full error object for debugging
+    console.error("Full error object in getPublicLeagueData:", error);
+
+    // Check if it's a Firestore error
+    if (error && typeof error === "object" && "code" in error) {
+      const firestoreError = error as { code?: string; message?: string };
+      console.error("Firestore error details:", {
+        code: firestoreError.code,
+        message: firestoreError.message,
+      });
+    }
+
     throw new HttpsError(
       "internal",
-      error instanceof Error ? error.message : "Something went wrong"
+      error instanceof Error ?
+        `Database operation failed: ${error.message}` :
+        "Unknown database error occurred"
     );
   }
 });

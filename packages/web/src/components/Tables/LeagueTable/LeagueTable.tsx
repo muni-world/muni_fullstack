@@ -109,7 +109,8 @@ const ManagerRow: React.FC<{
   index: number;
   isMobile: boolean;
   isAuthenticated: boolean;
-}> = ({ manager, index, isMobile, isAuthenticated }) => {
+  isSubscriber: boolean;
+}> = ({ manager, index, isMobile, isAuthenticated, isSubscriber }) => {
   const [open, setOpen] = useState(false);
 
   // Use useEffect to log only once per actual render
@@ -159,9 +160,9 @@ const ManagerRow: React.FC<{
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Deals {!isAuthenticated && <span>🔒</span>}
+                Deals {!isSubscriber && <span>🔒</span>}
               </Typography>
-              {manager.deals && isAuthenticated ? (
+              {manager.deals && isSubscriber ? (
                 <Table size="small">
                   <TableHead>
                     <TableRow>
@@ -210,7 +211,7 @@ const ManagerRow: React.FC<{
                 </Table>
               ) : (
                 <Typography sx={{ py: 2 }} align="center">
-                  🔒 Sign in to view deal details 🔒
+                  🔒 {isAuthenticated ? "Subscribe" : "Sign in"} to view deal details 🔒
                 </Typography>
               )}
             </Box>
@@ -471,6 +472,7 @@ const LeagueTable: React.FC = () => {
                 index={index}
                 isMobile={isMobile}
                 isAuthenticated={isAuthenticated}
+                isSubscriber={isSubscriber}
               />
             ))}
           </TableBody>

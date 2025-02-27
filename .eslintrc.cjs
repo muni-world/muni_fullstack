@@ -18,7 +18,7 @@ module.exports = {
     project: [
       "./packages/functions/tsconfig.json",
       "./packages/functions/tsconfig.dev.json",
-      "./packages/web/tsconfig.json"
+      "./packages/web/tsconfig.json",
     ],
     sourceType: "module",
     tsconfigRootDir: __dirname,
@@ -28,7 +28,7 @@ module.exports = {
     "**/build/**/*",
     "**/generated/**/*",
     "**/.eslintrc.js",
-    "**/node_modules/**"
+    "**/node_modules/**",
   ],
   plugins: [
     "@typescript-eslint",
@@ -47,18 +47,24 @@ module.exports = {
       "ignoreUrls": true,
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true,
-      "ignoreRegExpLiterals": true
+      "ignoreRegExpLiterals": true,
     }],
     "require-jsdoc": "off",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
   },
   overrides: [
     {
       files: ["packages/web/**/*"],
       extends: ["react-app", "react-app/jest"],
       env: {
-        browser: true
-      }
-    }
-  ]
+        browser: true,
+      },
+    },
+    {
+      files: [".eslintrc.cjs"],
+      parserOptions: {
+        project: null,
+      },
+    },
+  ],
 };
