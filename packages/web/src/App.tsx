@@ -1,5 +1,5 @@
 import React from "react";
-import { LeagueTable } from "./components/Tables/";
+import { LeagueTable, RankTable } from "./components/Tables/";
 import { 
   Container, 
   Paper,
@@ -53,6 +53,16 @@ const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const MainContent: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
+      <Paper 
+        elevation={1} 
+        sx={{ 
+          p: { xs: 1, sm: 3 },
+          mb: { xs: 0, sm: 3 },
+          elevation: { xs: 0, sm: 3 },
+        }}
+      >
+      <RankTable />
+      </Paper>
       <Paper 
         elevation={1} 
         sx={{ 

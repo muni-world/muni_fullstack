@@ -9,3 +9,4 @@ export { default as LeagueTable } from "./LeagueTable";
 export { default as UniqueParticipants } from "./UniqueParticipants";
 export { default as OsTypeTable } from "./OsTypeTable";
 export { default as TestTable } from "./TestTable";
+export { default as RankTable } from "./RankTable";
