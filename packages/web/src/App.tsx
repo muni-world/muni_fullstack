@@ -1,5 +1,5 @@
 import React from "react";
-import { LeagueTable, RankTable } from "./components/Tables/";
+import { RankTable } from "./components/Tables/";
 import { 
   Container, 
   Paper,
@@ -37,9 +37,9 @@ const theme = createTheme({
  * @returns {JSX.Element} Auth route or redirect
  */
 const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
   
-  if (isAuthenticated) {
+  if (user) {
     return <Navigate to="/" replace />;
   }
 
@@ -61,17 +61,7 @@ const MainContent: React.FC = () => {
           elevation: { xs: 0, sm: 3 },
         }}
       >
-      <RankTable />
-      </Paper>
-      <Paper 
-        elevation={1} 
-        sx={{ 
-          p: { xs: 1, sm: 3 },
-          mb: { xs: 0, sm: 3 },
-          elevation: { xs: 0, sm: 3 },
-        }}
-      >
-      <LeagueTable />
+        <RankTable />
       </Paper>
     </Container>
   );

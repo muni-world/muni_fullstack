@@ -8,6 +8,8 @@ import {handleNewUser} from "./authTriggers.js";
 import {onCall, HttpsError} from "firebase-functions/v2/https";
 import {getAuth} from "firebase-admin/auth";
 import {db} from "./adminConfig.js";
+import * as admin from "firebase-admin";
+import {getRankTableData} from "./rankTableFunctions.js";
 
 const auth = getAuth();
 
@@ -282,3 +284,11 @@ export const getSubscriberLeagueData = onCall(async (request) => {
 export {handleNewUser};
 
 export {testAuthSubscriptionData} from "./testAuthSubscriptionData.js";
+
+// Initialize Firebase Admin
+admin.initializeApp();
+
+// Export the functions
+export {
+  getRankTableData,
+};

@@ -51,6 +51,7 @@ module.exports = {
     }],
     "require-jsdoc": "off",
     "react-hooks/exhaustive-deps": "warn",
+    "linebreak-style": "off",
   },
   overrides: [
     {

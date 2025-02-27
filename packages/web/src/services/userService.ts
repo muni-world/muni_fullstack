@@ -18,7 +18,7 @@ export const checkUserSubscription = async (userId: string): Promise<boolean> =>
     }
 
     const userData = userDoc.data();
-    return userData.userType === "subscriber";
+    return userData.userType === "premium";
   } 
   catch (error) {
     console.error("Error checking subscription status:", error);
@@ -36,7 +36,7 @@ export const getUserAccessLevel = async (userId: string): Promise<UserType> => {
     const userDoc = await getDoc(doc(firestore, "users", userId));
     
     if (!userDoc.exists()) {
-      return "unauthenticated";
+      return "guest";
     }
 
     const userData = userDoc.data();
@@ -44,6 +44,6 @@ export const getUserAccessLevel = async (userId: string): Promise<UserType> => {
   } 
   catch (error) {
     console.error("Error getting user access level:", error);
-    return "unauthenticated";
+    return "guest";
   }
 }; 

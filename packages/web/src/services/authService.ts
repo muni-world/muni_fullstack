@@ -1,8 +1,7 @@
 import { auth, firestore } from "../firebaseConfig";
 import { 
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut 
+  signInWithEmailAndPassword, 
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -61,19 +60,3 @@ export const logIn = async (email: string, password: string) => {
     throw error;
   }
 };
-
-/**
- * Log out the current user
- */
-export const logOut = async () => {
-  try {
-    await signOut(auth);
-    // Clear any cached data
-    localStorage.clear();
-    sessionStorage.clear();
-    console.log("Successfully logged out");
-  } catch (error) {
-    console.error("Error logging out:", error);
-    throw error;
-  }
-}; 
