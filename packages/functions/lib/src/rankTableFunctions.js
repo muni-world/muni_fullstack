@@ -1,29 +1,28 @@
-import * as functions from "firebase-functions";
+import * as functions from "firebase-functions/v2";
 import * as admin from "firebase-admin";
 /**
  * Determines the user type based on the authentication record
- * @param userId - The user's ID from Firebase Auth
+ *
+ * Note on Firebase v1/v2 Usage:
+ * - We're using Firebase Functions v2 for the HTTP callable function (onCall)
+ * - However, auth-related types still come from v1 because Firebase Functions v2
+ *   doesn't yet support auth types/triggers as of 2025-02-27
+ * - DecodedIdToken from v1 contains the structure for custom claims we set on users
+ *
+ * @param auth - The authentication data containing token with custom claims
+ *              The token.claims.userType is a custom claim we set when users register/upgrade
  * @returns The user's type (guest, free, or premium)
  */
-async function getUserType(userId) {
-    if (!userId) {
+async function getUserType(auth) {
+    // Check if we have auth data and our custom userType claim
+    if (!auth?.token?.claims?.userType) {
         return "guest";
     }
-    try {
-        const userDoc = await admin.firestore()
-            .collection("users")
-            .doc(userId)
-            .get();
-        if (!userDoc.exists) {
-            return "guest";
-        }
-        const userData = userDoc.data();
-        return userData?.userType || "guest";
+    const userType = auth.token.claims.userType;
+    if (userType === "free" || userType === "premium") {
+        return userType;
     }
-    catch (error) {
-        console.error("Error fetching user type:", error);
-        return "guest";
-    }
+    return "guest";
 }
 /**
  * Aggregates deal data by lead left manager and applies visibility rules based on user type
@@ -85,27 +84,25 @@ function aggregateDeals(deals, userType) {
  * Cloud function to get rank table data
  * Future extensibility: Add parameters for filtering by date range, sector, state, etc.
  */
-export const getRankTableData = functions.https.onCall(async (data, context) => {
+export const getRankTableData = functions.https.onCall(async (data) => {
     try {
-        // Get user type
-        const userType = await getUserType(context?.auth?.uid);
-        // Get all deals
-        // Future extensibility: Add query parameters for filtering
-        const dealsSnapshot = await admin.firestore()
+        const db = admin.firestore();
+        // Get user type directly from auth token
+        const userType = await getUserType(data.auth);
+        const dealsSnapshot = await db
             .collection("deals")
             .orderBy("date", "desc")
             .get();
         const deals = dealsSnapshot.docs.map((doc) => doc.data());
-        // Aggregate deals and apply visibility rules
         const aggregatedData = aggregateDeals(deals, userType);
-        return { success: true, data: aggregatedData };
+        return {
+            success: true,
+            data: aggregatedData,
+        };
     }
     catch (error) {
         console.error("Error in getRankTableData:", error);
-        return {
-            success: false,
-            error: "Failed to fetch rank table data",
-        };
+        throw new functions.https.HttpsError("internal", "Failed to fetch rank table data");
     }
 });
 //# sourceMappingURL=rankTableFunctions.js.map

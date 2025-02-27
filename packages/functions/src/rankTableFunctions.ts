@@ -1,5 +1,5 @@
+import * as functions from "firebase-functions/v2";
 import * as admin from "firebase-admin";
-import {onCall} from "firebase-functions/v2/https";
 import {DecodedIdToken} from "firebase-admin/auth";
 
 /**
@@ -139,12 +139,13 @@ function aggregateDeals(deals: Deal[], userType: "guest" | "free" | "premium"): 
  * Cloud function to get rank table data
  * Future extensibility: Add parameters for filtering by date range, sector, state, etc.
  */
-export const getRankTableData = onCall(async (request) => {
+export const getRankTableData = functions.https.onCall(async (data) => {
   try {
+    const db = admin.firestore();
     // Get user type directly from auth token
-    const userType = await getUserType(request.auth);
+    const userType = await getUserType(data.auth);
 
-    const dealsSnapshot = await admin.firestore()
+    const dealsSnapshot = await db
       .collection("deals")
       .orderBy("date", "desc")
       .get();
@@ -152,12 +153,15 @@ export const getRankTableData = onCall(async (request) => {
     const deals = dealsSnapshot.docs.map((doc) => doc.data() as Deal);
     const aggregatedData = aggregateDeals(deals, userType);
 
-    return {success: true, data: aggregatedData};
+    return {
+      success: true,
+      data: aggregatedData,
+    };
   } catch (error) {
     console.error("Error in getRankTableData:", error);
-    return {
-      success: false,
-      error: "Failed to fetch rank table data",
-    };
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to fetch rank table data"
+    );
   }
 });

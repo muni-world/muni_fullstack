@@ -11,7 +11,7 @@ import { useAuth } from "../../context/AuthContext";
  * @returns {JSX.Element} The rendered NavBar component.
  */
 const NavBar: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleAuthClick = () => {
@@ -34,16 +34,16 @@ const NavBar: React.FC = () => {
             Municipal Data Network
           </Typography>
         </Box>
-        {isAuthenticated ? (
-          <Button color="inherit" onClick={logout}>
-            Log Out
+        {user ? (
+          <Button color="inherit" onClick={signOut}>
+            Sign Out
           </Button>
         ) : (
           <Button 
             color="inherit" 
             onClick={handleAuthClick}
           >
-            Log In / Sign Up
+            Sign In / Sign Up
           </Button>
         )}
       </Toolbar>
