@@ -3,7 +3,8 @@
     "module": "NodeNext",
     "target": "ES2022",
     "moduleResolution": "NodeNext",
-    "outDir": "lib",
+    "outDir": "./lib/src",
+    "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
@@ -14,9 +15,6 @@
     "allowJs": true,
   },
   "compileOnSave": true,
-  "include": [
-    "src",
-    "src/**/*.ts",
-    "src/**/*.json"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

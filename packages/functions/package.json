@@ -2,14 +2,16 @@
   "name": "functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc && node -e \"require('fs').copyFileSync('package.json', 'lib/package.json')\"",
+    "clean": "node -e \"import('fs/promises').then(fs => fs.rm('./lib', { recursive: true, force: true })).catch(() => {})\"",
+    "copy-package": "node -e \"import('fs/promises').then(fs => fs.copyFile('./package.json', './lib/package.json')).catch(() => {})\"",
+    "build": "npm run clean && tsc && npm run copy-package",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "emulators:start": "npm run build && firebase emulators:start && npm run emulators:seed",
+    "emulators:start": "npm run build && firebase emulators:start",
     "emulators:seed": "npm run build && cross-env NODE_OPTIONS=\"--require dotenv/config\" node lib/src/emulators/seedEmulator.js"
   },
   "engines": {

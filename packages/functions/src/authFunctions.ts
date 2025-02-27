@@ -1,5 +1,7 @@
 import {onCall} from "firebase-functions/v2/https";
-import * as admin from "firebase-admin";
+import {db} from "./firebase-config.js";
+import {getAuth} from "firebase-admin/auth";
+import {FieldValue} from "firebase-admin/firestore";
 
 export const setUserType = onCall(async (request) => {
   // Ensure user is authenticated
@@ -17,12 +19,13 @@ export const setUserType = onCall(async (request) => {
 
   try {
     // Set the custom claim
-    await admin.auth().setCustomUserClaims(uid, {userType});
+    const auth = getAuth();
+    await auth.setCustomUserClaims(uid, {userType});
 
     // Optionally update Firestore user document
-    await admin.firestore().collection("users").doc(uid).set({
+    await db.collection("users").doc(uid).set({
       userType,
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
     }, {merge: true});
 
     return {success: true};
@@ -42,20 +45,18 @@ export const upgradeToPremium = onCall(async (request) => {
 
   try {
     // 1. Update custom claims
-    await admin.auth().setCustomUserClaims(uid, {userType: "premium"});
+    const auth = getAuth();
+    await auth.setCustomUserClaims(uid, {userType: "premium"});
 
     // 2. Update user document
-    await admin.firestore()
-      .collection("users")
-      .doc(uid)
-      .set({
-        userType: "premium",
-        upgradedAt: admin.firestore.FieldValue.serverTimestamp(),
-      }, {merge: true});
+    await db.collection("users").doc(uid).set({
+      userType: "premium",
+      upgradedAt: FieldValue.serverTimestamp(),
+    }, {merge: true});
 
     // 3. Force token refresh
     // This is important! It makes the new claims available immediately
-    await admin.auth().revokeRefreshTokens(uid);
+    await auth.revokeRefreshTokens(uid);
 
     return {success: true};
   } catch (error) {

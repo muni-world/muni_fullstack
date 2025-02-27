@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions/v2";
-import * as admin from "firebase-admin";
+import {db} from "./firebase-config.js";
 import {DecodedIdToken} from "firebase-admin/auth";
 
 /**
@@ -141,7 +141,6 @@ function aggregateDeals(deals: Deal[], userType: "guest" | "free" | "premium"): 
  */
 export const getRankTableData = functions.https.onCall(async (data) => {
   try {
-    const db = admin.firestore();
     // Get user type directly from auth token
     const userType = await getUserType(data.auth);
 
