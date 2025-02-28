@@ -14,7 +14,7 @@ loadEnvFile?.(envPath);
 if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
     throw new Error("Missing Firebase service account credentials in environment variables");
 }
-// Initialize Firebase Admin
+// This code runs when the file is imported
 const app = initializeApp({
     credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
@@ -22,7 +22,7 @@ const app = initializeApp({
         privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     }),
 });
-// Initialize Firestore
+// This also runs on import
 const db = getFirestore(app);
 // Configure Firestore emulator if using emulator
 if (process.env.FUNCTIONS_EMULATOR === "true") {
