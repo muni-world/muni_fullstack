@@ -75,7 +75,7 @@ async function getUserType(auth: { token: DecodedIdToken } | undefined): Promise
 function aggregateDeals(deals: Deal[], userType: "guest" | "free" | "premium"): RankTableRow[] {
   // Group deals by lead left manager (first manager in the lead_managers array)
   const groupedDeals = deals.reduce((acc, deal) => {
-    const leadLeftManager = deal.lead_managers[0] || "Unknown";
+    const leadLeftManager = (deal.lead_managers || [])[0] || "Unknown";
     if (!acc[leadLeftManager]) {
       acc[leadLeftManager] = [];
     }

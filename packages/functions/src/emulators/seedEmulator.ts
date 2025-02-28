@@ -1,14 +1,16 @@
 import {initializeApp, cert} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 import {fileURLToPath} from "url";
-import {dirname} from "path";
+import {dirname, join} from "path";
 import {processFirestoreData, type FirestoreData} from "../utils/firestoreUtils.js";
 import * as fs from "fs";
-import * as path from "path";
 
 // Get the equivalent of __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Go up three levels from lib/src/emulators to the functions root, then into src/emulators
+const dataPath = join(__dirname, "..", "..", "..", "src", "emulators", "firestore-data.json");
 
 // Initialize Firebase Admin using environment variables
 const app = initializeApp({
@@ -43,13 +45,7 @@ type FirestoreJSON = {
  */
 async function seedFirestore() {
   try {
-    const firestoreDataPath = path.join(
-      dirname(dirname(__dirname)), // go up two levels from lib/src/emulators to src
-      "src",
-      "emulators",
-      "firestore-data.json"
-    );
-    const firestoreData = JSON.parse(fs.readFileSync(firestoreDataPath, "utf8")) as FirestoreJSON;
+    const firestoreData = JSON.parse(fs.readFileSync(dataPath, "utf8")) as FirestoreJSON;
 
     // Type-safe iteration
     for (const [collectionName, documents] of Object.entries(firestoreData)) {
