@@ -68,7 +68,9 @@ function aggregateDeals(deals, userType) {
             aggregatePar,
             avgUnderwriterFeeAmount: userType === "guest" ? null : avgUnderwriterFeeAmount,
             avgUnderwriterFeePercentage: userType === "guest" ? null : avgUnderwriterFeePercentage,
-            deals: sortedDeals,
+            deals: userType === "premium" ?
+                sortedDeals :
+                sortedDeals.slice(0, 2),
             visibilityInfo: Object.keys(visibilityInfo).length > 0 ? visibilityInfo : undefined,
         };
     });

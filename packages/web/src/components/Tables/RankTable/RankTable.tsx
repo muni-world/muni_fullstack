@@ -145,10 +145,12 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({ row }) => {
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
                 Deal Breakdown
-                {row.deals && row.deals.length > sortedDeals.length && (
-                  <Typography variant="caption" color="textSecondary">
-                    {" "}(Upgrade to premium to see all deals)
-                  </Typography>
+                {row.visibilityInfo?.fullDealList && (
+                  <Tooltip title="Upgrade to premium to see all deals">
+                    <Typography variant="caption" color="textSecondary">
+                      {" "}(Showing most recent 2 deals. Upgrade to premium to see full list.)
+                    </Typography>
+                  </Tooltip>
                 )}
               </Typography>
               <Table size="small">
