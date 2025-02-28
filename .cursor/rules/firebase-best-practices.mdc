@@ -1,0 +1,10 @@
+---
+description: Best practices for using Firebase in React application
+globs: !**/{lib,compiled}/**/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+- Use firebase functions V2
+- Use Firebase Authentication with custom claims (e.g. userType) for enhanced user management and security
+- Implement Firestore for real-time data synchronization
+- Utilize Firebase Storage for file uploads and management
+- Implement proper error handling and offline support using Firebase SDK

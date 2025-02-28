@@ -1,0 +1,10 @@
+---
+description: Best practices for using ESLint in TypeScript projects
+globs: !**/{lib,compiled}/**/*.{ts,js}
+alwaysApply: false
+---
+- Configure ESLint to use the TypeScript parser for better type-aware linting
+- Use the recommended TypeScript ESLint rules as a starting point
+- Customize rules to fit your project's specific needs
+- Integrate ESLint into your CI/CD pipeline for consistent code quality
+- Use auto-fixable rules to improve developer experience

@@ -8,10 +8,11 @@
 import "./firebase-config.js";
 
 // Then import your functions
-import {handleNewUser} from "./authTriggers.js";
+import auth from "./auth/index.js";
 import {getRankTableData} from "./rankTableFunctions.js";
 
 export {
-  handleNewUser,
+  auth,
   getRankTableData,
 };
+

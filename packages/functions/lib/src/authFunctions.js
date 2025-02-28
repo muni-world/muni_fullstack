@@ -3,55 +3,43 @@ import { db } from "./firebase-config.js";
 import { getAuth } from "firebase-admin/auth";
 import { FieldValue } from "firebase-admin/firestore";
 export const setUserType = onCall(async (request) => {
-    // Ensure user is authenticated
-    if (!request.auth) {
+    if (!request.auth)
         throw new Error("Unauthorized");
-    }
-    const { userType } = request.data;
     const uid = request.auth.uid;
-    // Validate userType
-    if (!["free", "premium"].includes(userType)) {
-        throw new Error("Invalid user type");
-    }
+    const { userType } = request.data;
+    console.log("Setting userType:", {
+        uid,
+        currentClaims: request.auth.token.claims,
+        newUserType: userType,
+    });
     try {
-        // Set the custom claim
         const auth = getAuth();
+        // Set claims with verification
         await auth.setCustomUserClaims(uid, { userType });
+        console.log("Claims set - verifying...");
+        // Immediate verification
+        const user = await auth.getUser(uid);
+        console.log("Verified claims:", user.customClaims);
         // Optionally update Firestore user document
         await db.collection("users").doc(uid).set({
             userType,
             updatedAt: FieldValue.serverTimestamp(),
         }, { merge: true });
-        return { success: true };
-    }
-    catch (error) {
-        console.error("Error setting user type:", error);
-        throw new Error("Failed to set user type");
-    }
-});
-export const upgradeToPremium = onCall(async (request) => {
-    // Ensure user is authenticated
-    if (!request.auth) {
-        throw new Error("Unauthorized");
-    }
-    const uid = request.auth.uid;
-    try {
-        // 1. Update custom claims
-        const auth = getAuth();
-        await auth.setCustomUserClaims(uid, { userType: "premium" });
-        // 2. Update user document
-        await db.collection("users").doc(uid).set({
-            userType: "premium",
-            upgradedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
-        // 3. Force token refresh
-        // This is important! It makes the new claims available immediately
+        // Force token refresh client-side
         await auth.revokeRefreshTokens(uid);
-        return { success: true };
+        console.log("Tokens revoked and claims updated for:", uid);
+        return {
+            success: true,
+            requiresTokenRefresh: true,
+        };
     }
     catch (error) {
-        console.error("Error upgrading user:", error);
-        throw new Error("Failed to upgrade user");
+        console.error("Full error context:", {
+            uid,
+            userType,
+            error: error instanceof Error ? error.message : "Unknown error",
+        });
+        throw error;
     }
 });
 //# sourceMappingURL=authFunctions.js.map

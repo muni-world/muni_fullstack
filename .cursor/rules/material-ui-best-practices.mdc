@@ -1,0 +1,9 @@
+---
+description: Best practices for using Material-UI components and theming
+globs: !**/{lib,compiled}/**/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+- Use the `makeStyles` or `styled` API for custom component styling
+- Implement a consistent theme across the application using `createTheme`
+- Utilize Material-UI's responsive breakpoints for responsive design
+- Override default component styles using the `sx` prop or `withStyles` HOC

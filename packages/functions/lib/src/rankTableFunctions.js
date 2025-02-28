@@ -14,11 +14,18 @@ import { db } from "./firebase-config.js";
  * @returns The user's type (guest, free, or premium)
  */
 async function getUserType(auth) {
-    // Check if we have auth data and our custom userType claim
+    // Add debug logging
+    console.log("Auth data received:", {
+        uid: auth?.token?.uid,
+        claims: auth?.token?.claims,
+        userTypeClaim: auth?.token?.claims?.userType,
+    });
     if (!auth?.token?.claims?.userType) {
+        console.log("No userType claim found, defaulting to guest");
         return "guest";
     }
     const userType = auth.token.claims.userType;
+    console.log(`Resolved userType from claims: ${userType}`);
     if (userType === "free" || userType === "premium") {
         return userType;
     }
@@ -88,8 +95,8 @@ function aggregateDeals(deals, userType) {
  */
 export const getRankTableData = functions.https.onCall(async (data) => {
     try {
-        // Get user type directly from auth token
         const userType = await getUserType(data.auth);
+        console.log(`Final userType for request: ${userType}`);
         const dealsSnapshot = await db
             .collection("deals")
             .orderBy("date", "desc")

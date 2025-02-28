@@ -42,12 +42,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const auth = getAuth();
-
-    // Use regular onAuthStateChanged
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    
+    const handleAuthChange = async (user: User | null) => {
       if (user) {
-        // Get claims when user signs in
-        const token = await user.getIdTokenResult();
+        // Force fresh token with claims
+        const token = await user.getIdTokenResult(true);
+        console.log('Auth state changed - claims:', token.claims);
+        
+        if (!token.claims.userType) {
+          console.warn('No userType claim found for user:', user.uid);
+        }
+
         setUser(user);
         setUserType((token.claims.userType as UserType) || "guest");
       } else {
@@ -55,8 +60,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUserType("guest");
       }
       setLoading(false);
-    });
+    };
 
+    const unsubscribe = onAuthStateChanged(auth, handleAuthChange);
     return unsubscribe;
   }, []);
 

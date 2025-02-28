@@ -21,6 +21,7 @@ import {
 } from "@mui/icons-material";
 import { RankTableRow } from "../../../types/user";   
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { useAuth } from "../../../context/AuthContext";
 
 /**
  * Props for the ExpandableRow component
@@ -199,6 +200,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({ row }) => {
  * with expandable rows showing deal breakdowns
  */
 const RankTable: React.FC = () => {
+  const { userType } = useAuth();
   const [data, setData] = useState<RankTableRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -208,6 +210,7 @@ const RankTable: React.FC = () => {
   } | null>(null);
 
   useEffect(() => {
+    console.log('RankTable userType:', userType);
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -232,7 +235,7 @@ const RankTable: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userType]);
 
   // Sort data based on current sort configuration
   const sortedData = useMemo(() => {

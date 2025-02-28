@@ -1,0 +1,11 @@
+---
+description: Best practices for Firebase Admin SDK
+globs: !**/{lib,compiled}/**/*.{ts,js}
+alwaysApply: false
+---
+- Use service accounts securely, preferably through environment variables
+- Implement proper error handling when interacting with Firebase services
+- Use transactions for operations that require atomicity
+- Optimize database queries to minimize read/write operations
+- Implement proper security rules and validate data on the server-side
+- Use V2 functions and Auth with custome cliams. 
